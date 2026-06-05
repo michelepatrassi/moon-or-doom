@@ -1,0 +1,3071 @@
+{
+  "version": "2.13",
+  "children": [
+    {
+      "type": "frame",
+      "id": "bdOKe",
+      "x": -17,
+      "y": -41,
+      "name": "Moon or Doom Mobile Wireflow",
+      "width": 2640,
+      "height": 1941,
+      "fill": "$surface-app",
+      "layout": "none",
+      "children": [
+        {
+          "type": "frame",
+          "id": "LGDMBb",
+          "x": 0,
+          "y": 0,
+          "name": "01 Loading BTC Price",
+          "clip": true,
+          "width": 390,
+          "fill": "$surface-app",
+          "cornerRadius": 28,
+          "stroke": "$border-soft",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "LxNo5r",
+              "name": "iOS Status Bar",
+              "width": "fill_container",
+              "height": 62,
+              "fill": "$surface-app",
+              "padding": [
+                0,
+                18
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "LZ2UEYM",
+                  "name": "Status Time",
+                  "fill": "$text-primary",
+                  "content": "9:41",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "LTX1Sa",
+                  "name": "Status Indicators",
+                  "gap": 7,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "LSufNT",
+                      "name": "Cellular Signal",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "signal",
+                      "library": "lucide",
+                      "fill": "$text-primary"
+                    },
+                    {
+                      "type": "icon",
+                      "id": "LKCWI3",
+                      "name": "WiFi",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "wifi",
+                      "library": "lucide",
+                      "fill": "$text-primary"
+                    },
+                    {
+                      "type": "icon",
+                      "id": "Lc6BBdY",
+                      "name": "Battery",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "battery-full",
+                      "library": "lucide",
+                      "fill": "$text-primary"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Lc4zCRU",
+              "name": "01 Loading BTC Price Content",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 20,
+              "padding": [
+                4,
+                18,
+                24,
+                18
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "LFYpRB",
+                  "name": "App Header",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "LxD5qm",
+                      "name": "Brand Lockup",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "LeJ9D8",
+                          "name": "Brand Name",
+                          "fill": "$text-primary",
+                          "content": "MOON OR DOOM",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 18,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "LpdQOz",
+                          "name": "Brand Caption",
+                          "fill": "$text-muted",
+                          "content": "BTC 60s calls",
+                          "fontFamily": "$font-mono",
+                          "fontSize": 11,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Li1TSxP",
+                      "name": "Score Chip",
+                      "fill": "$surface-raise",
+                      "cornerRadius": 8,
+                      "stroke": "$border-soft",
+                      "strokeWidth": 1,
+                      "strokeAlignment": "inner",
+                      "gap": 8,
+                      "padding": [
+                        8,
+                        10
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "LC7rO2",
+                          "name": "Score Icon",
+                          "width": 16,
+                          "height": 16,
+                          "icon": "trophy",
+                          "library": "lucide",
+                          "fill": "$btc-orange"
+                        },
+                        {
+                          "type": "text",
+                          "id": "LaarWM",
+                          "name": "Score Value",
+                          "fill": "$text-primary",
+                          "content": "0",
+                          "fontFamily": "$font-mono",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "LYXCeG",
+                  "name": "Live BTC Price Panel",
+                  "width": "fill_container",
+                  "fill": "$surface-panel",
+                  "cornerRadius": 8,
+                  "stroke": "$border-soft",
+                  "strokeWidth": 1,
+                  "strokeAlignment": "inner",
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#00000099",
+                    "offset": {
+                      "x": 0,
+                      "y": 12
+                    },
+                    "blur": 22
+                  },
+                  "layout": "vertical",
+                  "gap": 8,
+                  "padding": 18,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "LVSzIo",
+                      "name": "Price Meta Row",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "LBj0eZ",
+                          "name": "Pair Label",
+                          "fill": "$text-muted",
+                          "content": "BTC/USD",
+                          "fontFamily": "$font-mono",
+                          "fontSize": 12,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "zdcub",
+                          "name": "Status Skeleton Pill",
+                          "width": 88,
+                          "height": 24,
+                          "fill": "#1B1C24",
+                          "cornerRadius": 4,
+                          "stroke": "#2B2D36",
+                          "strokeWidth": 1,
+                          "strokeAlignment": "inner",
+                          "gap": 6,
+                          "padding": [
+                            6,
+                            8
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "VSoej",
+                              "name": "Skeleton Dot",
+                              "fill": "#3A3B45",
+                              "width": 7,
+                              "height": 7
+                            },
+                            {
+                              "type": "frame",
+                              "id": "swK8w",
+                              "name": "Skeleton Mini Line",
+                              "width": "fill_container",
+                              "height": 8,
+                              "fill": "#343641",
+                              "cornerRadius": 4
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "LzNbHc",
+                      "name": "Price Loading State",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 10,
+                      "padding": [
+                        4,
+                        0,
+                        0,
+                        0
+                      ],
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "duyt3",
+                          "name": "BTC Price Skeleton Stack",
+                          "width": "fill_container",
+                          "height": 58,
+                          "fill": "#00000000",
+                          "layout": "vertical",
+                          "gap": 10,
+                          "padding": [
+                            4,
+                            0
+                          ],
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "nNhxz",
+                              "name": "Skeleton Price Line",
+                              "width": 188,
+                              "height": 34,
+                              "fill": "#343641",
+                              "cornerRadius": 6,
+                              "stroke": "#FFFFFF0F",
+                              "strokeWidth": 1,
+                              "strokeAlignment": "inner"
+                            },
+                            {
+                              "type": "frame",
+                              "id": "zUJVa",
+                              "name": "Skeleton Change Line",
+                              "width": 126,
+                              "height": 10,
+                              "fill": "#292B34",
+                              "cornerRadius": 5
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "Typw0",
+                          "name": "BTC Loading Detail Skeleton",
+                          "width": "fill_container",
+                          "gap": 8,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "frame",
+                              "id": "kSxUj",
+                              "name": "Skeleton Detail Line",
+                              "width": 154,
+                              "height": 10,
+                              "fill": "#292B34",
+                              "cornerRadius": 5
+                            },
+                            {
+                              "type": "frame",
+                              "id": "g3odl",
+                              "name": "Skeleton Detail Short",
+                              "width": 68,
+                              "height": 10,
+                              "fill": "#24252D",
+                              "cornerRadius": 5
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "PK7pt",
+                      "name": "Price Movement Skeleton",
+                      "width": "fill_container",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "o959Q",
+                          "name": "Skeleton Support Line",
+                          "width": "fill_container",
+                          "height": 10,
+                          "fill": "#24252D",
+                          "cornerRadius": 5
+                        },
+                        {
+                          "type": "frame",
+                          "id": "ihWl6",
+                          "name": "Skeleton Support Short",
+                          "width": 230,
+                          "height": 10,
+                          "fill": "#20222B",
+                          "cornerRadius": 5
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "wRCbw",
+                  "name": "Choice Prompt",
+                  "width": "fill_container",
+                  "fill": "$surface-warm",
+                  "cornerRadius": 8,
+                  "stroke": "#5A3512",
+                  "strokeWidth": 1,
+                  "strokeAlignment": "inner",
+                  "layout": "vertical",
+                  "gap": 10,
+                  "padding": 18,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "tvui4",
+                      "name": "Prompt Eyebrow",
+                      "fill": "$btc-orange",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "NEXT 60 SECONDS",
+                      "fontFamily": "$font-mono",
+                      "fontSize": 11,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "BmxCN",
+                      "name": "Prompt Title",
+                      "fill": "$text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Moon or doom?",
+                      "fontFamily": "$font-heading",
+                      "fontSize": 38,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "ZyMQd",
+                      "name": "Prompt Copy",
+                      "fill": "$text-muted",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Make one call. Score moves by one when the price changes after the timer clears.",
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "LO5ZTDP",
+                  "name": "Prediction Actions",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "LNra8r",
+                      "name": "Moon Action Disabled",
+                      "width": "fill_container",
+                      "height": 132,
+                      "fill": "$surface-raise",
+                      "cornerRadius": 8,
+                      "stroke": "$border-soft",
+                      "strokeWidth": 1,
+                      "strokeAlignment": "inner",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": 14,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "LG5rZmX",
+                          "name": "Moon Action Lock Icon",
+                          "width": 30,
+                          "height": 30,
+                          "icon": "lock",
+                          "library": "lucide",
+                          "fill": "$text-muted"
+                        },
+                        {
+                          "type": "text",
+                          "id": "LwSEYq",
+                          "name": "Moon Action Label",
+                          "fill": "$text-muted",
+                          "content": "MOON",
+                          "textAlign": "center",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 28,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "LASe97",
+                          "name": "Moon Action Caption",
+                          "fill": "$text-muted",
+                          "content": "waiting for price",
+                          "textAlign": "center",
+                          "fontFamily": "$font-mono",
+                          "fontSize": 11,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Lk3NCn",
+                      "name": "Doom Action Disabled",
+                      "width": "fill_container",
+                      "height": 132,
+                      "fill": "$surface-raise",
+                      "cornerRadius": 8,
+                      "stroke": "$border-soft",
+                      "strokeWidth": 1,
+                      "strokeAlignment": "inner",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": 14,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "LtffFd",
+                          "name": "Doom Action Lock Icon",
+                          "width": 30,
+                          "height": 30,
+                          "icon": "lock",
+                          "library": "lucide",
+                          "fill": "$text-muted"
+                        },
+                        {
+                          "type": "text",
+                          "id": "LHGtnx",
+                          "name": "Doom Action Label",
+                          "fill": "$text-muted",
+                          "content": "DOOM",
+                          "textAlign": "center",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 28,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Lb7twCk",
+                          "name": "Doom Action Caption",
+                          "fill": "$text-muted",
+                          "content": "waiting for price",
+                          "textAlign": "center",
+                          "fontFamily": "$font-mono",
+                          "fontSize": 11,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "GDMBb",
+          "x": 450,
+          "y": 0,
+          "name": "02 Ready To Guess",
+          "clip": true,
+          "width": 390,
+          "fill": "$surface-app",
+          "cornerRadius": 28,
+          "stroke": "$border-soft",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "xNo5r",
+              "name": "iOS Status Bar",
+              "width": "fill_container",
+              "height": 62,
+              "fill": "$surface-app",
+              "padding": [
+                0,
+                18
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Z2UEYM",
+                  "name": "Status Time",
+                  "fill": "$text-primary",
+                  "content": "9:41",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "TX1Sa",
+                  "name": "Status Indicators",
+                  "gap": 7,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "SufNT",
+                      "name": "Cellular Signal",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "signal",
+                      "library": "lucide",
+                      "fill": "$text-primary"
+                    },
+                    {
+                      "type": "icon",
+                      "id": "KCWI3",
+                      "name": "WiFi",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "wifi",
+                      "library": "lucide",
+                      "fill": "$text-primary"
+                    },
+                    {
+                      "type": "icon",
+                      "id": "c6BBdY",
+                      "name": "Battery",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "battery-full",
+                      "library": "lucide",
+                      "fill": "$text-primary"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "c4zCRU",
+              "name": "02 Ready To Guess Content",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 20,
+              "padding": [
+                4,
+                18,
+                24,
+                18
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "FYpRB",
+                  "name": "App Header",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "xD5qm",
+                      "name": "Brand Lockup",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "eJ9D8",
+                          "name": "Brand Name",
+                          "fill": "$text-primary",
+                          "content": "MOON OR DOOM",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 18,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "pdQOz",
+                          "name": "Brand Caption",
+                          "fill": "$text-muted",
+                          "content": "BTC 60s calls",
+                          "fontFamily": "$font-mono",
+                          "fontSize": 11,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "i1TSxP",
+                      "name": "Score Chip",
+                      "fill": "$surface-raise",
+                      "cornerRadius": 8,
+                      "stroke": "$border-soft",
+                      "strokeWidth": 1,
+                      "strokeAlignment": "inner",
+                      "gap": 8,
+                      "padding": [
+                        8,
+                        10
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "C7rO2",
+                          "name": "Score Icon",
+                          "width": 16,
+                          "height": 16,
+                          "icon": "trophy",
+                          "library": "lucide",
+                          "fill": "$btc-orange"
+                        },
+                        {
+                          "type": "text",
+                          "id": "aarWM",
+                          "name": "Score Value",
+                          "fill": "$text-primary",
+                          "content": "0",
+                          "fontFamily": "$font-mono",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "YXCeG",
+                  "name": "Live BTC Price Panel",
+                  "width": "fill_container",
+                  "fill": "$surface-panel",
+                  "cornerRadius": 8,
+                  "stroke": "$border-soft",
+                  "strokeWidth": 1,
+                  "strokeAlignment": "inner",
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#00000099",
+                    "offset": {
+                      "x": 0,
+                      "y": 12
+                    },
+                    "blur": 22
+                  },
+                  "layout": "vertical",
+                  "gap": 8,
+                  "padding": 18,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "VSzIo",
+                      "name": "Price Meta Row",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Bj0eZ",
+                          "name": "Pair Label",
+                          "fill": "$text-muted",
+                          "content": "BTC/USD",
+                          "fontFamily": "$font-mono",
+                          "fontSize": 12,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "i1i7Q",
+                          "name": "Live Badge",
+                          "fill": "#173421",
+                          "cornerRadius": 4,
+                          "stroke": "#2D6D45",
+                          "strokeWidth": 1,
+                          "strokeAlignment": "inner",
+                          "gap": 6,
+                          "padding": [
+                            5,
+                            8
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "e6jYoa",
+                              "name": "Live Dot",
+                              "fill": "$moon-green",
+                              "width": 7,
+                              "height": 7
+                            },
+                            {
+                              "type": "text",
+                              "id": "tKTj8",
+                              "name": "Live Label",
+                              "fill": "$moon-green",
+                              "content": "LIVE",
+                              "fontFamily": "$font-mono",
+                              "fontSize": 10,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "zNbHc",
+                      "name": "BTC Price",
+                      "fill": "$text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "$67,842.20",
+                      "fontFamily": "$font-heading",
+                      "fontSize": 42,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "OHvIV",
+                      "name": "Price Movement",
+                      "fill": "$moon-green",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "+ $128.80 since last tick",
+                      "fontFamily": "$font-body",
+                      "fontSize": 13,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "erZcI",
+                  "name": "Choice Prompt",
+                  "width": "fill_container",
+                  "fill": "$surface-warm",
+                  "cornerRadius": 8,
+                  "stroke": "#5A3512",
+                  "strokeWidth": 1,
+                  "strokeAlignment": "inner",
+                  "layout": "vertical",
+                  "gap": 10,
+                  "padding": 18,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "qGKic",
+                      "name": "Prompt Eyebrow",
+                      "fill": "$btc-orange",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "NEXT 60 SECONDS",
+                      "fontFamily": "$font-mono",
+                      "fontSize": 11,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "j2Jxws",
+                      "name": "Prompt Title",
+                      "fill": "$text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Moon or doom?",
+                      "fontFamily": "$font-heading",
+                      "fontSize": 38,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "iuSWP",
+                      "name": "Prompt Copy",
+                      "fill": "$text-muted",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Make one call. Score moves by one when the price changes after the timer clears.",
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "O5ZTDP",
+                  "name": "Prediction Actions",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Nra8r",
+                      "name": "Moon Action",
+                      "width": "fill_container",
+                      "height": 132,
+                      "fill": "#103B26",
+                      "cornerRadius": 8,
+                      "stroke": "#FFFFFF22",
+                      "strokeWidth": 1,
+                      "strokeAlignment": "inner",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": 14,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "G5rZmX",
+                          "name": "Moon Action Icon",
+                          "width": 32,
+                          "height": 32,
+                          "icon": "trending-up",
+                          "library": "lucide",
+                          "fill": "$moon-green"
+                        },
+                        {
+                          "type": "text",
+                          "id": "wSEYq",
+                          "name": "Moon Action Label",
+                          "fill": "$moon-green",
+                          "content": "MOON",
+                          "textAlign": "center",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 28,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "ASe97",
+                          "name": "Moon Action Caption",
+                          "fill": "$moon-green",
+                          "content": "price goes up",
+                          "textAlign": "center",
+                          "fontFamily": "$font-mono",
+                          "fontSize": 11,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "k3NCn",
+                      "name": "Doom Action",
+                      "width": "fill_container",
+                      "height": 132,
+                      "fill": "#421317",
+                      "cornerRadius": 8,
+                      "stroke": "#FFFFFF22",
+                      "strokeWidth": 1,
+                      "strokeAlignment": "inner",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": 14,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "tffFd",
+                          "name": "Doom Action Icon",
+                          "width": 32,
+                          "height": 32,
+                          "icon": "trending-down",
+                          "library": "lucide",
+                          "fill": "$doom-red"
+                        },
+                        {
+                          "type": "text",
+                          "id": "HGtnx",
+                          "name": "Doom Action Label",
+                          "fill": "$doom-red",
+                          "content": "DOOM",
+                          "textAlign": "center",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 28,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "b7twCk",
+                          "name": "Doom Action Caption",
+                          "fill": "$doom-red",
+                          "content": "price goes down",
+                          "textAlign": "center",
+                          "fontFamily": "$font-mono",
+                          "fontSize": 11,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "KaIEl",
+          "x": 900,
+          "y": 0,
+          "name": "03 Guess Locked",
+          "clip": true,
+          "width": 390,
+          "fill": "$surface-app",
+          "cornerRadius": 28,
+          "stroke": "$border-soft",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "WUH0x",
+              "name": "iOS Status Bar",
+              "width": "fill_container",
+              "height": 62,
+              "fill": "$surface-app",
+              "padding": [
+                0,
+                18
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "W6Rqv",
+                  "name": "Status Time",
+                  "fill": "$text-primary",
+                  "content": "9:41",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "Bjo0v",
+                  "name": "Status Indicators",
+                  "gap": 7,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "hQ89J",
+                      "name": "Cellular Signal",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "signal",
+                      "library": "lucide",
+                      "fill": "$text-primary"
+                    },
+                    {
+                      "type": "icon",
+                      "id": "ItK2o",
+                      "name": "WiFi",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "wifi",
+                      "library": "lucide",
+                      "fill": "$text-primary"
+                    },
+                    {
+                      "type": "icon",
+                      "id": "U9alw",
+                      "name": "Battery",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "battery-full",
+                      "library": "lucide",
+                      "fill": "$text-primary"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "D4yUXR",
+              "name": "03 Guess Locked Content",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 20,
+              "padding": [
+                4,
+                18,
+                24,
+                18
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "YhPuU",
+                  "name": "App Header",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "md4iL",
+                      "name": "Brand Lockup",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "B8MjY6",
+                          "name": "Brand Name",
+                          "fill": "$text-primary",
+                          "content": "MOON OR DOOM",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 18,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "QPZlU",
+                          "name": "Brand Caption",
+                          "fill": "$text-muted",
+                          "content": "BTC 60s calls",
+                          "fontFamily": "$font-mono",
+                          "fontSize": 11,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "XHXyO",
+                      "name": "Score Chip",
+                      "fill": "$surface-raise",
+                      "cornerRadius": 8,
+                      "stroke": "$border-soft",
+                      "strokeWidth": 1,
+                      "strokeAlignment": "inner",
+                      "gap": 8,
+                      "padding": [
+                        8,
+                        10
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "PNnio",
+                          "name": "Score Icon",
+                          "width": 16,
+                          "height": 16,
+                          "icon": "trophy",
+                          "library": "lucide",
+                          "fill": "$btc-orange"
+                        },
+                        {
+                          "type": "text",
+                          "id": "a3JVm",
+                          "name": "Score Value",
+                          "fill": "$text-primary",
+                          "content": "3",
+                          "fontFamily": "$font-mono",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "nvkxH",
+                  "name": "Live BTC Price Panel",
+                  "width": "fill_container",
+                  "fill": "$surface-panel",
+                  "cornerRadius": 8,
+                  "stroke": "$border-soft",
+                  "strokeWidth": 1,
+                  "strokeAlignment": "inner",
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#00000099",
+                    "offset": {
+                      "x": 0,
+                      "y": 12
+                    },
+                    "blur": 22
+                  },
+                  "layout": "vertical",
+                  "gap": 8,
+                  "padding": 18,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "J5hU92",
+                      "name": "Price Meta Row",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "LOY58",
+                          "name": "Pair Label",
+                          "fill": "$text-muted",
+                          "content": "BTC/USD",
+                          "fontFamily": "$font-mono",
+                          "fontSize": 12,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "z6xgjb",
+                          "name": "Live Badge",
+                          "fill": "#173421",
+                          "cornerRadius": 4,
+                          "stroke": "#2D6D45",
+                          "strokeWidth": 1,
+                          "strokeAlignment": "inner",
+                          "gap": 6,
+                          "padding": [
+                            5,
+                            8
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "WlN6R",
+                              "name": "Live Dot",
+                              "fill": "$moon-green",
+                              "width": 7,
+                              "height": 7
+                            },
+                            {
+                              "type": "text",
+                              "id": "kjCr6",
+                              "name": "Live Label",
+                              "fill": "$moon-green",
+                              "content": "LIVE",
+                              "fontFamily": "$font-mono",
+                              "fontSize": 10,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "syvXD",
+                      "name": "BTC Price",
+                      "fill": "$text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "$67,858.10",
+                      "fontFamily": "$font-heading",
+                      "fontSize": 42,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "haDZv",
+                      "name": "Price Movement",
+                      "fill": "$btc-orange",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Moon locked at $67,812.40",
+                      "fontFamily": "$font-body",
+                      "fontSize": 13,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "sSQiJ",
+                  "name": "Locked Guess Card",
+                  "width": "fill_container",
+                  "fill": "$surface-panel",
+                  "cornerRadius": 8,
+                  "stroke": "$border-soft",
+                  "strokeWidth": 1,
+                  "strokeAlignment": "inner",
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#FF980033",
+                    "offset": {
+                      "x": 0,
+                      "y": 10
+                    },
+                    "blur": 28
+                  },
+                  "layout": "vertical",
+                  "gap": 16,
+                  "padding": 18,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "qlwP8",
+                      "name": "Locked Guess Header",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "uh5RD",
+                          "name": "Locked Guess Label",
+                          "fill": "$btc-orange",
+                          "content": "ACTIVE GUESS",
+                          "fontFamily": "$font-mono",
+                          "fontSize": 11,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "ILmsk",
+                          "name": "Locked Side Chip",
+                          "fill": "#103B26",
+                          "cornerRadius": 4,
+                          "gap": 7,
+                          "padding": [
+                            6,
+                            9
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "kmTM7",
+                              "name": "Locked Moon Icon",
+                              "width": 14,
+                              "height": 14,
+                              "icon": "trending-up",
+                              "library": "lucide",
+                              "fill": "$moon-green"
+                            },
+                            {
+                              "type": "text",
+                              "id": "Hi2Vh",
+                              "name": "Locked Side Label",
+                              "fill": "$moon-green",
+                              "content": "MOON",
+                              "fontFamily": "$font-mono",
+                              "fontSize": 11,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "pI65S",
+                      "name": "Countdown Gauge",
+                      "width": "fill_container",
+                      "height": 218,
+                      "layout": "none",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "EWFUb",
+                          "x": 0,
+                          "y": 44,
+                          "name": "Countdown Number",
+                          "fill": "$text-primary",
+                          "textGrowth": "fixed-width",
+                          "width": 318,
+                          "content": "34",
+                          "textAlign": "center",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 68,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "vPYN2",
+                          "x": 0,
+                          "y": 132,
+                          "name": "Countdown Caption",
+                          "fill": "$text-muted",
+                          "textGrowth": "fixed-width",
+                          "width": 318,
+                          "content": "SECONDS LEFT",
+                          "textAlign": "center",
+                          "fontFamily": "$font-mono",
+                          "fontSize": 11,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "PQbWk",
+                      "name": "Locked Hint",
+                      "fill": "$text-muted",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "New guesses stay closed until 60 seconds pass and BTC prints a different price.",
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "d3CAb",
+          "x": 1350,
+          "y": 0,
+          "name": "04 Correct Result",
+          "clip": true,
+          "width": 390,
+          "fill": "$surface-app",
+          "cornerRadius": 28,
+          "stroke": "$border-soft",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "twoRx",
+              "name": "iOS Status Bar",
+              "width": "fill_container",
+              "height": 62,
+              "fill": "$surface-app",
+              "padding": [
+                0,
+                18
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "v46rpQ",
+                  "name": "Status Time",
+                  "fill": "$text-primary",
+                  "content": "9:41",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "kczhM",
+                  "name": "Status Indicators",
+                  "gap": 7,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "qrBdd",
+                      "name": "Cellular Signal",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "signal",
+                      "library": "lucide",
+                      "fill": "$text-primary"
+                    },
+                    {
+                      "type": "icon",
+                      "id": "L386g",
+                      "name": "WiFi",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "wifi",
+                      "library": "lucide",
+                      "fill": "$text-primary"
+                    },
+                    {
+                      "type": "icon",
+                      "id": "mS1qN",
+                      "name": "Battery",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "battery-full",
+                      "library": "lucide",
+                      "fill": "$text-primary"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "jmvXu",
+              "name": "04 Correct Result Content",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 20,
+              "padding": [
+                4,
+                18,
+                24,
+                18
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "iMpWm",
+                  "name": "App Header",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "ChxZz",
+                      "name": "Brand Lockup",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "mEAgJ",
+                          "name": "Brand Name",
+                          "fill": "$text-primary",
+                          "content": "MOON OR DOOM",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 18,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "h4qrjH",
+                          "name": "Brand Caption",
+                          "fill": "$text-muted",
+                          "content": "BTC 60s calls",
+                          "fontFamily": "$font-mono",
+                          "fontSize": 11,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "QINxz",
+                      "name": "Score Chip",
+                      "fill": "$surface-raise",
+                      "cornerRadius": 8,
+                      "stroke": "$border-soft",
+                      "strokeWidth": 1,
+                      "strokeAlignment": "inner",
+                      "gap": 8,
+                      "padding": [
+                        8,
+                        10
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "KC3Nd",
+                          "name": "Score Icon",
+                          "width": 16,
+                          "height": 16,
+                          "icon": "trophy",
+                          "library": "lucide",
+                          "fill": "$btc-orange"
+                        },
+                        {
+                          "type": "text",
+                          "id": "chnfM",
+                          "name": "Score Value",
+                          "fill": "$text-primary",
+                          "content": "4",
+                          "fontFamily": "$font-mono",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Xy0Qg",
+                  "name": "Live BTC Price Panel",
+                  "width": "fill_container",
+                  "fill": "$surface-panel",
+                  "cornerRadius": 8,
+                  "stroke": "$border-soft",
+                  "strokeWidth": 1,
+                  "strokeAlignment": "inner",
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#00000099",
+                    "offset": {
+                      "x": 0,
+                      "y": 12
+                    },
+                    "blur": 22
+                  },
+                  "layout": "vertical",
+                  "gap": 8,
+                  "padding": 18,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "o487t",
+                      "name": "Price Meta Row",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "jHSOZ",
+                          "name": "Pair Label",
+                          "fill": "$text-muted",
+                          "content": "BTC/USD",
+                          "fontFamily": "$font-mono",
+                          "fontSize": 12,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "E21EI",
+                          "name": "Live Badge",
+                          "fill": "#173421",
+                          "cornerRadius": 4,
+                          "stroke": "#2D6D45",
+                          "strokeWidth": 1,
+                          "strokeAlignment": "inner",
+                          "gap": 6,
+                          "padding": [
+                            5,
+                            8
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "m4NwQ",
+                              "name": "Live Dot",
+                              "fill": "$moon-green",
+                              "width": 7,
+                              "height": 7
+                            },
+                            {
+                              "type": "text",
+                              "id": "QNtjR",
+                              "name": "Live Label",
+                              "fill": "$moon-green",
+                              "content": "LIVE",
+                              "fontFamily": "$font-mono",
+                              "fontSize": 10,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "aCQU0",
+                      "name": "BTC Price",
+                      "fill": "$text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "$67,901.70",
+                      "fontFamily": "$font-heading",
+                      "fontSize": 42,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "wnOLv",
+                      "name": "Price Movement",
+                      "fill": "$moon-green",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Resolved from active Moon call",
+                      "fontFamily": "$font-body",
+                      "fontSize": 13,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "SkKHw",
+                  "name": "Correct Result Hero",
+                  "width": "fill_container",
+                  "fill": "#0D2B1C",
+                  "cornerRadius": 8,
+                  "stroke": "#2B8E58",
+                  "strokeWidth": 1,
+                  "strokeAlignment": "inner",
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#43F39D33",
+                    "offset": {
+                      "x": 0,
+                      "y": 14
+                    },
+                    "blur": 30
+                  },
+                  "layout": "vertical",
+                  "gap": 14,
+                  "padding": 20,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "feinq",
+                      "name": "Win Icon Plate",
+                      "width": 64,
+                      "height": 64,
+                      "fill": "#143F2A",
+                      "cornerRadius": 8,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "OzwHP",
+                          "name": "Win Icon",
+                          "width": 34,
+                          "height": 34,
+                          "icon": "rocket",
+                          "library": "lucide",
+                          "fill": "$moon-green"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "rq5Zb",
+                      "name": "Win Eyebrow",
+                      "fill": "$moon-green",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "CORRECT CALL",
+                      "fontFamily": "$font-mono",
+                      "fontSize": 11,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "pVHH5",
+                      "name": "Win Title",
+                      "fill": "$text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Tiny candle. Giant ego.",
+                      "fontFamily": "$font-heading",
+                      "fontSize": 34,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "H8wYa",
+                      "name": "Win Score",
+                      "fill": "$moon-green",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "+1 point",
+                      "fontFamily": "$font-heading",
+                      "fontSize": 46,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "Y4XLA3",
+                      "name": "Win Copy",
+                      "fill": "$text-muted",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Moon was right: BTC landed higher after the timer cleared.",
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "CiIix",
+                  "name": "Try Again Label",
+                  "width": "fill_container",
+                  "height": 18,
+                  "fill": "#00000000",
+                  "cornerRadius": 8,
+                  "stroke": "#00000000",
+                  "strokeAlignment": "inner",
+                  "gap": 10,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "lrX82",
+                      "name": "Next guess Label",
+                      "fill": "#A9A7B0",
+                      "content": "Try again",
+                      "textAlign": "center",
+                      "fontFamily": "Geist Mono",
+                      "fontSize": 12,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "maIlv",
+                  "name": "Try Again Prediction Actions",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "cg1Nj",
+                      "name": "Moon Action",
+                      "width": "fill_container",
+                      "height": 132,
+                      "fill": "#103B26",
+                      "cornerRadius": 8,
+                      "stroke": "#FFFFFF22",
+                      "strokeWidth": 1,
+                      "strokeAlignment": "inner",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": 14,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "k6GR7K",
+                          "name": "Moon Action Icon",
+                          "width": 32,
+                          "height": 32,
+                          "icon": "trending-up",
+                          "library": "lucide",
+                          "fill": "$moon-green"
+                        },
+                        {
+                          "type": "text",
+                          "id": "K4bSws",
+                          "name": "Moon Action Label",
+                          "fill": "$moon-green",
+                          "content": "MOON",
+                          "textAlign": "center",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 28,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "S2Wkfl",
+                          "name": "Moon Action Caption",
+                          "fill": "$moon-green",
+                          "content": "price goes up",
+                          "textAlign": "center",
+                          "fontFamily": "$font-mono",
+                          "fontSize": 11,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "p5gkN",
+                      "name": "Doom Action",
+                      "width": "fill_container",
+                      "height": 132,
+                      "fill": "#421317",
+                      "cornerRadius": 8,
+                      "stroke": "#FFFFFF22",
+                      "strokeWidth": 1,
+                      "strokeAlignment": "inner",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": 14,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "x5lQY",
+                          "name": "Doom Action Icon",
+                          "width": 32,
+                          "height": 32,
+                          "icon": "trending-down",
+                          "library": "lucide",
+                          "fill": "$doom-red"
+                        },
+                        {
+                          "type": "text",
+                          "id": "yDutO",
+                          "name": "Doom Action Label",
+                          "fill": "$doom-red",
+                          "content": "DOOM",
+                          "textAlign": "center",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 28,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "I85wUv",
+                          "name": "Doom Action Caption",
+                          "fill": "$doom-red",
+                          "content": "price goes down",
+                          "textAlign": "center",
+                          "fontFamily": "$font-mono",
+                          "fontSize": 11,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "eQeR2",
+          "x": 26,
+          "y": 864,
+          "name": "Wireflow Connectors",
+          "width": 2190,
+          "height": 80,
+          "fill": "#00000000",
+          "layout": "none",
+          "children": [
+            {
+              "type": "path",
+              "id": "flowPriceLoadedArrow",
+              "x": 344,
+              "y": 8,
+              "name": "Flow Arrow BTC Price Loads",
+              "geometry": "M0 12h112m-12-10l12 10-12 10",
+              "viewBox": [
+                0,
+                0,
+                112,
+                24
+              ],
+              "fill": "#00000000",
+              "width": 128,
+              "height": 24,
+              "stroke": "$border-soft",
+              "strokeWidth": 2,
+              "strokeAlignment": "inner",
+              "strokeLinejoin": "round",
+              "strokeLinecap": "round"
+            },
+            {
+              "type": "text",
+              "id": "flowPriceLoadedLabel",
+              "x": 318,
+              "y": 38,
+              "name": "Flow Label BTC Price Loads",
+              "fill": "$text-muted",
+              "textGrowth": "fixed-width",
+              "width": 180,
+              "content": "BTC price loads",
+              "textAlign": "center",
+              "fontFamily": "$font-mono",
+              "fontSize": 12,
+              "fontWeight": "700"
+            },
+            {
+              "type": "path",
+              "id": "ou2PN",
+              "x": 794,
+              "y": 8,
+              "name": "Flow Arrow Tap Moon or Doom",
+              "geometry": "M0 12h112m-12-10l12 10-12 10",
+              "viewBox": [
+                0,
+                0,
+                112,
+                24
+              ],
+              "fill": "#00000000",
+              "width": 128,
+              "height": 24,
+              "stroke": "$border-soft",
+              "strokeWidth": 2,
+              "strokeAlignment": "inner",
+              "strokeLinejoin": "round",
+              "strokeLinecap": "round"
+            },
+            {
+              "type": "text",
+              "id": "JM1oi",
+              "x": 768,
+              "y": 38,
+              "name": "Flow Label Tap Moon or Doom",
+              "fill": "$text-muted",
+              "textGrowth": "fixed-width",
+              "width": 180,
+              "content": "Tap Moon or Doom",
+              "textAlign": "center",
+              "fontFamily": "$font-mono",
+              "fontSize": 12,
+              "fontWeight": "700"
+            },
+            {
+              "type": "path",
+              "id": "tH13j",
+              "x": 1244,
+              "y": 8,
+              "name": "Flow Arrow Wait 60s + price move",
+              "geometry": "M0 12h112m-12-10l12 10-12 10",
+              "viewBox": [
+                0,
+                0,
+                112,
+                24
+              ],
+              "fill": "#00000000",
+              "width": 128,
+              "height": 24,
+              "stroke": "$border-soft",
+              "strokeWidth": 2,
+              "strokeAlignment": "inner",
+              "strokeLinejoin": "round",
+              "strokeLinecap": "round"
+            },
+            {
+              "type": "text",
+              "id": "Yn5TO",
+              "x": 1218,
+              "y": 38,
+              "name": "Flow Label Wait 60s + price move",
+              "fill": "$text-muted",
+              "textGrowth": "fixed-width",
+              "width": 180,
+              "content": "Wait 60s + price move",
+              "textAlign": "center",
+              "fontFamily": "$font-mono",
+              "fontSize": 12,
+              "fontWeight": "700"
+            },
+            {
+              "type": "path",
+              "id": "wAm6O",
+              "x": 1694,
+              "y": 8,
+              "name": "Flow Arrow Result returns to ready",
+              "geometry": "M0 12h112m-12-10l12 10-12 10",
+              "viewBox": [
+                0,
+                0,
+                112,
+                24
+              ],
+              "fill": "#00000000",
+              "width": 128,
+              "height": 24,
+              "stroke": "$border-soft",
+              "strokeWidth": 2,
+              "strokeAlignment": "inner",
+              "strokeLinejoin": "round",
+              "strokeLinecap": "round"
+            },
+            {
+              "type": "text",
+              "id": "IMYYt",
+              "x": 1668,
+              "y": 38,
+              "name": "Flow Label Result returns to ready",
+              "fill": "$text-muted",
+              "textGrowth": "fixed-width",
+              "width": 180,
+              "content": "Result returns to ready",
+              "textAlign": "center",
+              "fontFamily": "$font-mono",
+              "fontSize": 12,
+              "fontWeight": "700"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "r5u5f9",
+          "x": 60,
+          "y": 748,
+          "name": "06 BTC Price Request Failed",
+          "clip": true,
+          "width": 390,
+          "fill": "$surface-app",
+          "cornerRadius": 28,
+          "stroke": "$border-soft",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "i6dJLn",
+              "name": "iOS Status Bar",
+              "width": "fill_container",
+              "height": 62,
+              "fill": "$surface-app",
+              "padding": [
+                0,
+                18
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "T0Xfg5",
+                  "name": "Status Time",
+                  "fill": "$text-primary",
+                  "content": "9:41",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "K3DvcB",
+                  "name": "Status Indicators",
+                  "gap": 7,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "q0GPci",
+                      "name": "Cellular Signal",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "signal",
+                      "library": "lucide",
+                      "fill": "$text-primary"
+                    },
+                    {
+                      "type": "icon",
+                      "id": "tVNSm",
+                      "name": "WiFi",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "wifi",
+                      "library": "lucide",
+                      "fill": "$text-primary"
+                    },
+                    {
+                      "type": "icon",
+                      "id": "M3Xg2",
+                      "name": "Battery",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "battery-full",
+                      "library": "lucide",
+                      "fill": "$text-primary"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "yUixm",
+              "name": "05 Wrong Result Content",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 20,
+              "padding": [
+                4,
+                18,
+                24,
+                18
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "w2348T",
+                  "name": "App Header",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "zruyP",
+                      "name": "Brand Lockup",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "B2QWJq",
+                          "name": "Brand Name",
+                          "fill": "$text-primary",
+                          "content": "MOON OR DOOM",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 18,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "PtdWf",
+                          "name": "Brand Caption",
+                          "fill": "$text-muted",
+                          "content": "BTC 60s calls",
+                          "fontFamily": "$font-mono",
+                          "fontSize": 11,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "w50Ca",
+                      "name": "Score Chip",
+                      "fill": "$surface-raise",
+                      "cornerRadius": 8,
+                      "stroke": "$border-soft",
+                      "strokeWidth": 1,
+                      "strokeAlignment": "inner",
+                      "gap": 8,
+                      "padding": [
+                        8,
+                        10
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "FSVwc",
+                          "name": "Score Icon",
+                          "width": 16,
+                          "height": 16,
+                          "icon": "trophy",
+                          "library": "lucide",
+                          "fill": "$btc-orange"
+                        },
+                        {
+                          "type": "text",
+                          "id": "SjlzV",
+                          "name": "Score Value",
+                          "fill": "$text-primary",
+                          "content": "0",
+                          "fontFamily": "$font-mono",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Y1aqvj",
+                  "name": "Live BTC Price Panel",
+                  "width": "fill_container",
+                  "fill": "$surface-panel",
+                  "cornerRadius": 8,
+                  "stroke": "$border-soft",
+                  "strokeWidth": 1,
+                  "strokeAlignment": "inner",
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#00000099",
+                    "offset": {
+                      "x": 0,
+                      "y": 12
+                    },
+                    "blur": 22
+                  },
+                  "layout": "vertical",
+                  "gap": 8,
+                  "padding": 18,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "H0HHo7",
+                      "name": "Price Meta Row",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "C72Fr0",
+                          "name": "Pair Label",
+                          "fill": "$text-muted",
+                          "content": "BTC/USD",
+                          "fontFamily": "$font-mono",
+                          "fontSize": 12,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "x7MGu5",
+                          "name": "Request Failed Badge",
+                          "fill": "#4A151A",
+                          "cornerRadius": 4,
+                          "stroke": "#973139",
+                          "strokeWidth": 1,
+                          "strokeAlignment": "inner",
+                          "gap": 6,
+                          "padding": [
+                            5,
+                            8
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "Cembi",
+                              "name": "Failed Dot",
+                              "fill": "#FF6B72",
+                              "width": 7,
+                              "height": 7
+                            },
+                            {
+                              "type": "text",
+                              "id": "x9Kbr",
+                              "name": "Failed Label",
+                              "fill": "#FF6B72",
+                              "content": "FAILED",
+                              "fontFamily": "$font-mono",
+                              "fontSize": 10,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "kvqjk",
+                      "name": "BTC Price",
+                      "fill": "$text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "No live price",
+                      "fontFamily": "$font-heading",
+                      "fontSize": 38,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "IHanp",
+                      "name": "Price Movement",
+                      "fill": "#FF6B72",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "BTC/USD could not be fetched from the price service.",
+                      "fontFamily": "$font-body",
+                      "fontSize": 13,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "ZpZ0o",
+                  "name": "HTTP Request Failure Hero",
+                  "width": "fill_container",
+                  "fill": "#331014",
+                  "cornerRadius": 8,
+                  "stroke": "#973139",
+                  "strokeWidth": 1,
+                  "strokeAlignment": "inner",
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#FF4F5733",
+                    "offset": {
+                      "x": 0,
+                      "y": 14
+                    },
+                    "blur": 30
+                  },
+                  "layout": "vertical",
+                  "gap": 14,
+                  "padding": 20,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "MNQUN",
+                      "name": "Loss Icon Plate",
+                      "width": 64,
+                      "height": 64,
+                      "fill": "#47141A",
+                      "cornerRadius": 8,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "kOWWs",
+                          "name": "Loss Icon",
+                          "width": 34,
+                          "height": 34,
+                          "icon": "wifi-off",
+                          "library": "lucide",
+                          "fill": "$doom-red"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "cwbRE",
+                      "name": "Loss Eyebrow",
+                      "fill": "$doom-red",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "PRICE UNAVAILABLE",
+                      "fontFamily": "$font-mono",
+                      "fontSize": 11,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "YCycm",
+                      "name": "Loss Title",
+                      "fill": "$text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Request failed",
+                      "fontFamily": "$font-heading",
+                      "fontSize": 34,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "PwLlV",
+                      "name": "Loss Score",
+                      "fill": "$doom-red",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "HTTP error",
+                      "fontFamily": "$font-heading",
+                      "fontSize": 40,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "v4J6gX",
+                      "name": "Loss Copy",
+                      "fill": "$text-muted",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "No guess has started. Moon and Doom stay locked until BTC/USD returns a fresh value.",
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "VaBPQ",
+                  "name": "Try again CTA",
+                  "width": "fill_container",
+                  "height": 58,
+                  "fill": "$btc-orange",
+                  "cornerRadius": 8,
+                  "stroke": "#FFFFFF22",
+                  "strokeWidth": 1,
+                  "strokeAlignment": "inner",
+                  "gap": 10,
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "apceB",
+                      "name": "Try again Label",
+                      "fill": "#08080A",
+                      "content": "Retry BTC/USD",
+                      "textAlign": "center",
+                      "fontFamily": "$font-body",
+                      "fontSize": 16,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "icon",
+                      "id": "J4KyV6",
+                      "name": "Try again Icon",
+                      "width": 20,
+                      "height": 20,
+                      "icon": "refresh-cw",
+                      "library": "lucide",
+                      "fill": "#08080A"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "AxY7Q",
+          "x": 1758,
+          "y": 0,
+          "name": "05 Wrong Result",
+          "clip": true,
+          "width": 390,
+          "fill": "$surface-app",
+          "cornerRadius": 28,
+          "stroke": "$border-soft",
+          "strokeWidth": 1,
+          "strokeAlignment": "inner",
+          "layout": "vertical",
+          "children": [
+            {
+              "type": "frame",
+              "id": "K3bZDA",
+              "name": "iOS Status Bar",
+              "width": "fill_container",
+              "height": 62,
+              "fill": "$surface-app",
+              "padding": [
+                0,
+                18
+              ],
+              "justifyContent": "space_between",
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Fuz4e",
+                  "name": "Status Time",
+                  "fill": "$text-primary",
+                  "content": "9:41",
+                  "fontFamily": "Inter",
+                  "fontSize": 14,
+                  "fontWeight": "600"
+                },
+                {
+                  "type": "frame",
+                  "id": "R0L7LP",
+                  "name": "Status Indicators",
+                  "gap": 7,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "icon",
+                      "id": "ktMJQ",
+                      "name": "Cellular Signal",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "signal",
+                      "library": "lucide",
+                      "fill": "$text-primary"
+                    },
+                    {
+                      "type": "icon",
+                      "id": "JvXEY",
+                      "name": "WiFi",
+                      "width": 16,
+                      "height": 16,
+                      "icon": "wifi",
+                      "library": "lucide",
+                      "fill": "$text-primary"
+                    },
+                    {
+                      "type": "icon",
+                      "id": "fVLo0",
+                      "name": "Battery",
+                      "width": 18,
+                      "height": 18,
+                      "icon": "battery-full",
+                      "library": "lucide",
+                      "fill": "$text-primary"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "RxULj",
+              "name": "05 Wrong Result Content",
+              "width": "fill_container",
+              "layout": "vertical",
+              "gap": 20,
+              "padding": [
+                4,
+                18,
+                24,
+                18
+              ],
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "uL8DF",
+                  "name": "App Header",
+                  "width": "fill_container",
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "I080yw",
+                      "name": "Brand Lockup",
+                      "layout": "vertical",
+                      "gap": 2,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "L5PrLY",
+                          "name": "Brand Name",
+                          "fill": "$text-primary",
+                          "content": "MOON OR DOOM",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 18,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "VAWxi",
+                          "name": "Brand Caption",
+                          "fill": "$text-muted",
+                          "content": "BTC 60s calls",
+                          "fontFamily": "$font-mono",
+                          "fontSize": 11,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "BhE0T",
+                      "name": "Score Chip",
+                      "fill": "$surface-raise",
+                      "cornerRadius": 8,
+                      "stroke": "$border-soft",
+                      "strokeWidth": 1,
+                      "strokeAlignment": "inner",
+                      "gap": 8,
+                      "padding": [
+                        8,
+                        10
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "M0IZiO",
+                          "name": "Score Icon",
+                          "width": 16,
+                          "height": 16,
+                          "icon": "trophy",
+                          "library": "lucide",
+                          "fill": "$btc-orange"
+                        },
+                        {
+                          "type": "text",
+                          "id": "iB1oN",
+                          "name": "Score Value",
+                          "fill": "$text-primary",
+                          "content": "2",
+                          "fontFamily": "$font-mono",
+                          "fontSize": 14,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "qT7O8",
+                  "name": "Live BTC Price Panel",
+                  "width": "fill_container",
+                  "fill": "$surface-panel",
+                  "cornerRadius": 8,
+                  "stroke": "$border-soft",
+                  "strokeWidth": 1,
+                  "strokeAlignment": "inner",
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#00000099",
+                    "offset": {
+                      "x": 0,
+                      "y": 12
+                    },
+                    "blur": 22
+                  },
+                  "layout": "vertical",
+                  "gap": 8,
+                  "padding": 18,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "WhZWc",
+                      "name": "Price Meta Row",
+                      "width": "fill_container",
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "POhAf",
+                          "name": "Pair Label",
+                          "fill": "$text-muted",
+                          "content": "BTC/USD",
+                          "fontFamily": "$font-mono",
+                          "fontSize": 12,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "frame",
+                          "id": "hfqyg",
+                          "name": "Live Badge",
+                          "fill": "#173421",
+                          "cornerRadius": 4,
+                          "stroke": "#2D6D45",
+                          "strokeWidth": 1,
+                          "strokeAlignment": "inner",
+                          "gap": 6,
+                          "padding": [
+                            5,
+                            8
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "ellipse",
+                              "id": "H59qH",
+                              "name": "Live Dot",
+                              "fill": "$moon-green",
+                              "width": 7,
+                              "height": 7
+                            },
+                            {
+                              "type": "text",
+                              "id": "hnR73",
+                              "name": "Live Label",
+                              "fill": "$moon-green",
+                              "content": "LIVE",
+                              "fontFamily": "$font-mono",
+                              "fontSize": 10,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "TG2yP",
+                      "name": "BTC Price",
+                      "fill": "$text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "$67,744.80",
+                      "fontFamily": "$font-heading",
+                      "fontSize": 42,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "Q6P35O",
+                      "name": "Price Movement",
+                      "fill": "$doom-red",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Resolved from active Moon call",
+                      "fontFamily": "$font-body",
+                      "fontSize": 13,
+                      "fontWeight": "600"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "T9CP2u",
+                  "name": "Wrong Result Hero",
+                  "width": "fill_container",
+                  "fill": "#331014",
+                  "cornerRadius": 8,
+                  "stroke": "#973139",
+                  "strokeWidth": 1,
+                  "strokeAlignment": "inner",
+                  "effect": {
+                    "type": "shadow",
+                    "shadowType": "outer",
+                    "color": "#FF4F5733",
+                    "offset": {
+                      "x": 0,
+                      "y": 14
+                    },
+                    "blur": 30
+                  },
+                  "layout": "vertical",
+                  "gap": 14,
+                  "padding": 20,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "fmmq8",
+                      "name": "Loss Icon Plate",
+                      "width": 64,
+                      "height": 64,
+                      "fill": "#47141A",
+                      "cornerRadius": 8,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "ylot3",
+                          "name": "Loss Icon",
+                          "width": 34,
+                          "height": 34,
+                          "icon": "flame",
+                          "library": "lucide",
+                          "fill": "$doom-red"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "text",
+                      "id": "I4wPWh",
+                      "name": "Loss Eyebrow",
+                      "fill": "$doom-red",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "WRONG CALL",
+                      "fontFamily": "$font-mono",
+                      "fontSize": 11,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "W4zbs",
+                      "name": "Loss Title",
+                      "fill": "$text-primary",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "The chart chose violence.",
+                      "fontFamily": "$font-heading",
+                      "fontSize": 34,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "m40dhN",
+                      "name": "Loss Score",
+                      "fill": "$doom-red",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "-1 point",
+                      "fontFamily": "$font-heading",
+                      "fontSize": 46,
+                      "fontWeight": "normal"
+                    },
+                    {
+                      "type": "text",
+                      "id": "FxFea",
+                      "name": "Loss Copy",
+                      "fill": "$text-muted",
+                      "textGrowth": "fixed-width",
+                      "width": "fill_container",
+                      "content": "Moon missed: BTC landed lower after the timer cleared.",
+                      "fontFamily": "$font-body",
+                      "fontSize": 14,
+                      "fontWeight": "normal"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "h6NDu",
+                  "name": "Try Again Label",
+                  "width": "fill_container",
+                  "height": 18,
+                  "fill": "#00000000",
+                  "cornerRadius": 8,
+                  "stroke": "#00000000",
+                  "strokeAlignment": "inner",
+                  "gap": 10,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "sJdgb",
+                      "name": "Next guess Label",
+                      "fill": "#A9A7B0",
+                      "content": "Try again",
+                      "textAlign": "center",
+                      "fontFamily": "Geist Mono",
+                      "fontSize": 12,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "xyof8",
+                  "name": "Try Again Prediction Actions",
+                  "width": "fill_container",
+                  "gap": 12,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "yFuxu",
+                      "name": "Moon Action",
+                      "width": "fill_container",
+                      "height": 132,
+                      "fill": "#103B26",
+                      "cornerRadius": 8,
+                      "stroke": "#FFFFFF22",
+                      "strokeWidth": 1,
+                      "strokeAlignment": "inner",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": 14,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "GahrI",
+                          "name": "Moon Action Icon",
+                          "width": 32,
+                          "height": 32,
+                          "icon": "trending-up",
+                          "library": "lucide",
+                          "fill": "$moon-green"
+                        },
+                        {
+                          "type": "text",
+                          "id": "DrAG4",
+                          "name": "Moon Action Label",
+                          "fill": "$moon-green",
+                          "content": "MOON",
+                          "textAlign": "center",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 28,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "Aj6ji",
+                          "name": "Moon Action Caption",
+                          "fill": "$moon-green",
+                          "content": "price goes up",
+                          "textAlign": "center",
+                          "fontFamily": "$font-mono",
+                          "fontSize": 11,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "j2JyZ",
+                      "name": "Doom Action",
+                      "width": "fill_container",
+                      "height": 132,
+                      "fill": "#421317",
+                      "cornerRadius": 8,
+                      "stroke": "#FFFFFF22",
+                      "strokeWidth": 1,
+                      "strokeAlignment": "inner",
+                      "layout": "vertical",
+                      "gap": 8,
+                      "padding": 14,
+                      "justifyContent": "center",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "ot1dF",
+                          "name": "Doom Action Icon",
+                          "width": 32,
+                          "height": 32,
+                          "icon": "trending-down",
+                          "library": "lucide",
+                          "fill": "$doom-red"
+                        },
+                        {
+                          "type": "text",
+                          "id": "YQY0F",
+                          "name": "Doom Action Label",
+                          "fill": "$doom-red",
+                          "content": "DOOM",
+                          "textAlign": "center",
+                          "fontFamily": "$font-heading",
+                          "fontSize": 28,
+                          "fontWeight": "normal"
+                        },
+                        {
+                          "type": "text",
+                          "id": "n4jdn",
+                          "name": "Doom Action Caption",
+                          "fill": "$doom-red",
+                          "content": "price goes down",
+                          "textAlign": "center",
+                          "fontFamily": "$font-mono",
+                          "fontSize": 11,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variables": {
+    "border-soft": {
+      "type": "color",
+      "value": "#2B2D36"
+    },
+    "btc-orange": {
+      "type": "color",
+      "value": "#FF9800"
+    },
+    "doom-red": {
+      "type": "color",
+      "value": "#FF4F57"
+    },
+    "font-body": {
+      "type": "string",
+      "value": "Funnel Sans"
+    },
+    "font-heading": {
+      "type": "string",
+      "value": "Anton"
+    },
+    "font-mono": {
+      "type": "string",
+      "value": "Geist Mono"
+    },
+    "moon-green": {
+      "type": "color",
+      "value": "#43F39D"
+    },
+    "sky-blue": {
+      "type": "color",
+      "value": "#708DA9"
+    },
+    "surface-app": {
+      "type": "color",
+      "value": "#050507"
+    },
+    "surface-panel": {
+      "type": "color",
+      "value": "#121219"
+    },
+    "surface-raise": {
+      "type": "color",
+      "value": "#1B1C24"
+    },
+    "surface-warm": {
+      "type": "color",
+      "value": "#24170A"
+    },
+    "text-muted": {
+      "type": "color",
+      "value": "#A9A7B0"
+    },
+    "text-primary": {
+      "type": "color",
+      "value": "#FFFFFF"
+    }
+  }
+}
