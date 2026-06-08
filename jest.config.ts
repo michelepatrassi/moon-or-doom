@@ -6,6 +6,7 @@ const createJestConfig = nextJest({ dir: "./" });
 const config: Config = {
   clearMocks: true,
   coverageProvider: "v8",
+  modulePathIgnorePatterns: ["<rootDir>/.next/"],
   testEnvironment: "jsdom",
 };
 

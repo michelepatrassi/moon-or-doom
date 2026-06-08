@@ -36,11 +36,12 @@ The app will be available at [http://localhost:3000](http://localhost:3000).
 
 ## Quality checks
 
-The quality of the app is preserved by unit test and linting rules.
+Commits run formatting, linting, and tests through Husky before they are accepted.
 
 ```bash
-npm test
+npm run format:check
 npm run lint
+npm test
 ```
 
 ## Production

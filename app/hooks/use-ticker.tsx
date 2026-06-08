@@ -32,17 +32,17 @@ export function useTicker<SelectedValue>({
   value: SelectedValue | undefined;
 } {
   const [value, setValue] = React.useState<SelectedValue | undefined>(
-    undefined,
+    undefined
   );
   const [error, setError] = React.useState<AppError | null>(null);
   const [loading, setLoading] = React.useState<boolean>(true);
   const [connectionAttempt, reconnect] = React.useReducer(
     (attempt: number) => attempt + 1,
-    0,
+    0
   );
 
   const selectTickerValue = React.useEffectEvent((ticker: Ticker) =>
-    select(ticker),
+    select(ticker)
   );
 
   const retry = () => {
@@ -68,7 +68,7 @@ export function useTicker<SelectedValue>({
             symbol: [symbol],
             snapshot: true,
           },
-        }),
+        })
       );
     });
 

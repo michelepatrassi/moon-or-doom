@@ -36,7 +36,7 @@ const RootLayout = ({
         funnelSans.variable,
         geistMono.variable,
         anton.variable,
-        "h-full antialiased",
+        "h-full antialiased"
       )}
     >
       <body className="min-h-full flex flex-col bg-zinc-950 text-white font-sans">

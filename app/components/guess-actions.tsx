@@ -35,7 +35,7 @@ export const GuessButton = ({
         "disabled:cursor-not-allowed disabled:shadow-none",
         disabled
           ? "border-zinc-800 bg-zinc-900 text-zinc-400"
-          : variantClasses[variant],
+          : variantClasses[variant]
       )}
       disabled={disabled}
       onClick={onClick}

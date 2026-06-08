@@ -1,0 +1,10 @@
+.next
+build
+coverage
+node_modules
+out
+
+package-lock.json
+
+*.ico
+*.pen

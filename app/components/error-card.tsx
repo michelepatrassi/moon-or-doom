@@ -7,11 +7,7 @@ type ErrorCardProps = {
   onAction?: () => void;
 };
 
-export const ErrorCard = ({
-  actionLabel,
-  error,
-  onAction,
-}: ErrorCardProps) => {
+export const ErrorCard = ({ actionLabel, error, onAction }: ErrorCardProps) => {
   return (
     <Card variant="danger">
       <div className="space-y-6">

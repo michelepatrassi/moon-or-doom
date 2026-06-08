@@ -19,7 +19,7 @@ describe("getRandom", () => {
 
   it("throws when the array is empty", () => {
     expect(() => getRandom([])).toThrow(
-      "Cannot get a random item from an empty array",
+      "Cannot get a random item from an empty array"
     );
   });
 });

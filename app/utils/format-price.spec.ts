@@ -7,7 +7,7 @@ describe("formatPrice", () => {
         price: 67842.25,
         locale: "en-US",
         currency: "USD",
-      }),
+      })
     ).toBe("$67,842.25");
   });
 
@@ -17,7 +17,7 @@ describe("formatPrice", () => {
         price: 67842.25,
         locale: "it-IT",
         currency: "USD",
-      }),
+      })
     ).toBe("67.842,25\u00a0USD");
   });
 });

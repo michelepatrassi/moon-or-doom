@@ -9,7 +9,7 @@ describe("evaluateGuess", () => {
           snapshotPrice: 100,
           direction: "up",
         },
-      }),
+      })
     ).toBe("won");
   });
 
@@ -21,7 +21,7 @@ describe("evaluateGuess", () => {
           snapshotPrice: 100,
           direction: "up",
         },
-      }),
+      })
     ).toBe("lost");
   });
 
@@ -33,7 +33,7 @@ describe("evaluateGuess", () => {
           snapshotPrice: 100,
           direction: "down",
         },
-      }),
+      })
     ).toBe("won");
   });
 
@@ -45,7 +45,7 @@ describe("evaluateGuess", () => {
           snapshotPrice: 100,
           direction: "down",
         },
-      }),
+      })
     ).toBe("lost");
   });
 
@@ -57,7 +57,7 @@ describe("evaluateGuess", () => {
           snapshotPrice: 100,
           direction: "up",
         },
-      }),
+      })
     ).toBe("pending");
 
     expect(
@@ -67,7 +67,7 @@ describe("evaluateGuess", () => {
           snapshotPrice: 100,
           direction: "down",
         },
-      }),
+      })
     ).toBe("pending");
   });
 });

@@ -112,7 +112,7 @@ describe("useTicker", () => {
           bid: 98,
           last: 100,
           timestamp: "2026-06-05T12:00:01.000000Z",
-        }),
+        })
       );
     });
 
@@ -144,7 +144,7 @@ describe("useTicker", () => {
 
     await waitFor(() => {
       expect(screen.getByTestId("error-title")).toHaveTextContent(
-        "Live price unavailable",
+        "Live price unavailable"
       );
     });
     expect(screen.getByTestId("last-price")).toHaveTextContent("none");

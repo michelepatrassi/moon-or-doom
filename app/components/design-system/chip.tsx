@@ -20,7 +20,7 @@ export const Chip = ({
       className={clsx(
         "inline-flex items-center px-3 py-1 rounded-md text-xs",
         variantClasses[variant],
-        className,
+        className
       )}
     >
       {children}

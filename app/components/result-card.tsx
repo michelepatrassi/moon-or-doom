@@ -26,8 +26,8 @@ export const ResultCard = ({ isWon, score }: ResultCardProps) => {
             "BTC said no with its whole chest.",
             "The candle filed a complaint.",
             "Gravity entered the group chat.",
-          ],
-    ),
+          ]
+    )
   );
 
   if (isWon) {

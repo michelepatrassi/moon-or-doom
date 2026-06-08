@@ -32,7 +32,7 @@ export const Card = ({
       className={clsx(
         "w-full rounded-xl border text-white shadow-md",
         variantClasses[variant],
-        paddingClasses[padding],
+        paddingClasses[padding]
       )}
     >
       {children}

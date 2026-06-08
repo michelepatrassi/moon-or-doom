@@ -5,7 +5,7 @@ import { useMoonOrDoomGame } from "./use-moon-or-doom-game";
 
 const GameProbe = () => {
   const [currentPrice, setCurrentPrice] = React.useState<number | undefined>(
-    100,
+    100
   );
   const { finishCountdown, game, placeGuess } = useMoonOrDoomGame(currentPrice);
 
@@ -48,13 +48,13 @@ describe("useMoonOrDoomGame", () => {
 
     fireEvent.click(screen.getByRole("button", { name: "finish countdown" }));
     expect(screen.getByTestId("phase")).toHaveTextContent(
-      "waitingForPriceToMove",
+      "waitingForPriceToMove"
     );
     expect(screen.getByTestId("result")).toHaveTextContent("none");
 
     fireEvent.click(screen.getByRole("button", { name: "price unchanged" }));
     expect(screen.getByTestId("phase")).toHaveTextContent(
-      "waitingForPriceToMove",
+      "waitingForPriceToMove"
     );
 
     fireEvent.click(screen.getByRole("button", { name: "price higher" }));

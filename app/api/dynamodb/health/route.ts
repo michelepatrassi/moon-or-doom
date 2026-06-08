@@ -17,7 +17,7 @@ export async function GET() {
       {
         ok: false,
       },
-      { status: 503 },
+      { status: 503 }
     );
   }
 }
