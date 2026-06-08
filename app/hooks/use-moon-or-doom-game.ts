@@ -5,6 +5,7 @@ import { type Guess, type GuessDirection } from "../types";
 import { evaluateGuess, type GuessEvaluation } from "../utils/evaluate-guess";
 
 export type GamePhase =
+  | "loadingScore"
   | "ready"
   | "countingDown"
   | "waitingForPriceToMove"
@@ -16,7 +17,7 @@ type GameState = {
   phase: GamePhase;
   guess: Guess | null;
   result: ResolvedGuessResult | null;
-  score: number;
+  score: number | undefined;
 };
 
 type GameAction =
@@ -32,14 +33,11 @@ type GameAction =
   | {
       currentPrice: number;
       type: "priceChanged";
+    }
+  | {
+      type: "initScore";
+      score: number;
     };
-
-const initialGameState: GameState = {
-  phase: "ready",
-  guess: null,
-  result: null,
-  score: 0,
-};
 
 const getNextScore = ({
   result,
@@ -79,7 +77,7 @@ const getResolvedGame = ({
     phase: "resolved",
     guess: game.guess,
     result,
-    score: getNextScore({ result, score: game.score }),
+    score: getNextScore({ result, score: game.score as number }),
   };
 };
 
@@ -132,14 +130,38 @@ const gameReducer = (game: GameState, action: GameAction): GameState => {
           game,
         }) ?? game
       );
+
+    case "initScore":
+      if (game.phase !== "loadingScore") {
+        return game;
+      }
+
+      return {
+        ...game,
+        phase: "ready",
+        score: action.score,
+      };
+
+    default:
+      return game;
   }
 };
 
-export const useMoonOrDoomGame = (currentPrice: number | undefined) => {
-  const [game, dispatch] = React.useReducer(gameReducer, initialGameState);
+type Props = {
+  currentPrice: number | undefined;
+  score: number | undefined;
+};
+
+export const useMoonOrDoomGame = ({ currentPrice, score }: Props) => {
+  const [game, dispatch] = React.useReducer(gameReducer, {
+    phase: typeof score === "number" ? "ready" : "loadingScore",
+    guess: null,
+    result: null,
+    score,
+  });
 
   const placeGuess = (direction: GuessDirection) => {
-    if (typeof currentPrice !== "number") {
+    if (game.phase !== "ready" || typeof currentPrice !== "number") {
       return;
     }
 
@@ -170,6 +192,17 @@ export const useMoonOrDoomGame = (currentPrice: number | undefined) => {
       type: "priceChanged",
     });
   }, [currentPrice, game.phase]);
+
+  React.useEffect(() => {
+    if (typeof score !== "number") {
+      return;
+    }
+
+    dispatch({
+      type: "initScore",
+      score,
+    });
+  }, [score]);
 
   return {
     finishCountdown,

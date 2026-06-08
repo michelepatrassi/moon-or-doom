@@ -10,17 +10,23 @@ import { ReadyGuessCard } from "./components/ready-guess-card";
 import { useMoonOrDoomGame } from "./hooks/use-moon-or-doom-game";
 import { ErrorCard } from "./components/error-card";
 import { TICKER } from "./constant";
+import { usePlayer } from "./hooks/use-player";
 
 const selectLastPrice = (ticker: Ticker) => ticker.last;
 
 const Home = () => {
+  const { player } = usePlayer();
+
   const {
     error,
     loading,
     retry,
     value: currentPrice,
   } = useTicker({ select: selectLastPrice });
-  const { finishCountdown, game, placeGuess } = useMoonOrDoomGame(currentPrice);
+  const { finishCountdown, game, placeGuess } = useMoonOrDoomGame({
+    currentPrice,
+    score: player?.score,
+  });
   const hasLivePrice = !error && typeof currentPrice === "number";
   const activeGuessStatus =
     game.phase === "countingDown" || game.phase === "waitingForPriceToMove"
@@ -47,9 +53,12 @@ const Home = () => {
             status={activeGuessStatus}
           />
         )}
-        {!error && game.phase === "resolved" && game.result && (
-          <ResultCard isWon={game.result === "won"} score={game.score} />
-        )}
+        {!error &&
+          game.phase === "resolved" &&
+          game.result &&
+          typeof game.score === "number" && (
+            <ResultCard isWon={game.result === "won"} score={game.score} />
+          )}
 
         <GuessActions
           onGuess={placeGuess}
