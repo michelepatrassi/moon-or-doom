@@ -11,7 +11,7 @@ Architecture and storage decisions are in [docs/ARCHITECTURE.MD](docs/ARCHITECTU
 
 ## Get started
 
-The app is a NestJS app with DynamoDB as data store.
+The app is a Next.js app with DynamoDB as data store.
 Make sure to satisfy these requirements:
 
 - Node.js `>=20.9.0`
@@ -27,8 +27,13 @@ docker compose up -d
 # Setup environment variable
 cp .example.env .env
 
-# Install dependencies and run the app
+# Install dependencies
 npm install
+
+# Initialize the local DynamoDB tables
+npm run db:setup
+
+# Run the app
 npm run dev
 ```
 
@@ -44,17 +49,25 @@ npm run lint
 npm test
 ```
 
-## Production
+## Deployment
 
-Build and run the production server locally:
+The app is deployed on Vercel. To deploy a new version, push your latest code changes to main. They will be released in a couple of minutes.
+
+### If you want to deploy this yourself
+
+Host the app in any provider which supports nodejs, such as Vercel.
+
+The DynamoDB database should be initialized manually in AWS once. Make sure it contains a `players` table as done programmatically in `scripts/init-db.js`.
+
+Environment variables needs to be configured in your hosting provider. It should include the `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` pair from the previously configured database, together with the remaining variables in `.example.env`.
+
+Once configured, you can build and run the app:
 
 ```bash
+npm install
 npm run build
 npm run start
 ```
-
-By default, `next start` serves the app on
-[http://localhost:3000](http://localhost:3000).
 
 ## Docker
 
@@ -74,4 +87,10 @@ To stop it all:
 
 ```bash
 docker compose down
+```
+
+To cleanup the database
+
+```bash
+docker compose down -v
 ```

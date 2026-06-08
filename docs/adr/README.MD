@@ -59,17 +59,19 @@ proposed → active → superseded
 
 ## Index
 
-| ID                                                     | Title                                      | Status |
-| ------------------------------------------------------ | ------------------------------------------ | ------ |
-| [0001](0001-nextjs.md)                                 | NextJS stack                               | active |
-| [0002](0002-npm-package-manager.md)                    | npm package manager                        | active |
-| [0003](0003-tailwind-styling.md)                       | Tailwind styling                           | active |
-| [0004](0004-kraken-market-data-api.md)                 | Kraken BTC/USD market data API             | active |
-| [0005](0005-kiss-code-simplicity.md)                   | KISS code simplicity                       | active |
-| [0006](0006-react-component-declarations.md)           | React component declarations               | active |
-| [0007](0007-unit-test-isolated-frontend-functions.md)  | Unit test isolated frontend functions      | active |
-| [0008](0008-clsx-classname-composition.md)             | clsx className composition                 | active |
-| [0009](0009-tailwind-default-utility-scale.md)         | Tailwind default utility scale             | active |
-| [0010](0010-dynamodb-player-score-persistence.md)      | DynamoDB player score persistence          | active |
-| [0011](0011-aws-sdk-dynamodb-client.md)                | AWS SDK DynamoDB client                    | active |
-| [0012](0012-husky-prettier-pre-commit-quality-gate.md) | Husky and Prettier pre-commit quality gate | active |
+| ID                                                     | Title                                      | Status                                                     |
+| ------------------------------------------------------ | ------------------------------------------ | ---------------------------------------------------------- |
+| [0001](0001-nextjs.md)                                 | NextJS stack                               | active                                                     |
+| [0002](0002-npm-package-manager.md)                    | npm package manager                        | active                                                     |
+| [0003](0003-tailwind-styling.md)                       | Tailwind styling                           | active                                                     |
+| [0004](0004-kraken-market-data-api.md)                 | Kraken BTC/USD market data API             | active                                                     |
+| [0005](0005-kiss-code-simplicity.md)                   | KISS code simplicity                       | active                                                     |
+| [0006](0006-react-component-declarations.md)           | React component declarations               | active                                                     |
+| [0007](0007-unit-test-isolated-frontend-functions.md)  | Unit test isolated frontend functions      | active                                                     |
+| [0008](0008-clsx-classname-composition.md)             | clsx className composition                 | active                                                     |
+| [0009](0009-tailwind-default-utility-scale.md)         | Tailwind default utility scale             | active                                                     |
+| [0010](0010-dynamodb-player-score-persistence.md)      | DynamoDB player score persistence          | active                                                     |
+| [0011](0011-aws-sdk-dynamodb-client.md)                | AWS SDK DynamoDB client                    | superseded by [0013](0013-dynamodb-document-client.md)     |
+| [0012](0012-husky-prettier-pre-commit-quality-gate.md) | Husky and Prettier pre-commit quality gate | active                                                     |
+| [0013](0013-dynamodb-document-client.md)               | DynamoDB document client data access       | superseded by [0014](0014-dynamodb-convenience-methods.md) |
+| [0014](0014-dynamodb-convenience-methods.md)           | DynamoDB convenience methods               | active                                                     |
