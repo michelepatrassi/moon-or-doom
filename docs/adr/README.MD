@@ -71,3 +71,4 @@ proposed → active → superseded
 | [0008](0008-clsx-classname-composition.md) | clsx className composition | active |
 | [0009](0009-tailwind-default-utility-scale.md) | Tailwind default utility scale | active |
 | [0010](0010-dynamodb-player-score-persistence.md) | DynamoDB player score persistence | active |
+| [0011](0011-aws-sdk-dynamodb-client.md) | AWS SDK DynamoDB client | active |

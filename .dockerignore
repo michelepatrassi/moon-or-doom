@@ -1,0 +1,12 @@
+.DS_Store
+.git
+.next
+.swc
+build
+coverage
+node_modules
+npm-debug.log*
+out
+todo.txt
+.env
+.env.*
