@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
-import { createPlayer, getPlayer } from "@/app/lib/players";
+import { createPlayer, getPlayer } from "@/app/lib/models/players";
 
 type ProfileResponse = {
   id: string;

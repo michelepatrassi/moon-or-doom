@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 
-import type { Player } from "../lib/players";
+import type { Player } from "../lib/models/players";
 
 export const usePlayer = () => {
   const [player, setPlayer] = React.useState<Player | null>(null);

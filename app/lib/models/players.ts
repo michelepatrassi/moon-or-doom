@@ -1,4 +1,4 @@
-import { createDynamoDbDocument } from "./dynamodb";
+import { createDynamoDbDocument } from "../dynamodb";
 
 export type Player = {
   id: string;

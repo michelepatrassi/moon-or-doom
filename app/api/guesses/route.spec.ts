@@ -5,15 +5,15 @@
 import { cookies } from "next/headers";
 import { NextRequest } from "next/server";
 import { POST } from "./route";
-import { createGuess, getPendingGuess } from "@/app/lib/guesses";
+import { createGuess, getPendingGuess } from "@/app/lib/models/guesses";
 import { getCurrentPrice } from "@/app/lib/market-data";
-import { getPlayer } from "@/app/lib/players";
+import { getPlayer } from "@/app/lib/models/players";
 
 jest.mock("next/headers", () => ({
   cookies: jest.fn(),
 }));
 
-jest.mock("@/app/lib/guesses", () => ({
+jest.mock("@/app/lib/models/guesses", () => ({
   createGuess: jest.fn(),
   getPendingGuess: jest.fn(),
 }));
@@ -22,7 +22,7 @@ jest.mock("@/app/lib/market-data", () => ({
   getCurrentPrice: jest.fn(),
 }));
 
-jest.mock("@/app/lib/players", () => ({
+jest.mock("@/app/lib/models/players", () => ({
   getPlayer: jest.fn(),
 }));
 

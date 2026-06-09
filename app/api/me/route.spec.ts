@@ -4,13 +4,13 @@
 
 import { cookies } from "next/headers";
 import { GET, POST } from "./route";
-import { createPlayer, getPlayer } from "@/app/lib/players";
+import { createPlayer, getPlayer } from "@/app/lib/models/players";
 
 jest.mock("next/headers", () => ({
   cookies: jest.fn(),
 }));
 
-jest.mock("@/app/lib/players", () => ({
+jest.mock("@/app/lib/models/players", () => ({
   createPlayer: jest.fn(),
   getPlayer: jest.fn(),
 }));

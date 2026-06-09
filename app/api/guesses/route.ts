@@ -6,13 +6,13 @@ import { TICKER } from "@/app/constant";
 import {
   createGuess,
   getPendingGuess,
-  type StoredGuess,
-} from "@/app/lib/guesses";
+  type Guess,
+} from "@/app/lib/models/guesses";
 import { getCurrentPrice } from "@/app/lib/market-data";
-import { getPlayer } from "@/app/lib/players";
+import { getPlayer } from "@/app/lib/models/players";
 
 type GuessResponse = {
-  guess: StoredGuess;
+  guess: Guess;
 };
 
 type ErrorResponse = {
