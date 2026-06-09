@@ -1,8 +1,5 @@
 import { createDynamoDbClient } from "@/app/lib/dynamodb";
 
-export const dynamic = "force-dynamic";
-export const runtime = "nodejs";
-
 export async function GET() {
   try {
     await createDynamoDbClient().listTables();

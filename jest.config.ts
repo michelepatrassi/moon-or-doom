@@ -10,6 +10,7 @@ const config: Config = {
     "^@/(.*)$": "<rootDir>/$1",
   },
   modulePathIgnorePatterns: ["<rootDir>/.next/"],
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
   testEnvironment: "jsdom",
 };
 

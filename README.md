@@ -57,7 +57,7 @@ The app is deployed on Vercel. To deploy a new version, push your latest code ch
 
 Host the app in any provider which supports nodejs, such as Vercel.
 
-The DynamoDB database should be initialized manually in AWS once. Make sure it contains a `players` table as done programmatically in `scripts/init-db.js`.
+The DynamoDB database should be initialized manually in AWS once. Make sure it contains the `players` and `guesses` tables as done programmatically in `scripts/init-db.js`.
 
 Environment variables needs to be configured in your hosting provider. It should include the `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` pair from the previously configured database, together with the remaining variables in `.example.env`.
 

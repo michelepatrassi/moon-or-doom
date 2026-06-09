@@ -75,3 +75,8 @@ proposed → active → superseded
 | [0012](0012-husky-prettier-pre-commit-quality-gate.md) | Husky and Prettier pre-commit quality gate | active                                                     |
 | [0013](0013-dynamodb-document-client.md)               | DynamoDB document client data access       | superseded by [0014](0014-dynamodb-convenience-methods.md) |
 | [0014](0014-dynamodb-convenience-methods.md)           | DynamoDB convenience methods               | active                                                     |
+| [0015](0015-dedicated-dynamodb-guesses-table.md)       | Dedicated DynamoDB guesses table           | active                                                     |
+| [0016](0016-backend-zero-trust-game-policy.md)         | Backend zero-trust game policy             | active                                                     |
+| [0017](0017-zod-request-validation.md)                 | Zod request validation                     | active                                                     |
+| [0018](0018-reusable-library-functions.md)             | Reusable library functions                 | active                                                     |
+| [0019](0019-market-data-provider-boundary.md)          | Market data provider boundary              | active                                                     |

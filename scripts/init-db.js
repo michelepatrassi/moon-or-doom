@@ -4,6 +4,7 @@ const { DynamoDB } = require("@aws-sdk/client-dynamodb");
 const { loadEnvConfig } = require("@next/env");
 
 const PLAYERS_TABLE_NAME = "players";
+const GUESSES_TABLE_NAME = "guesses";
 
 loadEnvConfig(process.cwd());
 
@@ -16,9 +17,31 @@ const client = new DynamoDB({
   },
 });
 
-async function createPlayersTable() {
+async function createTable(tableName, tableConfig) {
   await client.createTable({
-    TableName: PLAYERS_TABLE_NAME,
+    TableName: tableName,
+    ...tableConfig,
+    BillingMode: "PAY_PER_REQUEST",
+  });
+
+  console.log(`Created DynamoDB table "${tableName}".`);
+}
+
+async function createTableIfMissing(tableName, tableConfig) {
+  try {
+    await createTable(tableName, tableConfig);
+  } catch (error) {
+    if (error instanceof Error && error.name === "ResourceInUseException") {
+      console.log(`DynamoDB table "${tableName}" already exists.`);
+      return;
+    }
+
+    throw error;
+  }
+}
+
+async function createPlayersTable() {
+  await createTableIfMissing(PLAYERS_TABLE_NAME, {
     AttributeDefinitions: [
       {
         AttributeName: "id",
@@ -31,23 +54,37 @@ async function createPlayersTable() {
         KeyType: "HASH",
       },
     ],
-    BillingMode: "PAY_PER_REQUEST",
   });
+}
 
-  console.log(`Created DynamoDB table "${PLAYERS_TABLE_NAME}".`);
+async function createGuessesTable() {
+  await createTableIfMissing(GUESSES_TABLE_NAME, {
+    AttributeDefinitions: [
+      {
+        AttributeName: "playerId",
+        AttributeType: "S",
+      },
+      {
+        AttributeName: "id",
+        AttributeType: "S",
+      },
+    ],
+    KeySchema: [
+      {
+        AttributeName: "playerId",
+        KeyType: "HASH",
+      },
+      {
+        AttributeName: "id",
+        KeyType: "RANGE",
+      },
+    ],
+  });
 }
 
 async function main() {
-  try {
-    await createPlayersTable();
-  } catch (error) {
-    if (error instanceof Error && error.name === "ResourceInUseException") {
-      console.log(`DynamoDB table "${PLAYERS_TABLE_NAME}" already exists.`);
-      return;
-    }
-
-    throw error;
-  }
+  await createPlayersTable();
+  await createGuessesTable();
 }
 
 main().catch((error) => {

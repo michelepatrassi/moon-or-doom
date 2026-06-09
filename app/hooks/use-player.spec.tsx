@@ -3,15 +3,6 @@ import { render, screen, waitFor } from "@testing-library/react";
 import axios from "axios";
 import { usePlayer } from "./use-player";
 
-jest.mock("axios", () => ({
-  __esModule: true,
-  default: {
-    get: jest.fn(),
-    isAxiosError: jest.fn((error) => Boolean(error?.isAxiosError)),
-    post: jest.fn(),
-  },
-}));
-
 const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 const player = {
