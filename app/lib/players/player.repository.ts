@@ -16,9 +16,7 @@ export async function getPlayerById(id: string): Promise<Player | undefined> {
   return player.Item as Player;
 }
 
-type CreatePlayerInput = {
-  score: number;
-};
+type CreatePlayerInput = Pick<Player, "score">;
 
 export async function createPlayer(input: CreatePlayerInput): Promise<Player> {
   const client = createDynamoDbDocument();
@@ -36,4 +34,28 @@ export async function createPlayer(input: CreatePlayerInput): Promise<Player> {
   });
 
   return player;
+}
+
+type UpdatePlayerInput = CreatePlayerInput;
+
+export async function updatePlayer(
+  id: string,
+  input: UpdatePlayerInput
+): Promise<void> {
+  const client = createDynamoDbDocument();
+  const now = new Date().toISOString();
+
+  await client.update({
+    TableName: TABLE_NAME,
+    Key: { id },
+    UpdateExpression: "SET #score = :score, #updatedAt = :updatedAt",
+    ExpressionAttributeNames: {
+      "#score": "score",
+      "#updatedAt": "updatedAt",
+    },
+    ExpressionAttributeValues: {
+      ":score": input.score,
+      ":updatedAt": now,
+    },
+  });
 }

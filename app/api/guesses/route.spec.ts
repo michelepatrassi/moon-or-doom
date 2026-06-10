@@ -54,7 +54,7 @@ const pendingGuess = {
   entryPrice: 100000,
   id: "guess-1",
   playerId: "player-1",
-  resolvesAt: "2026-06-08T12:01:00.000Z",
+  resolvesAfter: "2026-06-08T12:01:00.000Z",
   status: "pending" as const,
 };
 

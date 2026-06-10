@@ -46,9 +46,10 @@ const guessKey: GuessKey = {
 const pendingGuess: Guess = {
   ...guessKey,
   createdAt: "2026-06-08T12:00:00.000Z",
+  updatedAt: "2026-06-08T12:00:00.000Z",
   direction: "up",
   entryPrice: 100000,
-  resolvesAt: "2026-06-08T12:01:00.000Z",
+  resolvesAfter: "2026-06-08T12:01:00.000Z",
   status: "pending",
 };
 
@@ -66,7 +67,9 @@ describe("POST /api/queues/fulfill-guess", () => {
 
     expect(mockedGetGuess).toHaveBeenCalledWith(guessKey);
     expect(mockedGetCurrentPrice).toHaveBeenCalledWith("BTC/USD");
-    expect(mockedResolveGuess).toHaveBeenCalledWith(pendingGuess);
+    expect(mockedResolveGuess).toHaveBeenCalledWith(pendingGuess, {
+      price: 100100,
+    });
     expect(mockedEnqueueGuessResolution).not.toHaveBeenCalled();
   });
 

@@ -48,22 +48,23 @@ type CreateGuessInput = {
   playerId: string;
   entryPrice: number;
   status: GuessStatus;
-  resolvesAt: Date;
+  resolvesAfter: Date;
 };
 
 export async function createGuess(input: CreateGuessInput) {
-  const { playerId, direction, entryPrice, status, resolvesAt } = input;
+  const { playerId, direction, entryPrice, status, resolvesAfter } = input;
 
   const client = createDynamoDbDocument();
-  const createdAt = new Date();
+  const now = new Date();
   const guess: Guess = {
     id: crypto.randomUUID(),
     playerId,
     direction,
     entryPrice,
     status,
-    createdAt: createdAt.toISOString(),
-    resolvesAt: resolvesAt.toISOString(),
+    createdAt: now.toISOString(),
+    updatedAt: now.toISOString(),
+    resolvesAfter: resolvesAfter.toISOString(),
   };
 
   await client.put({
@@ -76,18 +77,27 @@ export async function createGuess(input: CreateGuessInput) {
 
 export async function updateGuess(
   key: GuessKey,
-  values: Pick<Guess, "status">
+  values: Pick<Guess, "resolvedAt" | "resolvedPrice" | "status">
 ): Promise<void> {
   const client = createDynamoDbDocument();
+
+  const now = new Date().toISOString();
 
   await client.update({
     TableName: TABLE_NAME,
     Key: key,
-    UpdateExpression: "SET #status = :status",
+    UpdateExpression:
+      "SET #resolvedAt = :resolvedAt, #resolvedPrice = :resolvedPrice, #updatedAt = :updatedAt, #status = :status",
     ExpressionAttributeNames: {
+      "#resolvedAt": "resolvedAt",
+      "#resolvedPrice": "resolvedPrice",
+      "#updatedAt": "updatedAt",
       "#status": "status",
     },
     ExpressionAttributeValues: {
+      ":resolvedAt": values.resolvedAt,
+      ":resolvedPrice": values.resolvedPrice,
+      ":updatedAt": now,
       ":status": values.status,
     },
   });

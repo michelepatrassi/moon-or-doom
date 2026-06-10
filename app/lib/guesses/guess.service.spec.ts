@@ -4,12 +4,15 @@
 
 import { send } from "@/app/lib/queue";
 import {
+  evaluateGuess,
   getGuess,
   resolveGuess,
   enqueueGuessResolution,
 } from "./guess.service";
 import { getGuess as repoGetGuess, updateGuess } from "./guess.repository";
 import { type Guess, type GuessKey } from "./guess.types";
+import { getPlayer } from "../players/player.service";
+import { updatePlayer } from "../players/player.repository";
 
 jest.mock("@/app/lib/queue", () => ({
   send: jest.fn(),
@@ -22,12 +25,25 @@ jest.mock("./guess.repository", () => ({
   updateGuess: jest.fn(),
 }));
 
+jest.mock("../players/player.service", () => ({
+  computeScore: jest.requireActual("../players/player.service").computeScore,
+  getPlayer: jest.fn(),
+}));
+
+jest.mock("../players/player.repository", () => ({
+  updatePlayer: jest.fn(),
+}));
+
 const mockedSend = send as jest.MockedFunction<typeof send>;
 const mockedRepoGetGuess = repoGetGuess as jest.MockedFunction<
   typeof repoGetGuess
 >;
 const mockedUpdateGuess = updateGuess as jest.MockedFunction<
   typeof updateGuess
+>;
+const mockedGetPlayer = getPlayer as jest.MockedFunction<typeof getPlayer>;
+const mockedUpdatePlayer = updatePlayer as jest.MockedFunction<
+  typeof updatePlayer
 >;
 
 const guessKey: GuessKey = {
@@ -38,18 +54,32 @@ const guessKey: GuessKey = {
 const guess: Guess = {
   ...guessKey,
   createdAt: "2026-06-08T12:00:00.000Z",
+  updatedAt: "2026-06-08T12:00:00.000Z",
   direction: "up",
   entryPrice: 100000,
-  resolvesAt: "2026-06-08T12:01:00.000Z",
+  resolvesAfter: "2026-06-08T12:01:00.000Z",
   status: "pending",
 };
 
 describe("guess service", () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date("2026-06-08T12:02:00.000Z"));
     mockedSend.mockResolvedValue({ messageId: "message-1" });
     mockedRepoGetGuess.mockResolvedValue(guess);
+    mockedGetPlayer.mockResolvedValue({
+      id: "player-1",
+      score: 3,
+      createdAt: "2026-06-08T11:00:00.000Z",
+      updatedAt: "2026-06-08T11:00:00.000Z",
+    });
     mockedUpdateGuess.mockResolvedValue();
+    mockedUpdatePlayer.mockResolvedValue();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
   });
 
   it("gets a guess by its DynamoDB key", async () => {
@@ -58,12 +88,24 @@ describe("guess service", () => {
     expect(mockedRepoGetGuess).toHaveBeenCalledWith(guessKey);
   });
 
-  it("resolves a guess by its DynamoDB key", async () => {
-    await resolveGuess(guessKey);
+  it("resolves a won guess and updates the player score", async () => {
+    await resolveGuess(guessKey, { price: 100100 });
 
     expect(mockedUpdateGuess).toHaveBeenCalledWith(guessKey, {
+      resolvedAt: "2026-06-08T12:02:00.000Z",
+      resolvedPrice: 100100,
       status: "resolved",
     });
+    expect(mockedUpdatePlayer).toHaveBeenCalledWith("player-1", {
+      score: 4,
+    });
+  });
+
+  it("leaves a guess pending when the price has not changed", async () => {
+    await resolveGuess(guessKey, { price: 100000 });
+
+    expect(mockedUpdateGuess).not.toHaveBeenCalled();
+    expect(mockedUpdatePlayer).not.toHaveBeenCalled();
   });
 
   it("enqueues only the guess key even when given a full guess object", async () => {
@@ -73,4 +115,17 @@ describe("guess service", () => {
       delaySeconds: 1,
     });
   });
+
+  it.each([
+    ["up", 100100, "won"],
+    ["up", 99900, "lost"],
+    ["down", 99900, "won"],
+    ["down", 100100, "lost"],
+    ["up", 100000, "pending"],
+  ] as const)(
+    "evaluates a %s guess at %d as %s",
+    (direction, price, result) => {
+      expect(evaluateGuess(price, { ...guess, direction })).toBe(result);
+    }
+  );
 });

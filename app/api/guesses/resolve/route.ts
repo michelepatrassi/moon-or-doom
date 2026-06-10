@@ -14,11 +14,11 @@ export async function GET() {
     const now = resolvedAt.toISOString();
 
     for (const guess of pendingGuesses) {
-      if (guess.resolvesAt <= now) {
+      if (guess.resolvesAfter <= now) {
         if (guess.entryPrice === currentPrice) {
           await enqueueGuessResolution(guess);
         } else {
-          await resolveGuess(guess);
+          await resolveGuess(guess, { price: currentPrice });
         }
       }
     }

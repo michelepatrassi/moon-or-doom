@@ -35,11 +35,12 @@ const mockedGetCurrentPrice = getCurrentPrice as jest.MockedFunction<
 
 const dueChangedGuess: Guess = {
   createdAt: "2026-06-08T12:00:00.000Z",
+  updatedAt: "2026-06-08T12:00:00.000Z",
   direction: "up",
   entryPrice: 100000,
   id: "guess-1",
   playerId: "player-1",
-  resolvesAt: "2026-06-08T12:01:00.000Z",
+  resolvesAfter: "2026-06-08T12:01:00.000Z",
   status: "pending",
 };
 
@@ -64,7 +65,9 @@ describe("GET /api/guesses/resolve", () => {
     expect(mockedGetPendingGuesses).toHaveBeenCalledTimes(1);
     expect(mockedGetCurrentPrice).toHaveBeenCalledWith("BTC/USD");
     expect(mockedEnqueueGuessResolution).not.toHaveBeenCalled();
-    expect(mockedResolveGuess).toHaveBeenCalledWith(dueChangedGuess);
+    expect(mockedResolveGuess).toHaveBeenCalledWith(dueChangedGuess, {
+      price: 100100,
+    });
     expect(response.status).toBe(200);
     await expect(response.text()).resolves.toBe("OK");
   });
@@ -85,7 +88,7 @@ describe("GET /api/guesses/resolve", () => {
       ...dueChangedGuess,
       entryPrice: 99900,
       id: "guess-2",
-      resolvesAt: "2026-06-08T12:03:00.000Z",
+      resolvesAfter: "2026-06-08T12:03:00.000Z",
     };
     mockedGetPendingGuesses.mockResolvedValue([notDueGuess]);
 

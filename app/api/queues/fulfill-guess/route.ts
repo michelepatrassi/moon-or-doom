@@ -9,11 +9,6 @@ import { getCurrentPrice } from "@/app/lib/market-data";
 import { handleCallback } from "@/app/lib/queue";
 
 export const POST = handleCallback<GuessKey>(async (payload, metadata) => {
-  console.log(
-    `Resolving guess ${payload.id} of player ${payload.playerId}`,
-    metadata.messageId
-  );
-
   const guess = await getGuess(payload);
 
   if (!guess || guess.status !== "pending") {
@@ -25,6 +20,6 @@ export const POST = handleCallback<GuessKey>(async (payload, metadata) => {
   if (guess.entryPrice === currentPrice) {
     await enqueueGuessResolution(payload);
   } else {
-    await resolveGuess(guess);
+    await resolveGuess(guess, { price: currentPrice });
   }
 });

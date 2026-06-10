@@ -1,4 +1,9 @@
-import { Guess, GuessDirection, GuessKey } from "./guess.types";
+import {
+  Guess,
+  GuessDirection,
+  GuessEvaluation,
+  GuessKey,
+} from "./guess.types";
 import {
   createGuess,
   getGuess as repoGetGuess,
@@ -7,6 +12,8 @@ import {
 } from "./guess.repository";
 import { COUNTDOWN } from "@/app/constant";
 import { send } from "@/app/lib/queue";
+import { computeScore, getPlayer } from "../players/player.service";
+import { updatePlayer } from "../players/player.repository";
 
 export async function getPendingGuess(
   playerId: string
@@ -28,18 +35,44 @@ export async function createPendingGuess(input: {
   direction: GuessDirection;
   entryPrice: number;
 }): Promise<Guess> {
-  const resolvesAt = new Date(new Date().getTime() + COUNTDOWN * 1000);
+  const resolvesAfter = new Date(new Date().getTime() + COUNTDOWN * 1000);
 
-  return createGuess({ ...input, status: "pending", resolvesAt });
+  return createGuess({ ...input, status: "pending", resolvesAfter });
 }
 
 export async function getPendingGuesses(): Promise<Guess[]> {
   return getGuesses({ status: "pending" });
 }
 
-export async function resolveGuess(key: GuessKey): Promise<void> {
-  //TODO: complete guess resolution (e.g. resolvedAt, score)
-  await updateGuess(key, { status: "resolved" });
+export async function resolveGuess(
+  key: GuessKey,
+  values: { price: number }
+): Promise<void> {
+  const guess = await getGuess(key);
+  if (!guess) {
+    throw new Error(
+      `No guess found with id ${key.id} for player ${key.playerId}`
+    );
+  }
+  const player = await getPlayer(guess.playerId);
+  if (!player) {
+    throw new Error(`No player found with id ${guess.playerId}`);
+  }
+
+  const evaluationResult = evaluateGuess(values.price, guess);
+
+  if (evaluationResult === "pending") {
+    // not resolved, no need to do anything
+    return;
+  }
+
+  const resolvedAt = new Date().toISOString();
+  const resolvedPrice = values.price;
+  const score = computeScore(player.score, evaluationResult);
+
+  //TODO: perform as transaction
+  await updateGuess(key, { resolvedAt, resolvedPrice, status: "resolved" });
+  await updatePlayer(player.id, { score });
 }
 
 export async function getGuess(input: { id: string; playerId: string }) {
@@ -52,4 +85,18 @@ export async function enqueueGuessResolution(payload: GuessKey): Promise<void> {
     { id: payload.id, playerId: payload.playerId },
     { delaySeconds: 1 }
   );
+}
+
+export function evaluateGuess(
+  price: number,
+  guess: Pick<Guess, "direction" | "entryPrice">
+): GuessEvaluation {
+  const { entryPrice, direction } = guess;
+  if (price === entryPrice) {
+    return "pending";
+  }
+
+  const isWon = direction === "up" ? price > entryPrice : price < entryPrice;
+
+  return isWon ? "won" : "lost";
 }
