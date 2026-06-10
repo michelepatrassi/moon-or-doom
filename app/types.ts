@@ -1,4 +1,7 @@
-export type GuessDirection = "up" | "down";
+import { GuessDirection } from "./lib/guesses/guess.types";
+
+export type { GuessDirection };
+
 export type Guess = {
   snapshotPrice: number;
   direction: GuessDirection;

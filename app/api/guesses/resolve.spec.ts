@@ -2,17 +2,17 @@
  * @jest-environment node
  */
 
-import {
-  getPendingGuesses,
-  updateGuess,
-  type Guess,
-} from "@/app/lib/models/guesses";
+import { type Guess } from "@/app/lib/guesses/guess.types";
 import { getCurrentPrice } from "@/app/lib/market-data";
 import { GET } from "./resolve";
+import {
+  getPendingGuesses,
+  resolveGuess,
+} from "@/app/lib/guesses/guess.service";
 
-jest.mock("@/app/lib/models/guesses", () => ({
+jest.mock("@/app/lib/guesses/guess.service", () => ({
   getPendingGuesses: jest.fn(),
-  updateGuess: jest.fn(),
+  resolveGuess: jest.fn(),
 }));
 
 jest.mock("@/app/lib/market-data", () => ({
@@ -22,8 +22,8 @@ jest.mock("@/app/lib/market-data", () => ({
 const mockedGetPendingGuesses = getPendingGuesses as jest.MockedFunction<
   typeof getPendingGuesses
 >;
-const mockedUpdateGuess = updateGuess as jest.MockedFunction<
-  typeof updateGuess
+const mockedResolveGuess = resolveGuess as jest.MockedFunction<
+  typeof resolveGuess
 >;
 const mockedGetCurrentPrice = getCurrentPrice as jest.MockedFunction<
   typeof getCurrentPrice
@@ -46,7 +46,7 @@ describe("GET /api/guesses/resolve", () => {
     jest.setSystemTime(new Date("2026-06-08T12:02:00.000Z"));
     mockedGetCurrentPrice.mockResolvedValue(100100);
     mockedGetPendingGuesses.mockResolvedValue([dueChangedGuess]);
-    mockedUpdateGuess.mockResolvedValue();
+    mockedResolveGuess.mockResolvedValue();
   });
 
   afterEach(() => {
@@ -54,16 +54,11 @@ describe("GET /api/guesses/resolve", () => {
   });
 
   it("resolves pending guesses that are due and whose price changed", async () => {
-    const response = await GET(
-      new Request("http://localhost/api/guesses/resolve")
-    );
+    const response = await GET();
 
     expect(mockedGetPendingGuesses).toHaveBeenCalledTimes(1);
     expect(mockedGetCurrentPrice).toHaveBeenCalledWith("BTC/USD");
-    expect(mockedUpdateGuess).toHaveBeenCalledWith({
-      ...dueChangedGuess,
-      status: "resolved",
-    });
+    expect(mockedResolveGuess).toHaveBeenCalledWith("guess-1");
     expect(response.status).toBe(200);
     await expect(response.text()).resolves.toBe("OK");
   });
@@ -80,11 +75,9 @@ describe("GET /api/guesses/resolve", () => {
       },
     ]);
 
-    const response = await GET(
-      new Request("http://localhost/api/guesses/resolve")
-    );
+    const response = await GET();
 
-    expect(mockedUpdateGuess).not.toHaveBeenCalled();
+    expect(mockedResolveGuess).not.toHaveBeenCalled();
     expect(response.status).toBe(200);
   });
 
@@ -96,9 +89,7 @@ describe("GET /api/guesses/resolve", () => {
       new Error("database unavailable")
     );
 
-    const response = await GET(
-      new Request("http://localhost/api/guesses/resolve")
-    );
+    const response = await GET();
 
     expect(response.status).toBe(500);
     await expect(response.text()).resolves.toBe("Internal Server Error");

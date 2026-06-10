@@ -1,8 +1,11 @@
 import { TICKER } from "@/app/constant";
-import { getPendingGuesses, updateGuess } from "@/app/lib/models/guesses";
 import { getCurrentPrice } from "@/app/lib/market-data";
+import {
+  getPendingGuesses,
+  resolveGuess,
+} from "@/app/lib/guesses/guess.service";
 
-export async function GET(_: Request) {
+export async function GET() {
   try {
     const pendingGuesses = await getPendingGuesses();
     const currentPrice = await getCurrentPrice(TICKER);
@@ -11,7 +14,7 @@ export async function GET(_: Request) {
 
     for (const guess of pendingGuesses) {
       if (guess.resolvesAt <= now && guess.entryPrice !== currentPrice) {
-        await updateGuess({ ...guess, status: "resolved" });
+        await resolveGuess(guess.id);
       }
     }
 

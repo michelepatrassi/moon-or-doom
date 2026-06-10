@@ -1,19 +1,15 @@
-import { cookies } from "next/headers";
 import { type NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 import { TICKER } from "@/app/constant";
-import {
-  createGuess,
-  getPendingGuess,
-  type Guess,
-} from "@/app/lib/models/guesses";
 import { getCurrentPrice } from "@/app/lib/market-data";
-import { getPlayer } from "@/app/lib/models/players";
-
-type GuessResponse = {
-  guess: Guess;
-};
+import { getPlayerId } from "@/app/lib/session";
+import {
+  createPendingGuess,
+  getPendingGuess,
+} from "@/app/lib/guesses/guess.service";
+import { getPlayer } from "@/app/lib/players/player.service";
+import { Guess } from "@/app/lib/guesses/guess.types";
 
 type ErrorResponse = {
   error: string;
@@ -23,27 +19,22 @@ const createGuessRequestBodySchema = z.strictObject({
   direction: z.enum(["up", "down"]),
 });
 
-const COOKIE_NAME = "player-id";
-
 export async function POST(
   request: NextRequest
-): Promise<NextResponse<GuessResponse | ErrorResponse>> {
-  const cookieStore = await cookies();
-  const playerId = cookieStore.get(COOKIE_NAME)?.value;
+): Promise<NextResponse<Guess | ErrorResponse>> {
+  const playerId = await getPlayerId();
 
-  if (typeof playerId !== "string") {
+  if (!playerId) {
     return NextResponse.json({ error: "Missing player id" }, { status: 401 });
   }
 
-  const currentPlayerId: string = playerId;
-
-  const player = await getPlayer(currentPlayerId);
+  const player = await getPlayer(playerId);
 
   if (!player) {
     return NextResponse.json({ error: "Player not found" }, { status: 404 });
   }
 
-  const pendingGuess = await getPendingGuess(currentPlayerId);
+  const pendingGuess = await getPendingGuess(playerId);
 
   if (pendingGuess) {
     return NextResponse.json(
@@ -74,11 +65,11 @@ export async function POST(
     return NextResponse.json({ error: "Price unavailable" }, { status: 503 });
   }
 
-  const guess = await createGuess({
-    playerId: currentPlayerId,
+  const guess = await createPendingGuess({
+    playerId,
     direction,
     entryPrice,
   });
 
-  return NextResponse.json({ guess }, { status: 201 });
+  return NextResponse.json(guess, { status: 201 });
 }

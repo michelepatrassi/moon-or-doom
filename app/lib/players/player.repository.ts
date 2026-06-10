@@ -1,15 +1,9 @@
 import { createDynamoDbDocument } from "../dynamodb";
-
-export type Player = {
-  id: string;
-  score: number;
-  createdAt: string;
-  updatedAt: string;
-};
+import { Player } from "./player.types";
 
 const TABLE_NAME = "players";
 
-export async function getPlayer(id: string): Promise<Player | null> {
+export async function getPlayerById(id: string): Promise<Player | undefined> {
   const client = createDynamoDbDocument();
 
   const player = await client.get({
@@ -19,15 +13,19 @@ export async function getPlayer(id: string): Promise<Player | null> {
     },
   });
 
-  return (player.Item as Player | undefined) ?? null;
+  return player.Item as Player;
 }
 
-export async function createPlayer(id: string): Promise<Player> {
+type CreatePlayerInput = {
+  score: number;
+};
+
+export async function createPlayer(input: CreatePlayerInput): Promise<Player> {
   const client = createDynamoDbDocument();
   const now = new Date().toISOString();
-  const player: Player = {
-    id,
-    score: 0,
+  const player = {
+    ...input,
+    id: crypto.randomUUID(),
     createdAt: now,
     updatedAt: now,
   };

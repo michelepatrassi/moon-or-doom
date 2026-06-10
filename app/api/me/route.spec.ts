@@ -4,20 +4,20 @@
 
 import { cookies } from "next/headers";
 import { GET, POST } from "./route";
-import { createPlayer, getPlayer } from "@/app/lib/models/players";
+import { createNewPlayer, getPlayer } from "@/app/lib/players/player.service";
 
 jest.mock("next/headers", () => ({
   cookies: jest.fn(),
 }));
 
-jest.mock("@/app/lib/models/players", () => ({
-  createPlayer: jest.fn(),
+jest.mock("@/app/lib/players/player.service", () => ({
+  createNewPlayer: jest.fn(),
   getPlayer: jest.fn(),
 }));
 
 const mockedCookies = cookies as jest.MockedFunction<typeof cookies>;
-const mockedCreatePlayer = createPlayer as jest.MockedFunction<
-  typeof createPlayer
+const mockedCreateNewPlayer = createNewPlayer as jest.MockedFunction<
+  typeof createNewPlayer
 >;
 const mockedGetPlayer = getPlayer as jest.MockedFunction<typeof getPlayer>;
 
@@ -78,17 +78,11 @@ describe("/api/me", () => {
     const response = await GET();
 
     expect(response.status).toBe(200);
-    await expect(response.json()).resolves.toEqual({
-      id: "player-1",
-      score: 7,
-    });
+    await expect(response.json()).resolves.toEqual(existingPlayer);
   });
 
   it("creates a player and sets the player cookie", async () => {
-    const randomUUIDSpy = jest
-      .spyOn(crypto, "randomUUID")
-      .mockReturnValue("00000000-0000-4000-8000-000000000000");
-    mockedCreatePlayer.mockResolvedValue({
+    mockedCreateNewPlayer.mockResolvedValue({
       ...existingPlayer,
       id: "00000000-0000-4000-8000-000000000000",
       score: 0,
@@ -96,18 +90,16 @@ describe("/api/me", () => {
 
     const response = await POST();
 
-    expect(mockedCreatePlayer).toHaveBeenCalledWith(
-      "00000000-0000-4000-8000-000000000000"
-    );
+    expect(mockedCreateNewPlayer).toHaveBeenCalledWith();
     expect(response.status).toBe(201);
     await expect(response.json()).resolves.toEqual({
+      createdAt: "2026-06-08T12:00:00.000Z",
       id: "00000000-0000-4000-8000-000000000000",
       score: 0,
+      updatedAt: "2026-06-08T12:00:00.000Z",
     });
     expect(response.headers.get("set-cookie")).toEqual(
       expect.stringContaining("player-id=00000000-0000-4000-8000-000000000000")
     );
-
-    randomUUIDSpy.mockRestore();
   });
 });
