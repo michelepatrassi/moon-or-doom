@@ -41,3 +41,7 @@ yarn-error.log*
 next-env.d.ts
 
 todo.txt
+
+# agent skills
+.agents
+skills-lock.json

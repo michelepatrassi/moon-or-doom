@@ -1,6 +1,12 @@
-import { Guess, GuessDirection } from "./guess.types";
-import { createGuess, getGuesses, updateGuess } from "./guess.repository";
+import { Guess, GuessDirection, GuessKey } from "./guess.types";
+import {
+  createGuess,
+  getGuess as repoGetGuess,
+  getGuesses,
+  updateGuess,
+} from "./guess.repository";
 import { COUNTDOWN } from "@/app/constant";
+import { send } from "@/app/lib/queue";
 
 export async function getPendingGuess(
   playerId: string
@@ -31,7 +37,19 @@ export async function getPendingGuesses(): Promise<Guess[]> {
   return getGuesses({ status: "pending" });
 }
 
-export async function resolveGuess(id: string): Promise<void> {
+export async function resolveGuess(key: GuessKey): Promise<void> {
   //TODO: complete guess resolution (e.g. resolvedAt, score)
-  await updateGuess(id, { status: "resolved" });
+  await updateGuess(key, { status: "resolved" });
+}
+
+export async function getGuess(input: { id: string; playerId: string }) {
+  return repoGetGuess(input);
+}
+
+export async function enqueueGuessResolution(payload: GuessKey): Promise<void> {
+  await send(
+    "guess",
+    { id: payload.id, playerId: payload.playerId },
+    { delaySeconds: 1 }
+  );
 }

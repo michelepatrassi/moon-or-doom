@@ -1,5 +1,5 @@
 import { createDynamoDbDocument } from "../dynamodb";
-import { Guess, GuessDirection, GuessStatus } from "./guess.types";
+import { Guess, GuessDirection, GuessKey, GuessStatus } from "./guess.types";
 
 const TABLE_NAME = "guesses";
 
@@ -75,16 +75,14 @@ export async function createGuess(input: CreateGuessInput) {
 }
 
 export async function updateGuess(
-  id: string,
+  key: GuessKey,
   values: Pick<Guess, "status">
 ): Promise<void> {
   const client = createDynamoDbDocument();
 
   await client.update({
     TableName: TABLE_NAME,
-    Key: {
-      id: id,
-    },
+    Key: key,
     UpdateExpression: "SET #status = :status",
     ExpressionAttributeNames: {
       "#status": "status",
@@ -93,4 +91,15 @@ export async function updateGuess(
       ":status": values.status,
     },
   });
+}
+
+export async function getGuess(input: GuessKey) {
+  const client = createDynamoDbDocument();
+
+  const result = await client.get({
+    TableName: TABLE_NAME,
+    Key: input,
+  });
+
+  return result.Item as Guess | undefined;
 }

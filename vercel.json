@@ -1,5 +1,15 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "app/api/queues/fulfill-guess/route.ts": {
+      "experimentalTriggers": [
+        {
+          "type": "queue/v2beta",
+          "topic": "guess"
+        }
+      ]
+    }
+  },
   "crons": [
     {
       "path": "/api/guesses/resolve",

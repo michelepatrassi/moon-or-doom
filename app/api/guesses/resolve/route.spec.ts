@@ -6,11 +6,13 @@ import { type Guess } from "@/app/lib/guesses/guess.types";
 import { getCurrentPrice } from "@/app/lib/market-data";
 import { GET } from "./route";
 import {
+  enqueueGuessResolution,
   getPendingGuesses,
   resolveGuess,
 } from "@/app/lib/guesses/guess.service";
 
 jest.mock("@/app/lib/guesses/guess.service", () => ({
+  enqueueGuessResolution: jest.fn(),
   getPendingGuesses: jest.fn(),
   resolveGuess: jest.fn(),
 }));
@@ -22,6 +24,8 @@ jest.mock("@/app/lib/market-data", () => ({
 const mockedGetPendingGuesses = getPendingGuesses as jest.MockedFunction<
   typeof getPendingGuesses
 >;
+const mockedEnqueueGuessResolution =
+  enqueueGuessResolution as jest.MockedFunction<typeof enqueueGuessResolution>;
 const mockedResolveGuess = resolveGuess as jest.MockedFunction<
   typeof resolveGuess
 >;
@@ -46,6 +50,7 @@ describe("GET /api/guesses/resolve", () => {
     jest.setSystemTime(new Date("2026-06-08T12:02:00.000Z"));
     mockedGetCurrentPrice.mockResolvedValue(100100);
     mockedGetPendingGuesses.mockResolvedValue([dueChangedGuess]);
+    mockedEnqueueGuessResolution.mockResolvedValue();
     mockedResolveGuess.mockResolvedValue();
   });
 
@@ -58,25 +63,35 @@ describe("GET /api/guesses/resolve", () => {
 
     expect(mockedGetPendingGuesses).toHaveBeenCalledTimes(1);
     expect(mockedGetCurrentPrice).toHaveBeenCalledWith("BTC/USD");
-    expect(mockedResolveGuess).toHaveBeenCalledWith("guess-1");
+    expect(mockedEnqueueGuessResolution).not.toHaveBeenCalled();
+    expect(mockedResolveGuess).toHaveBeenCalledWith(dueChangedGuess);
     expect(response.status).toBe(200);
     await expect(response.text()).resolves.toBe("OK");
   });
 
-  it("keeps pending guesses open when they are not due or the price has not changed", async () => {
+  it("re-enqueues due pending guesses whose price has not changed", async () => {
     mockedGetCurrentPrice.mockResolvedValue(100000);
-    mockedGetPendingGuesses.mockResolvedValue([
-      dueChangedGuess,
-      {
-        ...dueChangedGuess,
-        entryPrice: 99900,
-        id: "guess-2",
-        resolvesAt: "2026-06-08T12:03:00.000Z",
-      },
-    ]);
+    mockedGetPendingGuesses.mockResolvedValue([dueChangedGuess]);
 
     const response = await GET();
 
+    expect(mockedEnqueueGuessResolution).toHaveBeenCalledWith(dueChangedGuess);
+    expect(mockedResolveGuess).not.toHaveBeenCalled();
+    expect(response.status).toBe(200);
+  });
+
+  it("keeps pending guesses open when they are not due", async () => {
+    const notDueGuess: Guess = {
+      ...dueChangedGuess,
+      entryPrice: 99900,
+      id: "guess-2",
+      resolvesAt: "2026-06-08T12:03:00.000Z",
+    };
+    mockedGetPendingGuesses.mockResolvedValue([notDueGuess]);
+
+    const response = await GET();
+
+    expect(mockedEnqueueGuessResolution).not.toHaveBeenCalled();
     expect(mockedResolveGuess).not.toHaveBeenCalled();
     expect(response.status).toBe(200);
   });

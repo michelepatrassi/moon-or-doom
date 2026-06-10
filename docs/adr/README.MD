@@ -80,3 +80,4 @@ proposed → active → superseded
 | [0017](0017-zod-request-validation.md)                 | Zod request validation                     | active                                                     |
 | [0018](0018-reusable-library-functions.md)             | Reusable library functions                 | active                                                     |
 | [0019](0019-market-data-provider-boundary.md)          | Market data provider boundary              | active                                                     |
+| [0020](0020-vercel-queues.md)                          | Vercel Queues for asynchronous work        | active                                                     |

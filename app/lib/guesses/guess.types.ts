@@ -10,3 +10,8 @@ export type Guess = {
   createdAt: string;
   resolvesAt: string;
 };
+
+export type GuessKey = {
+  id: string;
+  playerId: string;
+};

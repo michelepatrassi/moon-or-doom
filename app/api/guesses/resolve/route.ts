@@ -2,6 +2,7 @@ import { TICKER } from "@/app/constant";
 import { getCurrentPrice } from "@/app/lib/market-data";
 import {
   getPendingGuesses,
+  enqueueGuessResolution,
   resolveGuess,
 } from "@/app/lib/guesses/guess.service";
 
@@ -13,8 +14,12 @@ export async function GET() {
     const now = resolvedAt.toISOString();
 
     for (const guess of pendingGuesses) {
-      if (guess.resolvesAt <= now && guess.entryPrice !== currentPrice) {
-        await resolveGuess(guess.id);
+      if (guess.resolvesAt <= now) {
+        if (guess.entryPrice === currentPrice) {
+          await enqueueGuessResolution(guess);
+        } else {
+          await resolveGuess(guess);
+        }
       }
     }
 
