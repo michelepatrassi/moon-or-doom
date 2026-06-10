@@ -4,7 +4,7 @@
 
 import { type Guess } from "@/app/lib/guesses/guess.types";
 import { getCurrentPrice } from "@/app/lib/market-data";
-import { GET } from "./resolve";
+import { GET } from "./route";
 import {
   getPendingGuesses,
   resolveGuess,

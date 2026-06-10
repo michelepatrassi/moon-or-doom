@@ -9,8 +9,8 @@ export async function GET() {
   try {
     const pendingGuesses = await getPendingGuesses();
     const currentPrice = await getCurrentPrice(TICKER);
-
-    const now = new Date().toISOString();
+    const resolvedAt = new Date();
+    const now = resolvedAt.toISOString();
 
     for (const guess of pendingGuesses) {
       if (guess.resolvesAt <= now && guess.entryPrice !== currentPrice) {
