@@ -74,10 +74,11 @@ proposed → active → superseded
 | [0011](0011-aws-sdk-dynamodb-client.md)                | AWS SDK DynamoDB client                    | superseded by [0013](0013-dynamodb-document-client.md)     |
 | [0012](0012-husky-prettier-pre-commit-quality-gate.md) | Husky and Prettier pre-commit quality gate | active                                                     |
 | [0013](0013-dynamodb-document-client.md)               | DynamoDB document client data access       | superseded by [0014](0014-dynamodb-convenience-methods.md) |
-| [0014](0014-dynamodb-convenience-methods.md)           | DynamoDB convenience methods               | active                                                     |
+| [0014](0014-dynamodb-convenience-methods.md)           | DynamoDB convenience methods               | superseded by [0021](0021-dynamoose-model-data-access.md)  |
 | [0015](0015-dedicated-dynamodb-guesses-table.md)       | Dedicated DynamoDB guesses table           | active                                                     |
 | [0016](0016-backend-zero-trust-game-policy.md)         | Backend zero-trust game policy             | active                                                     |
 | [0017](0017-zod-request-validation.md)                 | Zod request validation                     | active                                                     |
 | [0018](0018-reusable-library-functions.md)             | Reusable library functions                 | active                                                     |
 | [0019](0019-market-data-provider-boundary.md)          | Market data provider boundary              | active                                                     |
 | [0020](0020-vercel-queues.md)                          | Vercel Queues for asynchronous work        | active                                                     |
+| [0021](0021-dynamoose-model-data-access.md)            | Dynamoose model data access                | active                                                     |

@@ -13,6 +13,7 @@
 | Async queues   | Vercel Queues   | @vercel/queue       |
 | Cloud services | AWS preferred   | -                   |
 | Database       | Amazon DynamoDB | AWS managed service |
+| ORM            | Dynamoose       | 4                   |
 | AI             | Codex           | -                   |
 | Unit tests     | Jest            | 30                  |
 
@@ -21,6 +22,8 @@
 AWS services are preferred for backend persistence. The current requirement is that each player's score should be persisted in a backend data store so returning players can continue from their existing score.
 
 DynamoDB stores player profiles, materialized player scores, and resolved guess history. Guess records provide the audit trail for score changes, while the player profile stores the current score for fast reads.
+
+Application repositories use Dynamoose models for player and guess reads, writes, queries, and transactions. The Dynamoose schemas mirror the created DynamoDB table keys, while table creation remains outside the request path.
 
 ## Backend Game Policy
 

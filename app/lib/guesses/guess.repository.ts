@@ -1,7 +1,8 @@
-import { createDynamoDbDocument } from "../dynamodb";
-import { Guess, GuessDirection, GuessKey, GuessStatus } from "./guess.types";
+import dynamoose from "dynamoose";
 
-const TABLE_NAME = "guesses";
+import { PlayerModel } from "../players/player.model";
+import { GuessModel } from "./guess.model";
+import { Guess, GuessDirection, GuessKey, GuessStatus } from "./guess.types";
 
 type GetGuessesInput = {
   status: GuessStatus;
@@ -9,38 +10,15 @@ type GetGuessesInput = {
 };
 
 export async function getGuesses(input: GetGuessesInput): Promise<Guess[]> {
-  const client = createDynamoDbDocument();
-
   if (!input.playerId) {
-    // can be optimized with indexes on status, fine for prototyping
-    const result = await client.scan({
-      TableName: TABLE_NAME,
-      FilterExpression: "#status = :status",
-      ExpressionAttributeNames: {
-        "#status": "status",
-      },
-      ExpressionAttributeValues: {
-        ":status": input.status,
-      },
-    });
-
-    return (result.Items as Guess[]) ?? [];
+    return GuessModel.scan("status").eq(input.status).exec();
   }
 
-  const result = await client.query({
-    TableName: TABLE_NAME,
-    KeyConditionExpression: "playerId = :playerId",
-    FilterExpression: "#status = :status",
-    ExpressionAttributeNames: {
-      "#status": "status",
-    },
-    ExpressionAttributeValues: {
-      ":playerId": input.playerId,
-      ":status": input.status,
-    },
-  });
-
-  return (result.Items as Guess[]) ?? [];
+  return GuessModel.query("playerId")
+    .eq(input.playerId)
+    .filter("status")
+    .eq(input.status)
+    .exec();
 }
 
 type CreateGuessInput = {
@@ -54,7 +32,6 @@ type CreateGuessInput = {
 export async function createGuess(input: CreateGuessInput) {
   const { playerId, direction, entryPrice, status, resolvesAfter } = input;
 
-  const client = createDynamoDbDocument();
   const now = new Date();
   const guess: Guess = {
     id: crypto.randomUUID(),
@@ -67,49 +44,50 @@ export async function createGuess(input: CreateGuessInput) {
     resolvesAfter: resolvesAfter.toISOString(),
   };
 
-  await client.put({
-    TableName: TABLE_NAME,
-    Item: guess,
-  });
-
-  return guess;
+  return GuessModel.create(guess);
 }
 
 export async function updateGuess(
   key: GuessKey,
   values: Pick<Guess, "resolvedAt" | "resolvedPrice" | "status">
 ): Promise<void> {
-  const client = createDynamoDbDocument();
-
   const now = new Date().toISOString();
 
-  await client.update({
-    TableName: TABLE_NAME,
-    Key: key,
-    UpdateExpression:
-      "SET #resolvedAt = :resolvedAt, #resolvedPrice = :resolvedPrice, #updatedAt = :updatedAt, #status = :status",
-    ExpressionAttributeNames: {
-      "#resolvedAt": "resolvedAt",
-      "#resolvedPrice": "resolvedPrice",
-      "#updatedAt": "updatedAt",
-      "#status": "status",
-    },
-    ExpressionAttributeValues: {
-      ":resolvedAt": values.resolvedAt,
-      ":resolvedPrice": values.resolvedPrice,
-      ":updatedAt": now,
-      ":status": values.status,
-    },
+  await GuessModel.update(key, {
+    ...values,
+    updatedAt: now,
   });
 }
 
-export async function getGuess(input: GuessKey) {
-  const client = createDynamoDbDocument();
+export async function getGuess(input: GuessKey): Promise<Guess> {
+  return GuessModel.get(input);
+}
 
-  const result = await client.get({
-    TableName: TABLE_NAME,
-    Key: input,
-  });
-
-  return result.Item as Guess | undefined;
+export async function resolveGuessAndUpdatePlayerScore(
+  key: GuessKey,
+  values: Pick<Guess, "resolvedAt" | "resolvedPrice" | "status"> & {
+    score: number;
+  }
+): Promise<void> {
+  await dynamoose.transaction([
+    GuessModel.transaction.update(
+      key,
+      {
+        resolvedAt: values.resolvedAt,
+        resolvedPrice: values.resolvedPrice,
+        status: values.status,
+        updatedAt: values.resolvedAt,
+      },
+      {
+        condition: new dynamoose.Condition().where("status").eq("pending"),
+      }
+    ),
+    PlayerModel.transaction.update(
+      { id: key.playerId },
+      {
+        score: values.score,
+        updatedAt: values.resolvedAt,
+      }
+    ),
+  ]);
 }

@@ -8,12 +8,11 @@ import {
   createGuess,
   getGuess as repoGetGuess,
   getGuesses,
-  updateGuess,
+  resolveGuessAndUpdatePlayerScore,
 } from "./guess.repository";
 import { COUNTDOWN } from "@/app/constant";
 import { send } from "@/app/lib/queue";
 import { computeScore, getPlayer } from "../players/player.service";
-import { updatePlayer } from "../players/player.repository";
 
 export async function getPendingGuess(
   playerId: string
@@ -70,9 +69,12 @@ export async function resolveGuess(
   const resolvedPrice = values.price;
   const score = computeScore(player.score, evaluationResult);
 
-  //TODO: perform as transaction
-  await updateGuess(key, { resolvedAt, resolvedPrice, status: "resolved" });
-  await updatePlayer(player.id, { score });
+  await resolveGuessAndUpdatePlayerScore(key, {
+    resolvedAt,
+    resolvedPrice,
+    score,
+    status: "resolved",
+  });
 }
 
 export async function getGuess(input: { id: string; playerId: string }) {

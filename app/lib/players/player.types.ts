@@ -3,4 +3,5 @@ export type Player = {
   score: number;
   createdAt: string;
   updatedAt: string;
+  latestGuessId?: string;
 };

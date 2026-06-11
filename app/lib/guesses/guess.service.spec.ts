@@ -9,10 +9,12 @@ import {
   resolveGuess,
   enqueueGuessResolution,
 } from "./guess.service";
-import { getGuess as repoGetGuess, updateGuess } from "./guess.repository";
+import {
+  getGuess as repoGetGuess,
+  resolveGuessAndUpdatePlayerScore,
+} from "./guess.repository";
 import { type Guess, type GuessKey } from "./guess.types";
 import { getPlayer } from "../players/player.service";
-import { updatePlayer } from "../players/player.repository";
 
 jest.mock("@/app/lib/queue", () => ({
   send: jest.fn(),
@@ -22,7 +24,7 @@ jest.mock("./guess.repository", () => ({
   createGuess: jest.fn(),
   getGuess: jest.fn(),
   getGuesses: jest.fn(),
-  updateGuess: jest.fn(),
+  resolveGuessAndUpdatePlayerScore: jest.fn(),
 }));
 
 jest.mock("../players/player.service", () => ({
@@ -30,21 +32,15 @@ jest.mock("../players/player.service", () => ({
   getPlayer: jest.fn(),
 }));
 
-jest.mock("../players/player.repository", () => ({
-  updatePlayer: jest.fn(),
-}));
-
 const mockedSend = send as jest.MockedFunction<typeof send>;
 const mockedRepoGetGuess = repoGetGuess as jest.MockedFunction<
   typeof repoGetGuess
 >;
-const mockedUpdateGuess = updateGuess as jest.MockedFunction<
-  typeof updateGuess
->;
+const mockedResolveGuessAndUpdatePlayerScore =
+  resolveGuessAndUpdatePlayerScore as jest.MockedFunction<
+    typeof resolveGuessAndUpdatePlayerScore
+  >;
 const mockedGetPlayer = getPlayer as jest.MockedFunction<typeof getPlayer>;
-const mockedUpdatePlayer = updatePlayer as jest.MockedFunction<
-  typeof updatePlayer
->;
 
 const guessKey: GuessKey = {
   id: "guess-1",
@@ -74,8 +70,7 @@ describe("guess service", () => {
       createdAt: "2026-06-08T11:00:00.000Z",
       updatedAt: "2026-06-08T11:00:00.000Z",
     });
-    mockedUpdateGuess.mockResolvedValue();
-    mockedUpdatePlayer.mockResolvedValue();
+    mockedResolveGuessAndUpdatePlayerScore.mockResolvedValue();
   });
 
   afterEach(() => {
@@ -91,21 +86,21 @@ describe("guess service", () => {
   it("resolves a won guess and updates the player score", async () => {
     await resolveGuess(guessKey, { price: 100100 });
 
-    expect(mockedUpdateGuess).toHaveBeenCalledWith(guessKey, {
-      resolvedAt: "2026-06-08T12:02:00.000Z",
-      resolvedPrice: 100100,
-      status: "resolved",
-    });
-    expect(mockedUpdatePlayer).toHaveBeenCalledWith("player-1", {
-      score: 4,
-    });
+    expect(mockedResolveGuessAndUpdatePlayerScore).toHaveBeenCalledWith(
+      guessKey,
+      {
+        resolvedAt: "2026-06-08T12:02:00.000Z",
+        resolvedPrice: 100100,
+        score: 4,
+        status: "resolved",
+      }
+    );
   });
 
   it("leaves a guess pending when the price has not changed", async () => {
     await resolveGuess(guessKey, { price: 100000 });
 
-    expect(mockedUpdateGuess).not.toHaveBeenCalled();
-    expect(mockedUpdatePlayer).not.toHaveBeenCalled();
+    expect(mockedResolveGuessAndUpdatePlayerScore).not.toHaveBeenCalled();
   });
 
   it("enqueues only the guess key even when given a full guess object", async () => {

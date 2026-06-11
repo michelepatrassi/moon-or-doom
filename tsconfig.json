@@ -21,7 +21,8 @@
     "paths": {
       "@/*": ["./*"]
     },
-    "types": ["node", "jest"]
+    "types": ["node", "jest"],
+    "strictPropertyInitialization": false
   },
   "include": [
     "next-env.d.ts",
