@@ -4,11 +4,14 @@
   "private": true,
   "scripts": {
     "dev": "vercel-local-cron run",
+    "dev:e2e": "next dev",
     "db:setup": "node scripts/init-db.js",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "test": "jest",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "npm run test:e2e -- --ui",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
     "prepare": "husky"
@@ -25,6 +28,7 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@playwright/test": "^1.60.0",
     "@tailwindcss/postcss": "^4",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",

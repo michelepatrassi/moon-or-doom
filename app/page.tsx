@@ -38,6 +38,7 @@ const Home = () => {
     onCreated: refreshPlayer,
     onResolved: refreshPlayer,
   });
+  const score = player?.score ?? 0;
 
   const handleOnGuess = async (direction: GuessDirection) => {
     if (!player) {
@@ -52,7 +53,7 @@ const Home = () => {
   return (
     <div className="flex flex-col flex-1 items-center justify-center">
       <main className="flex flex-1 w-full max-w-3xl flex-col items-center gap-8 px-4 py-32 sm:px-8 md:px-16">
-        <Header score={player?.score} loading={isPlayerLoading} />
+        <Header score={score} loading={isPlayerLoading} />
         <PricePanel
           error={error}
           loading={loadingTicker}
@@ -66,7 +67,7 @@ const Home = () => {
               guess={guess}
               error={error}
               retry={retry}
-              score={player!.score}
+              score={score}
               startPolling={startPolling}
               handleOnGuess={handleOnGuess}
             />
