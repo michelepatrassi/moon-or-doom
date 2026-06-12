@@ -20,6 +20,13 @@ export const ActiveGuess = ({
       Math.ceil((new Date(guess.resolvesAfter).getTime() - Date.now()) / 1000)
     );
   });
+  const [countdownFinished, setCountdownFinished] = React.useState(false);
+  const isWaitingForPriceMove = remainingSeconds === 0 || countdownFinished;
+
+  const handleCountdownComplete = () => {
+    setCountdownFinished(true);
+    onComplete();
+  };
 
   return (
     <Card>
@@ -38,9 +45,7 @@ export const ActiveGuess = ({
         </div>
 
         <div className="flex w-full flex-col items-center justify-center py-10 text-center">
-          {remainingSeconds ? (
-            <Countdown seconds={remainingSeconds} onComplete={onComplete} />
-          ) : (
+          {isWaitingForPriceMove ? (
             <div>
               <p className="text-center text-3xl font-black leading-none tracking-normal text-white tabular-nums">
                 Market did not move
@@ -49,6 +54,11 @@ export const ActiveGuess = ({
                 Give it a couple of extra seconds...
               </p>
             </div>
+          ) : (
+            <Countdown
+              seconds={remainingSeconds}
+              onComplete={handleCountdownComplete}
+            />
           )}
         </div>
 

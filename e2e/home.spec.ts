@@ -106,12 +106,39 @@ test.describe("home", () => {
     await expect(page.getByText("Seconds left")).toBeVisible();
   });
 
+  test("switches to the market did not move message when an unresolved countdown finishes", async ({
+    page,
+  }) => {
+    const activeGuess = createMockGuess({
+      id: "active-countdown-finishes-e2e",
+      resolvesAfter: new Date(Date.now() + 1_000).toISOString(),
+    });
+
+    await mockApiRoutes(page, {
+      player: playerWithActiveGuess(activeGuess),
+      guesses: {
+        [activeGuess.id]: activeGuess,
+      },
+    });
+
+    await page.goto("/");
+
+    await expect(page.getByText("Active guess")).toBeVisible();
+    await expect(page.getByText("Seconds left")).toBeVisible();
+    await expect(page.getByText("Market did not move")).toBeVisible({
+      timeout: 3_000,
+    });
+    await expect(
+      page.getByText("Give it a couple of extra seconds...")
+    ).toBeVisible();
+  });
+
   test("shows the market did not move message when the player has an unresolved active guess after resolvesAfter", async ({
     page,
   }) => {
     const expiredGuess = createMockGuess({
       id: "active-expired-e2e",
-      resolvesAfter: new Date(Date.now() - 1000).toISOString(),
+      resolvesAfter: new Date(Date.now() - 1_000).toISOString(),
     });
 
     await mockApiRoutes(page, {
