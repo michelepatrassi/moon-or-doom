@@ -56,7 +56,6 @@ const pendingGuess = {
   id: "guess-1",
   playerId: "player-1",
   resolvesAfter: "2026-06-08T12:01:00.000Z",
-  status: "pending" as const,
 };
 
 const createRequest = (body: unknown) =>
@@ -144,7 +143,7 @@ describe("POST /api/guesses", () => {
 
     expect(response.status).toBe(409);
     await expect(response.json()).resolves.toEqual({
-      error: "Pending guess already exists. Found guess-1 status pending",
+      error: "Pending guess already exists. Found guess-1",
     });
     expect(mockedGetCurrentPrice).not.toHaveBeenCalled();
     expect(mockedCreatePendingGuessForPlayer).not.toHaveBeenCalled();

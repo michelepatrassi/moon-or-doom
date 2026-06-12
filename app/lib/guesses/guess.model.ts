@@ -1,14 +1,13 @@
 import { Item } from "dynamoose/dist/Item";
 
 import dynamoose, { dynamooseTableOptions } from "../dynamodb";
-import { Guess, GuessDirection, GuessStatus } from "./guess.types";
+import { Guess, GuessDirection } from "./guess.types";
 
 export class GuessItem extends Item implements Guess {
   id: string;
   playerId: string;
   direction: GuessDirection;
   entryPrice: number;
-  status: GuessStatus;
   createdAt: string;
   updatedAt: string;
   resolvesAfter: string;
@@ -36,11 +35,6 @@ const guessSchema = new dynamoose.Schema(
     },
     entryPrice: {
       type: Number,
-      required: true,
-    },
-    status: {
-      type: String,
-      enum: ["pending", "resolved"],
       required: true,
     },
     createdAt: {

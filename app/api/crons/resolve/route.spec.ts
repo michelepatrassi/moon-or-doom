@@ -7,13 +7,13 @@ import { getCurrentPrice } from "@/app/lib/market-data";
 import { GET } from "./route";
 import {
   enqueueGuessResolution,
-  getPendingGuesses,
+  getDueGuesses,
   resolveGuess,
 } from "@/app/lib/guesses/guess.service";
 
 jest.mock("@/app/lib/guesses/guess.service", () => ({
   enqueueGuessResolution: jest.fn(),
-  getPendingGuesses: jest.fn(),
+  getDueGuesses: jest.fn(),
   resolveGuess: jest.fn(),
 }));
 
@@ -21,8 +21,8 @@ jest.mock("@/app/lib/market-data", () => ({
   getCurrentPrice: jest.fn(),
 }));
 
-const mockedGetPendingGuesses = getPendingGuesses as jest.MockedFunction<
-  typeof getPendingGuesses
+const mockedGetDueGuesses = getDueGuesses as jest.MockedFunction<
+  typeof getDueGuesses
 >;
 const mockedEnqueueGuessResolution =
   enqueueGuessResolution as jest.MockedFunction<typeof enqueueGuessResolution>;
@@ -41,7 +41,6 @@ const dueChangedGuess: Guess = {
   id: "guess-1",
   playerId: "player-1",
   resolvesAfter: "2026-06-08T12:01:00.000Z",
-  status: "pending",
 };
 
 describe("GET /api/guesses/resolve", () => {
@@ -50,7 +49,7 @@ describe("GET /api/guesses/resolve", () => {
     jest.useFakeTimers();
     jest.setSystemTime(new Date("2026-06-08T12:02:00.000Z"));
     mockedGetCurrentPrice.mockResolvedValue(100100);
-    mockedGetPendingGuesses.mockResolvedValue([dueChangedGuess]);
+    mockedGetDueGuesses.mockResolvedValue([dueChangedGuess]);
     mockedEnqueueGuessResolution.mockResolvedValue();
     mockedResolveGuess.mockResolvedValue();
   });
@@ -62,7 +61,9 @@ describe("GET /api/guesses/resolve", () => {
   it("resolves pending guesses that are due and whose price changed", async () => {
     const response = await GET();
 
-    expect(mockedGetPendingGuesses).toHaveBeenCalledTimes(1);
+    expect(mockedGetDueGuesses).toHaveBeenCalledWith(
+      new Date("2026-06-08T12:02:00.000Z")
+    );
     expect(mockedGetCurrentPrice).toHaveBeenCalledWith("BTC/USD");
     expect(mockedEnqueueGuessResolution).not.toHaveBeenCalled();
     expect(mockedResolveGuess).toHaveBeenCalledWith(dueChangedGuess, {
@@ -74,7 +75,7 @@ describe("GET /api/guesses/resolve", () => {
 
   it("re-enqueues due pending guesses whose price has not changed", async () => {
     mockedGetCurrentPrice.mockResolvedValue(100000);
-    mockedGetPendingGuesses.mockResolvedValue([dueChangedGuess]);
+    mockedGetDueGuesses.mockResolvedValue([dueChangedGuess]);
 
     const response = await GET();
 
@@ -83,14 +84,8 @@ describe("GET /api/guesses/resolve", () => {
     expect(response.status).toBe(200);
   });
 
-  it("keeps pending guesses open when they are not due", async () => {
-    const notDueGuess: Guess = {
-      ...dueChangedGuess,
-      entryPrice: 99900,
-      id: "guess-2",
-      resolvesAfter: "2026-06-08T12:03:00.000Z",
-    };
-    mockedGetPendingGuesses.mockResolvedValue([notDueGuess]);
+  it("does nothing when no guesses are due", async () => {
+    mockedGetDueGuesses.mockResolvedValue([]);
 
     const response = await GET();
 
@@ -103,9 +98,7 @@ describe("GET /api/guesses/resolve", () => {
     const consoleErrorSpy = jest
       .spyOn(console, "error")
       .mockImplementation(() => {});
-    mockedGetPendingGuesses.mockRejectedValue(
-      new Error("database unavailable")
-    );
+    mockedGetDueGuesses.mockRejectedValue(new Error("database unavailable"));
 
     const response = await GET();
 

@@ -39,7 +39,6 @@ const guess = {
   id: "guess-1",
   playerId: "player-1",
   resolvesAfter: "2026-06-08T12:01:00.000Z",
-  status: "pending" as const,
   updatedAt: "2026-06-08T12:00:00.000Z",
 };
 

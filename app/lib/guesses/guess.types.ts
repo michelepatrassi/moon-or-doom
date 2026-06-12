@@ -1,4 +1,3 @@
-export type GuessStatus = "pending" | "resolved";
 export type GuessDirection = "up" | "down";
 export type GuessResult = "won" | "lost";
 
@@ -7,7 +6,6 @@ export type Guess = {
   playerId: string;
   direction: GuessDirection;
   entryPrice: number;
-  status: GuessStatus; //TODO: remove. Can be inferred from resolution props
   createdAt: string;
   updatedAt: string;
   resolvesAfter: string;

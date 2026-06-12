@@ -39,7 +39,7 @@ export async function POST(
   if (pendingGuess) {
     return NextResponse.json(
       {
-        error: `Pending guess already exists. Found ${pendingGuess.id} status ${pendingGuess.status}`,
+        error: `Pending guess already exists. Found ${pendingGuess.id}`,
       },
       { status: 409 }
     );

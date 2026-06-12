@@ -35,7 +35,7 @@ export const useGuess = ({ guessId, onCreated, onResolved }: UseGuessProps) => {
 
     isPollingRef.current = false;
 
-    if (data.status === "resolved") {
+    if (data.resolvedAt) {
       await onResolved?.();
 
       setGuess(data);

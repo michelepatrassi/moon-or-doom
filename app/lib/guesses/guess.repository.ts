@@ -2,35 +2,47 @@ import dynamoose from "dynamoose";
 
 import { PlayerModel } from "../players/player.model";
 import { GuessModel } from "./guess.model";
-import { Guess, GuessDirection, GuessKey, GuessStatus } from "./guess.types";
+import { Guess, GuessDirection, GuessKey } from "./guess.types";
 
-type GetGuessesInput = {
-  status: GuessStatus;
+type GetPendingGuessesInput = {
   playerId?: string;
+  dueAt?: Date;
 };
 
-export async function getGuesses(input: GetGuessesInput): Promise<Guess[]> {
-  if (!input.playerId) {
-    return GuessModel.scan("status").eq(input.status).exec();
+export async function getPendingGuesses(
+  input: GetPendingGuessesInput
+): Promise<Guess[]> {
+  if (input?.playerId) {
+    const qb = GuessModel.query("playerId")
+      .eq(input.playerId)
+      .filter("resolvedAt")
+      .not()
+      .exists();
+
+    if (input.dueAt) {
+      qb.filter("resolvesAfter").le(input.dueAt.toISOString());
+    }
+    return qb.exec();
   }
 
-  return GuessModel.query("playerId")
-    .eq(input.playerId)
-    .filter("status")
-    .eq(input.status)
-    .exec();
+  const qb = GuessModel.scan("resolvedAt").not().exists();
+
+  if (input.dueAt) {
+    qb.filter("resolvesAfter").le(input.dueAt.toISOString());
+  }
+
+  return qb.exec();
 }
 
 type CreateGuessInput = {
   direction: GuessDirection;
   playerId: string;
   entryPrice: number;
-  status: GuessStatus;
   resolvesAfter: Date;
 };
 
 export async function createGuess(input: CreateGuessInput) {
-  const { playerId, direction, entryPrice, status, resolvesAfter } = input;
+  const { playerId, direction, entryPrice, resolvesAfter } = input;
 
   const now = new Date();
   const guess: Guess = {
@@ -38,7 +50,6 @@ export async function createGuess(input: CreateGuessInput) {
     playerId,
     direction,
     entryPrice,
-    status,
     createdAt: now.toISOString(),
     updatedAt: now.toISOString(),
     resolvesAfter: resolvesAfter.toISOString(),
@@ -49,7 +60,7 @@ export async function createGuess(input: CreateGuessInput) {
 
 export async function updateGuess(
   key: GuessKey,
-  values: Pick<Guess, "resolvedAt" | "resolvedPrice" | "status">
+  values: Pick<Guess, "resolvedAt" | "resolvedPrice">
 ): Promise<void> {
   const now = new Date().toISOString();
 
@@ -65,7 +76,7 @@ export async function getGuess(input: GuessKey): Promise<Guess | undefined> {
 
 export async function resolveGuessAndUpdatePlayerScore(
   key: GuessKey,
-  values: Pick<Guess, "resolvedAt" | "resolvedPrice" | "status" | "result"> & {
+  values: Pick<Guess, "resolvedAt" | "resolvedPrice" | "result"> & {
     score: number;
   }
 ): Promise<void> {
@@ -75,12 +86,11 @@ export async function resolveGuessAndUpdatePlayerScore(
       {
         resolvedAt: values.resolvedAt,
         resolvedPrice: values.resolvedPrice,
-        status: values.status,
         updatedAt: values.resolvedAt,
         result: values.result,
       },
       {
-        condition: new dynamoose.Condition().where("status").eq("pending"),
+        condition: new dynamoose.Condition().where("resolvedAt").not().exists(),
       }
     ),
     PlayerModel.transaction.update(

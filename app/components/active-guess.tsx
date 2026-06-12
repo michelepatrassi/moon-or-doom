@@ -4,6 +4,7 @@ import { Card } from "./design-system/card";
 import { Chip } from "./design-system/chip";
 import { Countdown } from "./countdown";
 import { Guess } from "../lib/guesses/guess.types";
+import { CRYPTO, TICKER } from "../constant";
 
 export const ActiveGuess = ({
   guess,
@@ -52,7 +53,7 @@ export const ActiveGuess = ({
         </div>
 
         <p className="text-sm leading-snug text-zinc-400">
-          New guesses stay closed until 60 seconds pass and BTC prints a
+          New guesses stay closed until 60 seconds pass and {TICKER} prints a
           different price.
         </p>
       </div>

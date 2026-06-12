@@ -50,7 +50,6 @@ const pendingGuess: Guess = {
   direction: "up",
   entryPrice: 100000,
   resolvesAfter: "2026-06-08T12:01:00.000Z",
-  status: "pending",
 };
 
 describe("POST /api/queues/fulfill-guess", () => {
@@ -95,7 +94,7 @@ describe("POST /api/queues/fulfill-guess", () => {
   it("acknowledges already resolved guesses without applying resolution twice", async () => {
     mockedGetGuess.mockResolvedValue({
       ...pendingGuess,
-      status: "resolved",
+      resolvedAt: "2026-06-08T12:02:00.000Z",
     });
 
     await POST(guessKey);

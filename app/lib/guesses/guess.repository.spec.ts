@@ -7,7 +7,7 @@ import dynamoose from "dynamoose";
 import {
   createGuess,
   getGuess,
-  getGuesses,
+  getPendingGuesses,
   resolveGuessAndUpdatePlayerScore,
   updateGuess,
 } from "./guess.repository";
@@ -17,6 +17,8 @@ import { PlayerModel } from "../players/player.model";
 
 const mockCondition = {
   eq: jest.fn(),
+  exists: jest.fn(),
+  not: jest.fn(),
   where: jest.fn(),
 };
 
@@ -65,18 +67,23 @@ const guess: Guess = {
   direction: "up",
   entryPrice: 100000,
   resolvesAfter: "2026-06-08T12:01:00.000Z",
-  status: "pending",
 };
 
 const query = {
   eq: jest.fn(),
   exec: jest.fn(),
   filter: jest.fn(),
+  exists: jest.fn(),
+  le: jest.fn(),
+  not: jest.fn(),
 };
 
 const scan = {
-  eq: jest.fn(),
   exec: jest.fn(),
+  exists: jest.fn(),
+  filter: jest.fn(),
+  le: jest.fn(),
+  not: jest.fn(),
 };
 
 describe("guess repository", () => {
@@ -88,8 +95,14 @@ describe("guess repository", () => {
 
     query.eq.mockReturnValue(query);
     query.filter.mockReturnValue(query);
+    query.not.mockReturnValue(query);
+    query.exists.mockReturnValue(query);
+    query.le.mockReturnValue(query);
     query.exec.mockResolvedValue([guess]);
-    scan.eq.mockReturnValue(scan);
+    scan.filter.mockReturnValue(scan);
+    scan.le.mockReturnValue(scan);
+    scan.not.mockReturnValue(scan);
+    scan.exists.mockReturnValue(scan);
     scan.exec.mockResolvedValue([guess]);
 
     mockedGuessModel.query.mockReturnValue(
@@ -105,6 +118,8 @@ describe("guess repository", () => {
     mockedPlayerModel.transaction.update.mockResolvedValue("player-update");
     mockCondition.where.mockReturnValue(mockCondition);
     mockCondition.eq.mockReturnValue(mockCondition);
+    mockCondition.not.mockReturnValue(mockCondition);
+    mockCondition.exists.mockReturnValue(mockCondition);
   });
 
   afterEach(() => {
@@ -119,22 +134,38 @@ describe("guess repository", () => {
   });
 
   it("queries a player's pending guesses with Dynamoose syntax", async () => {
-    await expect(
-      getGuesses({ playerId: "player-1", status: "pending" })
-    ).resolves.toEqual([guess]);
+    await expect(getPendingGuesses({ playerId: "player-1" })).resolves.toEqual([
+      guess,
+    ]);
 
     expect(mockedGuessModel.query).toHaveBeenCalledWith("playerId");
-    expect(query.eq).toHaveBeenNthCalledWith(1, "player-1");
-    expect(query.filter).toHaveBeenCalledWith("status");
-    expect(query.eq).toHaveBeenNthCalledWith(2, "pending");
+    expect(query.eq).toHaveBeenCalledWith("player-1");
+    expect(query.filter).toHaveBeenCalledWith("resolvedAt");
+    expect(query.not).toHaveBeenCalledWith();
+    expect(query.exists).toHaveBeenCalledWith();
     expect(query.exec).toHaveBeenCalledWith();
+    expect(mockedGuessModel.scan).not.toHaveBeenCalled();
   });
 
   it("scans pending guesses when no player id is supplied", async () => {
-    await expect(getGuesses({ status: "pending" })).resolves.toEqual([guess]);
+    await expect(getPendingGuesses({})).resolves.toEqual([guess]);
 
-    expect(mockedGuessModel.scan).toHaveBeenCalledWith("status");
-    expect(scan.eq).toHaveBeenCalledWith("pending");
+    expect(mockedGuessModel.scan).toHaveBeenCalledWith("resolvedAt");
+    expect(scan.not).toHaveBeenCalledWith();
+    expect(scan.exists).toHaveBeenCalledWith();
+    expect(scan.exec).toHaveBeenCalledWith();
+  });
+
+  it("filters pending guesses to those due at or before the provided date", async () => {
+    await expect(
+      getPendingGuesses({ dueAt: new Date("2026-06-08T12:02:00.000Z") })
+    ).resolves.toEqual([guess]);
+
+    expect(mockedGuessModel.scan).toHaveBeenCalledWith("resolvedAt");
+    expect(scan.not).toHaveBeenCalledWith();
+    expect(scan.exists).toHaveBeenCalledWith();
+    expect(scan.filter).toHaveBeenCalledWith("resolvesAfter");
+    expect(scan.le).toHaveBeenCalledWith("2026-06-08T12:02:00.000Z");
     expect(scan.exec).toHaveBeenCalledWith();
   });
 
@@ -145,7 +176,6 @@ describe("guess repository", () => {
         entryPrice: 100000,
         playerId: "player-1",
         resolvesAfter: new Date("2026-06-08T12:03:00.000Z"),
-        status: "pending",
       })
     ).resolves.toEqual({
       ...guess,
@@ -161,7 +191,6 @@ describe("guess repository", () => {
       id: "guess-1",
       playerId: "player-1",
       resolvesAfter: "2026-06-08T12:03:00.000Z",
-      status: "pending",
       updatedAt: "2026-06-08T12:02:00.000Z",
     });
   });
@@ -170,13 +199,11 @@ describe("guess repository", () => {
     await updateGuess(guessKey, {
       resolvedAt: "2026-06-08T12:02:00.000Z",
       resolvedPrice: 100100,
-      status: "resolved",
     });
 
     expect(mockedGuessModel.update).toHaveBeenCalledWith(guessKey, {
       resolvedAt: "2026-06-08T12:02:00.000Z",
       resolvedPrice: 100100,
-      status: "resolved",
       updatedAt: "2026-06-08T12:02:00.000Z",
     });
   });
@@ -185,8 +212,8 @@ describe("guess repository", () => {
     await resolveGuessAndUpdatePlayerScore(guessKey, {
       resolvedAt: "2026-06-08T12:02:00.000Z",
       resolvedPrice: 100100,
+      result: "won",
       score: 4,
-      status: "resolved",
     });
 
     expect(mockedGuessModel.transaction.update).toHaveBeenCalledWith(
@@ -194,13 +221,14 @@ describe("guess repository", () => {
       {
         resolvedAt: "2026-06-08T12:02:00.000Z",
         resolvedPrice: 100100,
-        status: "resolved",
+        result: "won",
         updatedAt: "2026-06-08T12:02:00.000Z",
       },
       { condition: mockCondition }
     );
-    expect(mockCondition.where).toHaveBeenCalledWith("status");
-    expect(mockCondition.eq).toHaveBeenCalledWith("pending");
+    expect(mockCondition.where).toHaveBeenCalledWith("resolvedAt");
+    expect(mockCondition.not).toHaveBeenCalledWith();
+    expect(mockCondition.exists).toHaveBeenCalledWith();
     expect(mockedPlayerModel.transaction.update).toHaveBeenCalledWith(
       { id: "player-1" },
       {

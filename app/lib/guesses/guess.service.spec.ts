@@ -4,6 +4,7 @@
 
 import { send } from "@/app/lib/queue";
 import {
+  getDueGuesses,
   evaluateGuess,
   getGuess,
   resolveGuess,
@@ -11,6 +12,7 @@ import {
 } from "./guess.service";
 import {
   getGuess as repoGetGuess,
+  getPendingGuesses as repoGetPendingGuesses,
   resolveGuessAndUpdatePlayerScore,
 } from "./guess.repository";
 import { type Guess, type GuessKey } from "./guess.types";
@@ -23,7 +25,7 @@ jest.mock("@/app/lib/queue", () => ({
 jest.mock("./guess.repository", () => ({
   createGuess: jest.fn(),
   getGuess: jest.fn(),
-  getGuesses: jest.fn(),
+  getPendingGuesses: jest.fn(),
   resolveGuessAndUpdatePlayerScore: jest.fn(),
 }));
 
@@ -36,6 +38,8 @@ const mockedSend = send as jest.MockedFunction<typeof send>;
 const mockedRepoGetGuess = repoGetGuess as jest.MockedFunction<
   typeof repoGetGuess
 >;
+const mockedRepoGetPendingGuesses =
+  repoGetPendingGuesses as jest.MockedFunction<typeof repoGetPendingGuesses>;
 const mockedResolveGuessAndUpdatePlayerScore =
   resolveGuessAndUpdatePlayerScore as jest.MockedFunction<
     typeof resolveGuessAndUpdatePlayerScore
@@ -54,7 +58,6 @@ const guess: Guess = {
   direction: "up",
   entryPrice: 100000,
   resolvesAfter: "2026-06-08T12:01:00.000Z",
-  status: "pending",
 };
 
 describe("guess service", () => {
@@ -64,6 +67,7 @@ describe("guess service", () => {
     jest.setSystemTime(new Date("2026-06-08T12:02:00.000Z"));
     mockedSend.mockResolvedValue({ messageId: "message-1" });
     mockedRepoGetGuess.mockResolvedValue(guess);
+    mockedRepoGetPendingGuesses.mockResolvedValue([guess]);
     mockedGetPlayer.mockResolvedValue({
       id: "player-1",
       score: 3,
@@ -83,6 +87,14 @@ describe("guess service", () => {
     expect(mockedRepoGetGuess).toHaveBeenCalledWith(guessKey);
   });
 
+  it("gets due guesses through the repository due cutoff", async () => {
+    const dueAt = new Date("2026-06-08T12:02:00.000Z");
+
+    await expect(getDueGuesses(dueAt)).resolves.toEqual([guess]);
+
+    expect(mockedRepoGetPendingGuesses).toHaveBeenCalledWith({ dueAt });
+  });
+
   it("resolves a won guess and updates the player score", async () => {
     await resolveGuess(guessKey, { price: 100100 });
 
@@ -93,7 +105,6 @@ describe("guess service", () => {
         resolvedPrice: 100100,
         result: "won",
         score: 4,
-        status: "resolved",
       }
     );
   });

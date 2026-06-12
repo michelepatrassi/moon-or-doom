@@ -11,7 +11,7 @@ import { handleCallback } from "@/app/lib/queue";
 export const POST = handleCallback<GuessKey>(async (payload) => {
   const guess = await getGuess(payload);
 
-  if (!guess || guess.status !== "pending") {
+  if (!guess || guess.resolvedAt) {
     return;
   }
 

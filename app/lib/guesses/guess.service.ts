@@ -1,8 +1,8 @@
 import { Guess, GuessDirection, GuessResult, GuessKey } from "./guess.types";
 import {
   createGuess,
+  getPendingGuesses,
   getGuess as repoGetGuess,
-  getGuesses,
   resolveGuessAndUpdatePlayerScore,
 } from "./guess.repository";
 import { COUNTDOWN } from "@/app/constant";
@@ -13,8 +13,7 @@ import { updatePlayer } from "../players/player.repository";
 export async function getPendingGuess(
   playerId: string
 ): Promise<Guess | undefined> {
-  const pendingGuesses = await getGuesses({
-    status: "pending",
+  const pendingGuesses = await getPendingGuesses({
     playerId,
   });
 
@@ -34,7 +33,6 @@ export async function createPendingGuessForPlayer(input: {
 
   const guess = await createGuess({
     ...input,
-    status: "pending",
     resolvesAfter,
   });
 
@@ -43,8 +41,8 @@ export async function createPendingGuessForPlayer(input: {
   return guess;
 }
 
-export async function getPendingGuesses(): Promise<Guess[]> {
-  return getGuesses({ status: "pending" });
+export async function getDueGuesses(dueAt: Date): Promise<Guess[]> {
+  return getPendingGuesses({ dueAt });
 }
 
 export async function resolveGuess(
@@ -79,7 +77,6 @@ export async function resolveGuess(
     resolvedAt,
     resolvedPrice,
     score,
-    status: "resolved",
     result,
   });
 }
