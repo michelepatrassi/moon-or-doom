@@ -1,8 +1,8 @@
-import { createDynamoDbClient } from "@/app/lib/dynamodb";
+import dynamoose from "@/app/lib/dynamodb";
 
 export async function GET() {
   try {
-    await createDynamoDbClient().listTables();
+    await dynamoose.aws.ddb().listTables();
 
     return Response.json({
       ok: true,
