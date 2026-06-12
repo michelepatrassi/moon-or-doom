@@ -52,12 +52,11 @@ export const GuessButton = ({
   );
 };
 
-export const GuessActions = ({ onGuess, disabled }: GuessActionsProps) => {
+export const GuessActions = ({ onGuess }: GuessActionsProps) => {
   return (
     <div className="grid w-full grid-cols-2 gap-3">
       <GuessButton
         caption="price goes up"
-        disabled={disabled}
         emoji="📈"
         label="MOON"
         onClick={() => onGuess("up")}
@@ -65,7 +64,6 @@ export const GuessActions = ({ onGuess, disabled }: GuessActionsProps) => {
       />
       <GuessButton
         caption="price goes down"
-        disabled={disabled}
         emoji="📉"
         label="DOOM"
         onClick={() => onGuess("down")}

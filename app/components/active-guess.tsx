@@ -1,25 +1,24 @@
-import { COUNTDOWN } from "../constant";
-import { Guess } from "../types";
-import { type GamePhase } from "../hooks/use-moon-or-doom-game";
+import React from "react";
+
 import { Card } from "./design-system/card";
 import { Chip } from "./design-system/chip";
 import { Countdown } from "./countdown";
-
-type ActiveGuessStatus = Extract<
-  GamePhase,
-  "countingDown" | "waitingForPriceToMove"
->;
+import { Guess } from "../lib/guesses/guess.types";
 
 export const ActiveGuess = ({
   guess,
   onComplete,
-  status,
 }: {
   guess: Guess;
   onComplete: () => void;
-  status: ActiveGuessStatus;
 }) => {
   const isMoon = guess.direction === "up";
+  const [remainingSeconds] = React.useState<number>(() => {
+    return Math.max(
+      0,
+      Math.ceil((new Date(guess.resolvesAfter).getTime() - Date.now()) / 1000)
+    );
+  });
 
   return (
     <Card>
@@ -38,7 +37,9 @@ export const ActiveGuess = ({
         </div>
 
         <div className="flex w-full flex-col items-center justify-center py-10 text-center">
-          {status === "waitingForPriceToMove" ? (
+          {remainingSeconds ? (
+            <Countdown seconds={remainingSeconds} onComplete={onComplete} />
+          ) : (
             <div>
               <p className="text-center text-3xl font-black leading-none tracking-normal text-white tabular-nums">
                 Market did not move
@@ -47,8 +48,6 @@ export const ActiveGuess = ({
                 Give it a couple of extra seconds...
               </p>
             </div>
-          ) : (
-            <Countdown seconds={COUNTDOWN} onComplete={onComplete} />
           )}
         </div>
 

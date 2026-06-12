@@ -1,10 +1,9 @@
 type HeaderProps = {
   score: number | undefined;
+  loading: boolean;
 };
 
-export const Header = ({ score }: HeaderProps) => {
-  const loading = typeof score !== "number";
-
+export const Header = ({ score, loading }: HeaderProps) => {
   return (
     <header className=" text-white flex items-center justify-between w-full">
       <div>

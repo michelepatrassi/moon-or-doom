@@ -6,7 +6,7 @@ import { cookies } from "next/headers";
 import { NextRequest } from "next/server";
 import { POST } from "./route";
 import {
-  createPendingGuess,
+  createPendingGuessForPlayer,
   getPendingGuess,
 } from "@/app/lib/guesses/guess.service";
 import { getCurrentPrice } from "@/app/lib/market-data";
@@ -17,7 +17,7 @@ jest.mock("next/headers", () => ({
 }));
 
 jest.mock("@/app/lib/guesses/guess.service", () => ({
-  createPendingGuess: jest.fn(),
+  createPendingGuessForPlayer: jest.fn(),
   getPendingGuess: jest.fn(),
 }));
 
@@ -30,9 +30,10 @@ jest.mock("@/app/lib/players/player.service", () => ({
 }));
 
 const mockedCookies = cookies as jest.MockedFunction<typeof cookies>;
-const mockedCreatePendingGuess = createPendingGuess as jest.MockedFunction<
-  typeof createPendingGuess
->;
+const mockedCreatePendingGuessForPlayer =
+  createPendingGuessForPlayer as jest.MockedFunction<
+    typeof createPendingGuessForPlayer
+  >;
 const mockedGetPendingGuess = getPendingGuess as jest.MockedFunction<
   typeof getPendingGuess
 >;
@@ -84,7 +85,7 @@ describe("POST /api/guesses", () => {
     mockedGetPlayer.mockResolvedValue(player);
     mockedGetPendingGuess.mockResolvedValue(null);
     mockedGetCurrentPrice.mockResolvedValue(100000);
-    mockedCreatePendingGuess.mockResolvedValue(pendingGuess);
+    mockedCreatePendingGuessForPlayer.mockResolvedValue(pendingGuess);
   });
 
   it("returns 401 when the player cookie is missing", async () => {
@@ -118,7 +119,7 @@ describe("POST /api/guesses", () => {
     await expect(response.json()).resolves.toEqual({
       error: "Invalid guess direction",
     });
-    expect(mockedCreatePendingGuess).not.toHaveBeenCalled();
+    expect(mockedCreatePendingGuessForPlayer).not.toHaveBeenCalled();
   });
 
   it("returns 400 when extra client-supplied fields are present", async () => {
@@ -133,7 +134,7 @@ describe("POST /api/guesses", () => {
     await expect(response.json()).resolves.toEqual({
       error: "Invalid guess direction",
     });
-    expect(mockedCreatePendingGuess).not.toHaveBeenCalled();
+    expect(mockedCreatePendingGuessForPlayer).not.toHaveBeenCalled();
   });
 
   it("returns 409 when the player already has a pending guess", async () => {
@@ -143,10 +144,10 @@ describe("POST /api/guesses", () => {
 
     expect(response.status).toBe(409);
     await expect(response.json()).resolves.toEqual({
-      error: "Pending guess already exists",
+      error: "Pending guess already exists. Found guess-1 status pending",
     });
     expect(mockedGetCurrentPrice).not.toHaveBeenCalled();
-    expect(mockedCreatePendingGuess).not.toHaveBeenCalled();
+    expect(mockedCreatePendingGuessForPlayer).not.toHaveBeenCalled();
   });
 
   it("returns 503 when the backend price is unavailable", async () => {
@@ -161,7 +162,7 @@ describe("POST /api/guesses", () => {
     await expect(response.json()).resolves.toEqual({
       error: "Price unavailable",
     });
-    expect(mockedCreatePendingGuess).not.toHaveBeenCalled();
+    expect(mockedCreatePendingGuessForPlayer).not.toHaveBeenCalled();
 
     consoleErrorSpy.mockRestore();
   });
@@ -171,7 +172,7 @@ describe("POST /api/guesses", () => {
 
     expect(mockedGetPendingGuess).toHaveBeenCalledWith("player-1");
     expect(mockedGetCurrentPrice).toHaveBeenCalledWith("BTC/USD");
-    expect(mockedCreatePendingGuess).toHaveBeenCalledWith({
+    expect(mockedCreatePendingGuessForPlayer).toHaveBeenCalledWith({
       direction: "down",
       entryPrice: 100000,
       playerId: "player-1",

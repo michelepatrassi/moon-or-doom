@@ -17,16 +17,11 @@ type UseTickerOptions<SelectedValue> = {
   symbol?: string;
 };
 
-const tickerConnectionError: AppError = {
-  title: "Live price unavailable",
-  message: "BTC/USD could not be fetched from the price service.",
-};
-
 export function useTicker<SelectedValue>({
   select,
   symbol = TICKER,
 }: UseTickerOptions<SelectedValue>): {
-  error: AppError | null;
+  error: AppError | undefined;
   loading: boolean;
   retry: () => void;
   value: SelectedValue | undefined;
@@ -34,7 +29,7 @@ export function useTicker<SelectedValue>({
   const [value, setValue] = React.useState<SelectedValue | undefined>(
     undefined
   );
-  const [error, setError] = React.useState<AppError | null>(null);
+  const [error, setError] = React.useState<AppError>();
   const [loading, setLoading] = React.useState<boolean>(true);
   const [connectionAttempt, reconnect] = React.useReducer(
     (attempt: number) => attempt + 1,
@@ -46,7 +41,7 @@ export function useTicker<SelectedValue>({
   );
 
   const retry = () => {
-    setError(null);
+    setError(undefined);
     setLoading(true);
     setValue(undefined);
     reconnect();
@@ -93,7 +88,7 @@ export function useTicker<SelectedValue>({
 
         if (hasError) {
           hasError = false;
-          setError(null);
+          setError(undefined);
         }
       }
     });
@@ -102,7 +97,10 @@ export function useTicker<SelectedValue>({
       console.error("WebSocket error:", error);
 
       hasError = true;
-      setError(tickerConnectionError);
+      setError({
+        title: "Live price unavailable",
+        message: `${symbol} could not be fetched from the price service.`,
+      });
       setLoading(false);
       setValue(undefined);
       ws.close();

@@ -7,66 +7,122 @@ import { GuessActions } from "./components/guess-actions";
 import { ResultCard } from "./components/result-card";
 import { ActiveGuess } from "./components/active-guess";
 import { ReadyGuessCard } from "./components/ready-guess-card";
-import { useMoonOrDoomGame } from "./hooks/use-moon-or-doom-game";
 import { ErrorCard } from "./components/error-card";
 import { TICKER } from "./constant";
 import { usePlayer } from "./hooks/use-player";
-
-const selectLastPrice = (ticker: Ticker) => ticker.last;
+import { AppError, GuessDirection } from "./types";
+import { useGuess } from "./hooks/use-guess";
+import { Guess } from "./lib/guesses/guess.types";
+import { Loader } from "./components/design-system/loader";
 
 const Home = () => {
-  const { player } = usePlayer();
-
   const {
     error,
-    loading,
+    loading: loadingTicker,
     retry,
     value: currentPrice,
-  } = useTicker({ select: selectLastPrice });
-  const { finishCountdown, game, placeGuess } = useMoonOrDoomGame({
-    currentPrice,
-    score: player?.score,
+  } = useTicker({ select: (ticker: Ticker) => ticker.last });
+  const {
+    player,
+    loading: isPlayerLoading,
+    createPlayer,
+    refreshPlayer,
+  } = usePlayer();
+  const {
+    guess,
+    createGuess,
+    startPolling,
+    isLoading: isGuessLoading,
+  } = useGuess({
+    guessId: player?.latestGuessId,
+    onCreated: refreshPlayer,
+    onResolved: refreshPlayer,
   });
-  const hasLivePrice = !error && typeof currentPrice === "number";
-  const activeGuessStatus =
-    game.phase === "countingDown" || game.phase === "waitingForPriceToMove"
-      ? game.phase
-      : null;
+
+  const handleOnGuess = async (direction: GuessDirection) => {
+    if (!player) {
+      await createPlayer();
+    }
+
+    createGuess(direction);
+  };
+
+  const loading = isPlayerLoading || isGuessLoading || loadingTicker;
 
   return (
     <div className="flex flex-col flex-1 items-center justify-center">
       <main className="flex flex-1 w-full max-w-3xl flex-col items-center gap-8 px-4 py-32 sm:px-8 md:px-16">
-        <Header score={game.score} />
-        <PricePanel error={error} loading={loading} price={currentPrice} />
-        {error && (
-          <ErrorCard
-            actionLabel={`Retry ${TICKER}`}
-            error={error}
-            onAction={retry}
-          />
-        )}
-        {!error && game.phase === "ready" && <ReadyGuessCard />}
-        {activeGuessStatus && game.guess && (
-          <ActiveGuess
-            guess={game.guess}
-            onComplete={finishCountdown}
-            status={activeGuessStatus}
-          />
-        )}
-        {!error &&
-          game.phase === "resolved" &&
-          game.result &&
-          typeof game.score === "number" && (
-            <ResultCard isWon={game.result === "won"} score={game.score} />
-          )}
-
-        <GuessActions
-          onGuess={placeGuess}
-          disabled={!hasLivePrice || !!activeGuessStatus}
+        <Header score={player?.score} loading={isPlayerLoading} />
+        <PricePanel
+          error={error}
+          loading={loadingTicker}
+          price={currentPrice}
         />
+        {loading ? (
+          <Loader />
+        ) : (
+          <>
+            <Content
+              guess={guess}
+              error={error}
+              retry={retry}
+              score={player!.score}
+              startPolling={startPolling}
+              handleOnGuess={handleOnGuess}
+            />
+          </>
+        )}
       </main>
     </div>
   );
+};
+
+type ContentProps = {
+  guess?: Guess;
+  error?: AppError;
+  score: number;
+  retry: () => void;
+  startPolling: () => void;
+  handleOnGuess: (direction: GuessDirection) => void;
+};
+
+const Content = ({
+  guess,
+  error,
+  retry,
+  score,
+  startPolling,
+  handleOnGuess,
+}: ContentProps) => {
+  if (error) {
+    return (
+      <ErrorCard
+        actionLabel={`Retry ${TICKER}`}
+        error={error}
+        onAction={retry}
+      />
+    );
+  }
+
+  if (!guess) {
+    return (
+      <>
+        <ReadyGuessCard />
+        <GuessActions onGuess={handleOnGuess} />
+      </>
+    );
+  }
+
+  if (guess.result) {
+    return (
+      <>
+        <ResultCard isWon={guess.result === "won"} score={score} />
+        <GuessActions onGuess={handleOnGuess} />
+      </>
+    );
+  }
+
+  return <ActiveGuess guess={guess} onComplete={startPolling} />;
 };
 
 export default Home;

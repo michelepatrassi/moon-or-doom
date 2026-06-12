@@ -5,7 +5,7 @@ import { TICKER } from "@/app/constant";
 import { getCurrentPrice } from "@/app/lib/market-data";
 import { getPlayerId } from "@/app/lib/session";
 import {
-  createPendingGuess,
+  createPendingGuessForPlayer,
   getPendingGuess,
 } from "@/app/lib/guesses/guess.service";
 import { getPlayer } from "@/app/lib/players/player.service";
@@ -38,7 +38,9 @@ export async function POST(
 
   if (pendingGuess) {
     return NextResponse.json(
-      { error: "Pending guess already exists" },
+      {
+        error: `Pending guess already exists. Found ${pendingGuess.id} status ${pendingGuess.status}`,
+      },
       { status: 409 }
     );
   }
@@ -53,7 +55,7 @@ export async function POST(
     );
   }
 
-  const direction = result.data.direction;
+  const { direction } = result.data;
 
   let entryPrice: number;
 
@@ -65,7 +67,7 @@ export async function POST(
     return NextResponse.json({ error: "Price unavailable" }, { status: 503 });
   }
 
-  const guess = await createPendingGuess({
+  const guess = await createPendingGuessForPlayer({
     playerId,
     direction,
     entryPrice,

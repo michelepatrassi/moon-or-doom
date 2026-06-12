@@ -8,7 +8,7 @@ import { GuessKey } from "@/app/lib/guesses/guess.types";
 import { getCurrentPrice } from "@/app/lib/market-data";
 import { handleCallback } from "@/app/lib/queue";
 
-export const POST = handleCallback<GuessKey>(async (payload, metadata) => {
+export const POST = handleCallback<GuessKey>(async (payload) => {
   const guess = await getGuess(payload);
 
   if (!guess || guess.status !== "pending") {
