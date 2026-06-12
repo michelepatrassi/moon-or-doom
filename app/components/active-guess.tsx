@@ -4,7 +4,7 @@ import { Card } from "./design-system/card";
 import { Chip } from "./design-system/chip";
 import { Countdown } from "./countdown";
 import { Guess } from "../lib/guesses/guess.types";
-import { CRYPTO, TICKER } from "../constant";
+import { TICKER } from "../constant";
 
 export const ActiveGuess = ({
   guess,
