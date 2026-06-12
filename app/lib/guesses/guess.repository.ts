@@ -59,13 +59,13 @@ export async function updateGuess(
   });
 }
 
-export async function getGuess(input: GuessKey): Promise<Guess> {
+export async function getGuess(input: GuessKey): Promise<Guess | undefined> {
   return GuessModel.get(input);
 }
 
 export async function resolveGuessAndUpdatePlayerScore(
   key: GuessKey,
-  values: Pick<Guess, "resolvedAt" | "resolvedPrice" | "status"> & {
+  values: Pick<Guess, "resolvedAt" | "resolvedPrice" | "status" | "result"> & {
     score: number;
   }
 ): Promise<void> {
@@ -77,6 +77,7 @@ export async function resolveGuessAndUpdatePlayerScore(
         resolvedPrice: values.resolvedPrice,
         status: values.status,
         updatedAt: values.resolvedAt,
+        result: values.result,
       },
       {
         condition: new dynamoose.Condition().where("status").eq("pending"),

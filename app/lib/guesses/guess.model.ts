@@ -14,6 +14,7 @@ export class GuessItem extends Item implements Guess {
   resolvesAfter: string;
   resolvedAt?: string;
   resolvedPrice?: number;
+  result?: "won" | "lost";
 }
 
 const guessSchema = new dynamoose.Schema(
@@ -59,6 +60,10 @@ const guessSchema = new dynamoose.Schema(
     },
     resolvedPrice: {
       type: Number,
+    },
+    result: {
+      type: String,
+      enum: ["won", "lost"],
     },
   },
   {

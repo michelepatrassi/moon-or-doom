@@ -91,6 +91,7 @@ describe("guess service", () => {
       {
         resolvedAt: "2026-06-08T12:02:00.000Z",
         resolvedPrice: 100100,
+        result: "won",
         score: 4,
         status: "resolved",
       }
@@ -116,7 +117,7 @@ describe("guess service", () => {
     ["up", 99900, "lost"],
     ["down", 99900, "won"],
     ["down", 100100, "lost"],
-    ["up", 100000, "pending"],
+    ["up", 100000, false],
   ] as const)(
     "evaluates a %s guess at %d as %s",
     (direction, price, result) => {

@@ -1,9 +1,4 @@
-import {
-  Guess,
-  GuessDirection,
-  GuessEvaluation,
-  GuessKey,
-} from "./guess.types";
+import { Guess, GuessDirection, GuessResult, GuessKey } from "./guess.types";
 import {
   createGuess,
   getGuess as repoGetGuess,
@@ -13,6 +8,7 @@ import {
 import { COUNTDOWN } from "@/app/constant";
 import { send } from "@/app/lib/queue";
 import { computeScore, getPlayer } from "../players/player.service";
+import { updatePlayer } from "../players/player.repository";
 
 export async function getPendingGuess(
   playerId: string
@@ -29,14 +25,22 @@ export async function getPendingGuess(
   return pendingGuesses[0];
 }
 
-export async function createPendingGuess(input: {
+export async function createPendingGuessForPlayer(input: {
   playerId: string;
   direction: GuessDirection;
   entryPrice: number;
 }): Promise<Guess> {
   const resolvesAfter = new Date(new Date().getTime() + COUNTDOWN * 1000);
 
-  return createGuess({ ...input, status: "pending", resolvesAfter });
+  const guess = await createGuess({
+    ...input,
+    status: "pending",
+    resolvesAfter,
+  });
+
+  await updatePlayer(input.playerId, { latestGuessId: guess.id });
+
+  return guess;
 }
 
 export async function getPendingGuesses(): Promise<Guess[]> {
@@ -60,20 +64,23 @@ export async function resolveGuess(
 
   const evaluationResult = evaluateGuess(values.price, guess);
 
-  if (evaluationResult === "pending") {
+  if (!evaluationResult) {
     // not resolved, no need to do anything
     return;
   }
 
+  const result = evaluationResult as GuessResult;
+
   const resolvedAt = new Date().toISOString();
   const resolvedPrice = values.price;
-  const score = computeScore(player.score, evaluationResult);
+  const score = computeScore(player.score, result);
 
   await resolveGuessAndUpdatePlayerScore(key, {
     resolvedAt,
     resolvedPrice,
     score,
     status: "resolved",
+    result,
   });
 }
 
@@ -92,10 +99,10 @@ export async function enqueueGuessResolution(payload: GuessKey): Promise<void> {
 export function evaluateGuess(
   price: number,
   guess: Pick<Guess, "direction" | "entryPrice">
-): GuessEvaluation {
+): GuessResult | boolean {
   const { entryPrice, direction } = guess;
   if (price === entryPrice) {
-    return "pending";
+    return false;
   }
 
   const isWon = direction === "up" ? price > entryPrice : price < entryPrice;

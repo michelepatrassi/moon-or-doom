@@ -1,6 +1,6 @@
 export type GuessStatus = "pending" | "resolved";
 export type GuessDirection = "up" | "down";
-export type GuessEvaluation = "won" | "lost" | "pending";
+export type GuessResult = "won" | "lost";
 
 export type Guess = {
   id: string;
@@ -13,6 +13,7 @@ export type Guess = {
   resolvesAfter: string;
   resolvedAt?: string;
   resolvedPrice?: number;
+  result?: GuessResult;
 };
 
 export type GuessKey = {
