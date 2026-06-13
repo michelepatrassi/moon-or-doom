@@ -110,7 +110,7 @@ const Content = ({ session }: ContentProps) => {
   return (
     <ActiveGuess
       guess={session.guess.current}
-      onComplete={session.guess.startPolling}
+      onDue={session.guess.startPolling}
     />
   );
 };

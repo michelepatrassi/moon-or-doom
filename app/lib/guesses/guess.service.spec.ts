@@ -18,6 +18,7 @@ import {
 import { type Guess, type GuessKey } from "./guess.types";
 import { getPlayer } from "../players/player.service";
 import { updatePlayer } from "../players/player.repository";
+import { COUNTDOWN } from "@/app/constant";
 
 jest.mock("@/app/lib/queue", () => ({
   send: jest.fn(),
@@ -118,13 +119,13 @@ describe("guess service", () => {
       direction: "up",
       entryPrice: 100000,
       playerId: "player-1",
-      resolvesAfter: new Date("2026-06-08T12:03:00.000Z"),
+      resolvesAfter: new Date(Date.now() + COUNTDOWN * 1000),
     });
     expect(mockedUpdatePlayer).toHaveBeenCalledWith("player-1", {
       latestGuessId: "guess-1",
     });
     expect(mockedSend).toHaveBeenCalledWith("guess", guessKey, {
-      delaySeconds: 60,
+      delaySeconds: COUNTDOWN,
     });
   });
 

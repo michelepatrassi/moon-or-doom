@@ -2,11 +2,13 @@ import { Guess } from "@/app/lib/guesses/guess.types";
 import { Player } from "@/app/lib/players/player.types";
 import { type Page, type Route } from "@playwright/test";
 
+type GuessMock = Guess | Guess[];
+
 type ApiMockOptions = {
   player?: Player | null;
   createdPlayer?: Player;
   createdGuess?: Guess;
-  guesses?: Record<string, Guess>;
+  guesses?: Record<string, GuessMock>;
 };
 
 const now = "2026-06-12T10:00:00.000Z";
@@ -44,10 +46,11 @@ export const mockApiRoutes = async (
     guesses = {},
   }: ApiMockOptions = {}
 ) => {
-  const guessesById: Record<string, Guess> = {
+  const guessesById: Record<string, GuessMock> = {
     [createdGuess.id]: createdGuess,
     ...guesses,
   };
+  const guessRequestCount: Record<string, number> = {};
 
   await page.route("**/api/**", async (route) => {
     const request = route.request();
@@ -82,7 +85,14 @@ export const mockApiRoutes = async (
     const guessMatch = pathname.match(/^\/api\/guesses\/([^/]+)$/);
 
     if (guessMatch && method === "GET") {
-      const guess = guessesById[decodeURIComponent(guessMatch[1])];
+      const guessId = decodeURIComponent(guessMatch[1]);
+      const guessMock = guessesById[guessId];
+      const requestIndex = guessRequestCount[guessId] ?? 0;
+      const guess = Array.isArray(guessMock)
+        ? guessMock[Math.min(requestIndex, guessMock.length - 1)]
+        : guessMock;
+
+      guessRequestCount[guessId] = requestIndex + 1;
 
       await json(
         route,

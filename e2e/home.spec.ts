@@ -1,5 +1,6 @@
 import { expect, type Page, test } from "@playwright/test";
 
+import { COUNTDOWN } from "@/app/constant";
 import { type Guess } from "@/app/lib/guesses/guess.types";
 import { initialPlayer, mockApiRoutes } from "./support/api-mocks";
 import { mockTickerWebSocket } from "./support/ticker-mock";
@@ -13,7 +14,7 @@ test.describe("home", () => {
     await expect(page.getByText("BTC/USD")).toBeVisible();
     await expect(page.getByText("LIVE")).toBeVisible();
     await expect(page.getByText("$70,123.45")).toBeVisible();
-    await expect(page.getByText("NEXT 60 SECONDS")).toBeVisible();
+    await expect(page.getByText(`NEXT ${COUNTDOWN} SECONDS`)).toBeVisible();
     await expect(
       page.getByRole("heading", { name: "Moon or doom?" })
     ).toBeVisible();
@@ -41,6 +42,14 @@ test.describe("home", () => {
   const playerWithActiveGuess = (guess: Guess) => ({
     ...initialPlayer,
     latestGuessId: guess.id,
+  });
+
+  const resolveGuess = (guess: Guess): Guess => ({
+    ...guess,
+    updatedAt: new Date().toISOString(),
+    resolvedAt: new Date().toISOString(),
+    resolvedPrice: guess.entryPrice + 100,
+    result: "won",
   });
 
   test("shows the default ready state when there is no current guess", async ({
@@ -106,18 +115,19 @@ test.describe("home", () => {
     await expect(page.getByText("Seconds left")).toBeVisible();
   });
 
-  test("switches to the market did not move message when an unresolved countdown finishes", async ({
+  test("polls and shows the result when the countdown finishes", async ({
     page,
   }) => {
     const activeGuess = createMockGuess({
       id: "active-countdown-finishes-e2e",
       resolvesAfter: new Date(Date.now() + 1_000).toISOString(),
     });
+    const resolvedGuess = resolveGuess(activeGuess);
 
     await mockApiRoutes(page, {
       player: playerWithActiveGuess(activeGuess),
       guesses: {
-        [activeGuess.id]: activeGuess,
+        [activeGuess.id]: [activeGuess, activeGuess, resolvedGuess],
       },
     });
 
@@ -125,36 +135,42 @@ test.describe("home", () => {
 
     await expect(page.getByText("Active guess")).toBeVisible();
     await expect(page.getByText("Seconds left")).toBeVisible();
-    await expect(page.getByText("Market did not move")).toBeVisible({
+    await expect(page.getByText("Resolving your guess")).toBeVisible({
       timeout: 3_000,
     });
-    await expect(
-      page.getByText("Give it a couple of extra seconds...")
-    ).toBeVisible();
+    await expect(page.getByText("CORRECT CALL")).toBeVisible({
+      timeout: 5_000,
+    });
+    await expect(page.getByText("+1 point")).toBeVisible();
   });
 
-  test("shows the market did not move message when the player has an unresolved active guess after resolvesAfter", async ({
+  test("polls and shows the result when a loaded guess is already due", async ({
     page,
   }) => {
     const expiredGuess = createMockGuess({
       id: "active-expired-e2e",
       resolvesAfter: new Date(Date.now() - 1_000).toISOString(),
     });
+    const resolvedGuess = resolveGuess(expiredGuess);
 
     await mockApiRoutes(page, {
       player: playerWithActiveGuess(expiredGuess),
       guesses: {
-        [expiredGuess.id]: expiredGuess,
+        [expiredGuess.id]: [expiredGuess, expiredGuess, resolvedGuess],
       },
     });
 
     await page.goto("/");
 
     await expect(page.getByText("Active guess")).toBeVisible();
-    await expect(page.getByText("Market did not move")).toBeVisible();
+    await expect(page.getByText("Resolving your guess")).toBeVisible();
     await expect(
-      page.getByText("Give it a couple of extra seconds...")
+      page.getByText("Waiting for the next price move...")
     ).toBeVisible();
+    await expect(page.getByText("CORRECT CALL")).toBeVisible({
+      timeout: 5_000,
+    });
+    await expect(page.getByText("+1 point")).toBeVisible();
   });
 
   test("shows the result when the player has a resolved active guess", async ({
