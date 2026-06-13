@@ -2,7 +2,7 @@
 
 import React from "react";
 import { TICKER } from "../constant";
-import { type AppError } from "../types";
+import { SessionError } from "./use-moon-or-doom-session";
 
 export type Ticker = {
   bid: number;
@@ -20,16 +20,11 @@ type UseTickerOptions<SelectedValue> = {
 export function useTicker<SelectedValue>({
   select,
   symbol = TICKER,
-}: UseTickerOptions<SelectedValue>): {
-  error: AppError | undefined;
-  loading: boolean;
-  retry: () => void;
-  value: SelectedValue | undefined;
-} {
+}: UseTickerOptions<SelectedValue>) {
   const [value, setValue] = React.useState<SelectedValue | undefined>(
     undefined
   );
-  const [error, setError] = React.useState<AppError>();
+  const [error, setError] = React.useState<SessionError>();
   const [loading, setLoading] = React.useState<boolean>(true);
   const [connectionAttempt, reconnect] = React.useReducer(
     (attempt: number) => attempt + 1,
@@ -98,8 +93,7 @@ export function useTicker<SelectedValue>({
 
       hasError = true;
       setError({
-        title: "Live price unavailable",
-        message: `${symbol} could not be fetched from the price service.`,
+        code: "fetch_failed",
       });
       setLoading(false);
       setValue(undefined);

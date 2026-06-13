@@ -2,14 +2,16 @@ import React from "react";
 import axios from "axios";
 
 import type { Player } from "../lib/players/player.types";
+import { SessionError } from "./use-moon-or-doom-session";
 
 export const usePlayer = () => {
-  const [player, setPlayer] = React.useState<Player | null>(null);
+  const [player, setPlayer] = React.useState<Player>();
   const [loading, setLoading] = React.useState<boolean>(true);
-  const [error, setError] = React.useState<string | null>(null);
+  const [error, setError] = React.useState<SessionError>();
 
   const createPlayer = async () => {
     setLoading(true);
+    setError(undefined);
     try {
       const { data } = await axios.post<Player>("/api/me");
 
@@ -18,7 +20,7 @@ export const usePlayer = () => {
       return data;
     } catch (e) {
       console.error("Error creating player:", e);
-      setError("Failed to create player");
+      setError({ code: "create_failed" });
     } finally {
       setLoading(false);
     }
@@ -29,14 +31,16 @@ export const usePlayer = () => {
       try {
         const { data } = await axios.get<Player>("/api/me");
         setPlayer(data);
+        setError(undefined);
       } catch (error) {
         if (axios.isAxiosError(error) && error.response?.status === 401) {
-          // user not authenticated
+          // user not authenticated, not an error
+          setError(undefined);
           return;
         }
 
         console.error("Error fetching player:", error);
-        setError("Failed to fetch player data");
+        setError({ code: "fetch_failed" });
       } finally {
         setLoading(false);
       }
@@ -46,9 +50,28 @@ export const usePlayer = () => {
   }, []);
 
   const refreshPlayer = async () => {
-    const { data } = await axios.get<Player>("/api/me");
+    setLoading(true);
+    setError(undefined);
+    try {
+      const { data } = await axios.get<Player>("/api/me");
 
-    setPlayer(data);
+      setPlayer(data);
+    } catch (e) {
+      console.error("Error fetching player:", e);
+      setError({ code: "fetch_failed" });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const clearPlayer = async () => {
+    setLoading(true);
+
+    await axios.delete("/api/me");
+
+    setPlayer(undefined);
+    setError(undefined);
+    setLoading(false);
   };
 
   return {
@@ -57,5 +80,6 @@ export const usePlayer = () => {
     player,
     createPlayer,
     refreshPlayer,
+    clearPlayer,
   };
 };

@@ -5,6 +5,7 @@ import { Chip } from "./design-system/chip";
 import { Countdown } from "./countdown";
 import { Guess } from "../lib/guesses/guess.types";
 import { TICKER } from "../constant";
+import { Loader } from "./design-system/loader";
 
 export const ActiveGuess = ({
   guess,
@@ -46,13 +47,14 @@ export const ActiveGuess = ({
 
         <div className="flex w-full flex-col items-center justify-center py-10 text-center">
           {isWaitingForPriceMove ? (
-            <div>
+            <div className="flex flex-col items-center">
               <p className="text-center text-3xl font-black leading-none tracking-normal text-white tabular-nums">
                 Market did not move
               </p>
               <p className="mt-5 text-center text-2xl font-bold leading-none tracking-normal text-white tabular-nums">
                 Give it a couple of extra seconds...
               </p>
+              <Loader className="mt-10" size="lg" />
             </div>
           ) : (
             <Countdown

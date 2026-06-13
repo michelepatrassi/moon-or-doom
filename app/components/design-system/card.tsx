@@ -8,6 +8,7 @@ type CardProps = {
   children: ReactNode;
   variant?: CardVariant;
   padding?: CardPadding;
+  className?: string;
 };
 
 const variantClasses: Record<CardVariant, string> = {
@@ -26,13 +27,15 @@ export const Card = ({
   children,
   padding = "default",
   variant = "default",
+  className,
 }: CardProps) => {
   return (
     <div
       className={clsx(
         "w-full rounded-xl border text-white shadow-md",
         variantClasses[variant],
-        paddingClasses[padding]
+        paddingClasses[padding],
+        className
       )}
     >
       {children}

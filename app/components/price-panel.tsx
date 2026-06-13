@@ -2,12 +2,12 @@ import { Card } from "./design-system/card";
 import { Chip } from "./design-system/chip";
 import { CURRENCY, TICKER } from "../constant";
 import { formatPrice } from "../utils/format-price";
-import { type AppError } from "../types";
+import { SessionError } from "../hooks/use-moon-or-doom-session";
 
 type PricePanelProps = {
-  error?: AppError | null;
+  error?: SessionError;
   loading: boolean;
-  price: number | undefined;
+  price?: number;
 };
 
 const getBrowserLocale = () =>
@@ -43,7 +43,7 @@ export const PricePanel = ({ error, loading, price }: PricePanelProps) => {
 
       <p className="mt-2 w-full text-[42px] font-black leading-none tracking-normal text-white tabular-nums">
         {error ? (
-          "No live price"
+          "Failed loading price"
         ) : loading || typeof price !== "number" ? (
           <PriceSkeleton />
         ) : (
@@ -54,12 +54,6 @@ export const PricePanel = ({ error, loading, price }: PricePanelProps) => {
           })
         )}
       </p>
-
-      {error && (
-        <p className="mt-3 text-sm font-bold leading-snug text-red-300">
-          {error.message}
-        </p>
-      )}
     </Card>
   );
 };

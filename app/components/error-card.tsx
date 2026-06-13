@@ -1,13 +1,18 @@
-import { type AppError } from "../types";
 import { Card } from "./design-system/card";
 
 type ErrorCardProps = {
+  title: string;
+  description?: string;
   actionLabel?: string;
-  error: AppError;
   onAction?: () => void;
 };
 
-export const ErrorCard = ({ actionLabel, error, onAction }: ErrorCardProps) => {
+export const ErrorCard = ({
+  title,
+  description,
+  actionLabel,
+  onAction,
+}: ErrorCardProps) => {
   return (
     <Card variant="danger">
       <div className="space-y-6">
@@ -15,17 +20,12 @@ export const ErrorCard = ({ actionLabel, error, onAction }: ErrorCardProps) => {
           !
         </div>
 
-        <p className="font-mono text-xs font-bold uppercase leading-none tracking-normal text-red-300">
-          Price unavailable
-        </p>
-
         <div className="space-y-3">
-          <h2 className="font-heading text-5xl leading-none tracking-normal text-white">
-            {error.title}
+          <h2 className="font-heading text-3xl leading-none tracking-normal text-white">
+            {title}
           </h2>
           <p className="max-w-xl text-sm leading-snug text-zinc-300">
-            {error.message} Moon and Doom stay locked until the live price
-            returns.
+            {description}
           </p>
         </div>
 
@@ -36,7 +36,6 @@ export const ErrorCard = ({ actionLabel, error, onAction }: ErrorCardProps) => {
             type="button"
           >
             {actionLabel}
-            <span aria-hidden="true">↻</span>
           </button>
         )}
       </div>

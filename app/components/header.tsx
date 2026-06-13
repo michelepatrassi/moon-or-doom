@@ -1,3 +1,5 @@
+import { Loader } from "./design-system/loader";
+
 type HeaderProps = {
   score: number | undefined;
   loading: boolean;
@@ -12,9 +14,10 @@ export const Header = ({ score, loading }: HeaderProps) => {
       </div>
       <div
         aria-label="Current score"
-        className="text-lg bg-gray-800 border border-gray-600 px-4 py-2 rounded-xl font-bold"
+        className="text-lg bg-gray-800 border border-gray-600 px-4 py-2 rounded-xl font-bold flex items-center"
       >
-        🏆 <span className="ml-2">{loading ? "Loading..." : score}</span>
+        <span>🏆 </span>
+        <span className="ml-4">{loading ? <Loader size="sm" /> : score}</span>
       </div>
     </header>
   );

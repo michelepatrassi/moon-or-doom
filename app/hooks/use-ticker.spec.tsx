@@ -65,7 +65,7 @@ const LastPriceProbe = () => {
   return (
     <div>
       <p data-testid="last-price">{loading ? "loading" : (value ?? "none")}</p>
-      <p data-testid="error-title">{error?.title ?? "none"}</p>
+      <p data-testid="error-code">{error?.code ?? "none"}</p>
       <button onClick={retry} type="button">
         retry
       </button>
@@ -143,8 +143,8 @@ describe("useTicker", () => {
     });
 
     await waitFor(() => {
-      expect(screen.getByTestId("error-title")).toHaveTextContent(
-        "Live price unavailable"
+      expect(screen.getByTestId("error-code")).toHaveTextContent(
+        "fetch_failed"
       );
     });
     expect(screen.getByTestId("last-price")).toHaveTextContent("none");
@@ -157,7 +157,7 @@ describe("useTicker", () => {
     await waitFor(() => {
       expect(MockWebSocket.instances).toHaveLength(2);
     });
-    expect(screen.getByTestId("error-title")).toHaveTextContent("none");
+    expect(screen.getByTestId("error-code")).toHaveTextContent("none");
     expect(screen.getByTestId("last-price")).toHaveTextContent("loading");
   });
 });

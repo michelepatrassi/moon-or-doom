@@ -1,3 +1,4 @@
+import { COUNTDOWN } from "../constant";
 import { Card } from "./design-system/card";
 
 export const ReadyGuessCard = () => {
@@ -5,7 +6,7 @@ export const ReadyGuessCard = () => {
     <Card padding="none" variant="warm">
       <section className="px-6 py-8 sm:px-10 sm:py-11">
         <p className="font-mono text-sm font-bold uppercase leading-none tracking-normal text-[#FF9800] sm:text-base">
-          NEXT 60 SECONDS
+          NEXT {COUNTDOWN} SECONDS
         </p>
 
         <h2 className="mt-8 font-heading text-6xl leading-none tracking-normal text-white sm:text-7xl">

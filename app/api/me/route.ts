@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-import { getPlayerId, setPlayerId } from "@/app/lib/session";
+import { clearPlayerId, getPlayerId, setPlayerId } from "@/app/lib/session";
 import { createNewPlayer, getPlayer } from "@/app/lib/players/player.service";
 
 type ProfileResponse = {
@@ -37,4 +37,10 @@ export async function POST(): Promise<NextResponse<ProfileResponse>> {
   });
 
   return setPlayerId(response, player.id);
+}
+
+export async function DELETE() {
+  const response = NextResponse.json({ ok: true });
+
+  return clearPlayerId(response);
 }
