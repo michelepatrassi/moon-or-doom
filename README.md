@@ -39,31 +39,29 @@ npm run dev
 
 The app will be available at [http://localhost:3000](http://localhost:3000).
 
-## Quality checks
+## Quality gates
 
 Commits run formatting, linting, and tests through Husky before they are accepted.
 
+Quality checks include e2e powered by Playwright. Tests are running on Chromium. Execute this command to install it:
+
 ```bash
-npm run format:check
-npm run lint
-npm test
 npx playwright install chromium # first time only
-npm run test:e2e
 ```
 
 ## Deployment
 
 The app is deployed on Vercel. To deploy a new version, push your latest code changes to main. They will be released in a couple of minutes.
 
-### If you want to deploy this yourself
+### How to deploy this yourself
 
 Host the app in any provider which supports Node.js and the configured asynchronous queue. Vercel is the default deployment target.
 
-The DynamoDB database should be initialized manually in AWS once. Make sure it contains the `players` and `guesses` tables as done programmatically in `scripts/init-db.js`.
+The DynamoDB database can be initialized via `npm run db:setup`. In alternative, you can create the tables manually in AWS once. Make sure it contains the `players` and `guesses` tables as done programmatically in the script used by `db:setup`.
 
 Environment variables needs to be configured in your hosting provider. It should include the `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` pair from the previously configured database, together with the remaining variables in `.example.env`.
 
-Once configured, you can build and run the app:
+Once configured, you can build and start the app:
 
 ```bash
 npm install
