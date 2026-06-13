@@ -35,14 +35,10 @@ export async function createPendingGuessForPlayer(input: {
     ...input,
     resolvesAfter,
   });
-
+  await enqueueGuessResolution(guess, { delaySeconds: COUNTDOWN });
   await updatePlayer(input.playerId, { latestGuessId: guess.id });
 
   return guess;
-}
-
-export async function getDueGuesses(dueAt: Date): Promise<Guess[]> {
-  return getPendingGuesses({ dueAt });
 }
 
 export async function resolveGuess(
@@ -85,11 +81,14 @@ export async function getGuess(input: { id: string; playerId: string }) {
   return repoGetGuess(input);
 }
 
-export async function enqueueGuessResolution(payload: GuessKey): Promise<void> {
+export async function enqueueGuessResolution(
+  payload: GuessKey,
+  options: { delaySeconds: number } = { delaySeconds: 1 }
+): Promise<void> {
   await send(
     "guess",
     { id: payload.id, playerId: payload.playerId },
-    { delaySeconds: 1 }
+    { delaySeconds: options.delaySeconds }
   );
 }
 

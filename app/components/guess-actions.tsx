@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { GuessDirection } from "../types";
+import { GuessDirection } from "../lib/guesses/guess.types";
 
 type GuessActionsProps = {
   onGuess: (direction: GuessDirection) => void;

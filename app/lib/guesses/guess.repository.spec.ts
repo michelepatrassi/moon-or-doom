@@ -74,15 +74,6 @@ const query = {
   exec: jest.fn(),
   filter: jest.fn(),
   exists: jest.fn(),
-  le: jest.fn(),
-  not: jest.fn(),
-};
-
-const scan = {
-  exec: jest.fn(),
-  exists: jest.fn(),
-  filter: jest.fn(),
-  le: jest.fn(),
   not: jest.fn(),
 };
 
@@ -97,19 +88,10 @@ describe("guess repository", () => {
     query.filter.mockReturnValue(query);
     query.not.mockReturnValue(query);
     query.exists.mockReturnValue(query);
-    query.le.mockReturnValue(query);
     query.exec.mockResolvedValue([guess]);
-    scan.filter.mockReturnValue(scan);
-    scan.le.mockReturnValue(scan);
-    scan.not.mockReturnValue(scan);
-    scan.exists.mockReturnValue(scan);
-    scan.exec.mockResolvedValue([guess]);
 
     mockedGuessModel.query.mockReturnValue(
       query as unknown as ReturnType<typeof GuessModel.query>
-    );
-    mockedGuessModel.scan.mockReturnValue(
-      scan as unknown as ReturnType<typeof GuessModel.scan>
     );
     mockedGuessModel.get.mockResolvedValue(guess);
     mockedGuessModel.create.mockImplementation(async (item) => item);
@@ -145,28 +127,6 @@ describe("guess repository", () => {
     expect(query.exists).toHaveBeenCalledWith();
     expect(query.exec).toHaveBeenCalledWith();
     expect(mockedGuessModel.scan).not.toHaveBeenCalled();
-  });
-
-  it("scans pending guesses when no player id is supplied", async () => {
-    await expect(getPendingGuesses({})).resolves.toEqual([guess]);
-
-    expect(mockedGuessModel.scan).toHaveBeenCalledWith("resolvedAt");
-    expect(scan.not).toHaveBeenCalledWith();
-    expect(scan.exists).toHaveBeenCalledWith();
-    expect(scan.exec).toHaveBeenCalledWith();
-  });
-
-  it("filters pending guesses to those due at or before the provided date", async () => {
-    await expect(
-      getPendingGuesses({ dueAt: new Date("2026-06-08T12:02:00.000Z") })
-    ).resolves.toEqual([guess]);
-
-    expect(mockedGuessModel.scan).toHaveBeenCalledWith("resolvedAt");
-    expect(scan.not).toHaveBeenCalledWith();
-    expect(scan.exists).toHaveBeenCalledWith();
-    expect(scan.filter).toHaveBeenCalledWith("resolvesAfter");
-    expect(scan.le).toHaveBeenCalledWith("2026-06-08T12:02:00.000Z");
-    expect(scan.exec).toHaveBeenCalledWith();
   });
 
   it("creates a guess with the Dynamoose model", async () => {

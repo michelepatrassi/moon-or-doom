@@ -4,19 +4,20 @@
 
 import { send } from "@/app/lib/queue";
 import {
-  getDueGuesses,
+  createPendingGuessForPlayer,
   evaluateGuess,
   getGuess,
   resolveGuess,
   enqueueGuessResolution,
 } from "./guess.service";
 import {
+  createGuess as repoCreateGuess,
   getGuess as repoGetGuess,
-  getPendingGuesses as repoGetPendingGuesses,
   resolveGuessAndUpdatePlayerScore,
 } from "./guess.repository";
 import { type Guess, type GuessKey } from "./guess.types";
 import { getPlayer } from "../players/player.service";
+import { updatePlayer } from "../players/player.repository";
 
 jest.mock("@/app/lib/queue", () => ({
   send: jest.fn(),
@@ -34,17 +35,25 @@ jest.mock("../players/player.service", () => ({
   getPlayer: jest.fn(),
 }));
 
+jest.mock("../players/player.repository", () => ({
+  updatePlayer: jest.fn(),
+}));
+
 const mockedSend = send as jest.MockedFunction<typeof send>;
+const mockedRepoCreateGuess = repoCreateGuess as jest.MockedFunction<
+  typeof repoCreateGuess
+>;
 const mockedRepoGetGuess = repoGetGuess as jest.MockedFunction<
   typeof repoGetGuess
 >;
-const mockedRepoGetPendingGuesses =
-  repoGetPendingGuesses as jest.MockedFunction<typeof repoGetPendingGuesses>;
 const mockedResolveGuessAndUpdatePlayerScore =
   resolveGuessAndUpdatePlayerScore as jest.MockedFunction<
     typeof resolveGuessAndUpdatePlayerScore
   >;
 const mockedGetPlayer = getPlayer as jest.MockedFunction<typeof getPlayer>;
+const mockedUpdatePlayer = updatePlayer as jest.MockedFunction<
+  typeof updatePlayer
+>;
 
 const guessKey: GuessKey = {
   id: "guess-1",
@@ -66,8 +75,10 @@ describe("guess service", () => {
     jest.useFakeTimers();
     jest.setSystemTime(new Date("2026-06-08T12:02:00.000Z"));
     mockedSend.mockResolvedValue({ messageId: "message-1" });
+    mockedRepoCreateGuess.mockResolvedValue(
+      guess as Awaited<ReturnType<typeof repoCreateGuess>>
+    );
     mockedRepoGetGuess.mockResolvedValue(guess);
-    mockedRepoGetPendingGuesses.mockResolvedValue([guess]);
     mockedGetPlayer.mockResolvedValue({
       id: "player-1",
       score: 3,
@@ -75,6 +86,13 @@ describe("guess service", () => {
       updatedAt: "2026-06-08T11:00:00.000Z",
     });
     mockedResolveGuessAndUpdatePlayerScore.mockResolvedValue();
+    mockedUpdatePlayer.mockResolvedValue({
+      id: "player-1",
+      score: 3,
+      createdAt: "2026-06-08T11:00:00.000Z",
+      updatedAt: "2026-06-08T12:02:00.000Z",
+      latestGuessId: "guess-1",
+    });
   });
 
   afterEach(() => {
@@ -87,12 +105,27 @@ describe("guess service", () => {
     expect(mockedRepoGetGuess).toHaveBeenCalledWith(guessKey);
   });
 
-  it("gets due guesses through the repository due cutoff", async () => {
-    const dueAt = new Date("2026-06-08T12:02:00.000Z");
+  it("creates a pending guess and schedules its resolution after the countdown", async () => {
+    await expect(
+      createPendingGuessForPlayer({
+        direction: "up",
+        entryPrice: 100000,
+        playerId: "player-1",
+      })
+    ).resolves.toEqual(guess);
 
-    await expect(getDueGuesses(dueAt)).resolves.toEqual([guess]);
-
-    expect(mockedRepoGetPendingGuesses).toHaveBeenCalledWith({ dueAt });
+    expect(mockedRepoCreateGuess).toHaveBeenCalledWith({
+      direction: "up",
+      entryPrice: 100000,
+      playerId: "player-1",
+      resolvesAfter: new Date("2026-06-08T12:03:00.000Z"),
+    });
+    expect(mockedUpdatePlayer).toHaveBeenCalledWith("player-1", {
+      latestGuessId: "guess-1",
+    });
+    expect(mockedSend).toHaveBeenCalledWith("guess", guessKey, {
+      delaySeconds: 60,
+    });
   });
 
   it("resolves a won guess and updates the player score", async () => {

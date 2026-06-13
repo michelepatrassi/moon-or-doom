@@ -5,33 +5,18 @@ import { GuessModel } from "./guess.model";
 import { Guess, GuessDirection, GuessKey } from "./guess.types";
 
 type GetPendingGuessesInput = {
-  playerId?: string;
-  dueAt?: Date;
+  playerId: string;
 };
 
 export async function getPendingGuesses(
   input: GetPendingGuessesInput
 ): Promise<Guess[]> {
-  if (input?.playerId) {
-    const qb = GuessModel.query("playerId")
-      .eq(input.playerId)
-      .filter("resolvedAt")
-      .not()
-      .exists();
-
-    if (input.dueAt) {
-      qb.filter("resolvesAfter").le(input.dueAt.toISOString());
-    }
-    return qb.exec();
-  }
-
-  const qb = GuessModel.scan("resolvedAt").not().exists();
-
-  if (input.dueAt) {
-    qb.filter("resolvesAfter").le(input.dueAt.toISOString());
-  }
-
-  return qb.exec();
+  return GuessModel.query("playerId")
+    .eq(input.playerId)
+    .filter("resolvedAt")
+    .not()
+    .exists()
+    .exec();
 }
 
 type CreateGuessInput = {

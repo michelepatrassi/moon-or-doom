@@ -55,10 +55,31 @@ const pendingGuess: Guess = {
 describe("POST /api/queues/fulfill-guess", () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date("2026-06-08T12:02:00.000Z"));
     mockedGetGuess.mockResolvedValue(pendingGuess);
     mockedGetCurrentPrice.mockResolvedValue(100100);
     mockedEnqueueGuessResolution.mockResolvedValue();
     mockedResolveGuess.mockResolvedValue();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
+  it("re-enqueues guesses delivered before their resolution time", async () => {
+    mockedGetGuess.mockResolvedValue({
+      ...pendingGuess,
+      resolvesAfter: "2026-06-08T12:03:30.000Z",
+    });
+
+    await POST(guessKey);
+
+    expect(mockedEnqueueGuessResolution).toHaveBeenCalledWith(guessKey, {
+      delaySeconds: 90,
+    });
+    expect(mockedGetCurrentPrice).not.toHaveBeenCalled();
+    expect(mockedResolveGuess).not.toHaveBeenCalled();
   });
 
   it("resolves a pending guess when the price changed", async () => {

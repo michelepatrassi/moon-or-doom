@@ -9,11 +9,5 @@
         }
       ]
     }
-  },
-  "crons": [
-    {
-      "path": "/api/crons/resolve",
-      "schedule": "* * * * *"
-    }
-  ]
+  }
 }

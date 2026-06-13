@@ -15,6 +15,15 @@ export const POST = handleCallback<GuessKey>(async (payload) => {
     return;
   }
 
+  const secondsUntilDue = Math.ceil(
+    (new Date(guess.resolvesAfter).getTime() - Date.now()) / 1000
+  );
+
+  if (secondsUntilDue > 0) {
+    await enqueueGuessResolution(payload, { delaySeconds: secondsUntilDue });
+    return;
+  }
+
   const currentPrice = await getCurrentPrice(TICKER);
 
   if (guess.entryPrice === currentPrice) {

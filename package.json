@@ -3,8 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "vercel-local-cron run",
-    "dev:e2e": "next dev",
+    "dev": "next dev",
     "db:setup": "node scripts/init-db.js",
     "build": "next build",
     "start": "next start",
@@ -45,7 +44,6 @@
     "prettier": "^3.8.3",
     "tailwindcss": "^4",
     "ts-node": "^10.9.2",
-    "typescript": "^5",
-    "vercel-local-cron": "^0.1.2"
+    "typescript": "^5"
   }
 }

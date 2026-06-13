@@ -57,7 +57,7 @@ The app is deployed on Vercel. To deploy a new version, push your latest code ch
 
 ### If you want to deploy this yourself
 
-Host the app in any provider which supports nodejs, such as Vercel. Please note that this app uses cron jobs with a frequency less than a day, which requires a pro account.
+Host the app in any provider which supports Node.js and the configured asynchronous queue. Vercel is the default deployment target.
 
 The DynamoDB database should be initialized manually in AWS once. Make sure it contains the `players` and `guesses` tables as done programmatically in `scripts/init-db.js`.
 
